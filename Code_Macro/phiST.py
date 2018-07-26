@@ -41,12 +41,12 @@ def phiST(x, KST, nuSTc, nuSTd, R):
 
 # Test the function
 
-x1 = np.array([np.arange(0., 2., 0.01), np.arange(0., 2., 0.01)])
-mod_x = np.sqrt((x1[0])**2 + (x1[1])**2)
-KST = 0.2
-nuSTc = 0.6
-nuSTd = 0.3
-R = np.sqrt(2)
-f = phiST(KST,nuSTc,nuSTd,x1,R)
-plt.plot(mod_x,f)
-plt.show()
+# x1 = np.array([np.arange(0., 2., 0.01), np.arange(0., 2., 0.01)])
+# mod_x = np.sqrt((x1[0])**2 + (x1[1])**2)
+# KST = 0.2
+# nuSTc = 0.6
+# nuSTd = 0.3
+# R = np.sqrt(2)
+# f = phiST(KST,nuSTc,nuSTd,x1,R)
+# plt.plot(mod_x,f)
+# plt.show()
