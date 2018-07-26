@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 
 
-def phiST(KST,nuSTc,nuSTd,x,R):
+def phiST(x, KST, nuSTc, nuSTd, R):
     """
         Return the potential energy for the particles.
 
