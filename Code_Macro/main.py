@@ -56,8 +56,8 @@ X=np.zeros((2,M))
 X[0,:]=np.reshape(x,(M))
 X[1,:]=np.reshape(y,(M))
 
-dt=5e-3
-T=10.
+dt=0.01
+T=1.
 Nt=int(T/dt)
 
 th=2.

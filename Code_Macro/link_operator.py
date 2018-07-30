@@ -12,21 +12,21 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
     # args2 is the parameters for function PHI2
-    time_start0=time.clock()
-    time_start=time.clock()
+    # time_start0=time.clock()
+    # time_start=time.clock()
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
-    print(time.clock()-time_start)
-    time_start=time.clock()
+    # print(time.clock()-time_start)
+    # time_start=time.clock()
     fE=li.interp_E(f,th,dx,Nx,Ny)
     fW=li.interp_W(f,th,dx,Nx,Ny)
     fS=li.interp_S(f,th,dx,Nx,Ny)
     fN=li.interp_N(f,th,dx,Nx,Ny)
-    print(time.clock()-time_start)
-    time_start=time.clock()
+    # print(time.clock()-time_start)
+    # time_start=time.clock()
     
     [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
-    print(time.clock()-time_start0)
+    # print(time.clock()-time_start0)
     return LO
 
 def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
@@ -47,24 +47,24 @@ def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
 #S=shift_S(np.arange(0,10,1),2,5)
 # S=shift_N(np.arange(0,10,1),2,5)
 
-L=7.5
-dx=0.3
-dy=0.3
-Nx=int(2*L/dx)
-Ny=int(2*L/dy)
-M=Nx*Ny
-
-[x,y]=np.meshgrid(np.arange(-L+dx/2.,L,dx),np.arange(-L+dy/2.,L,dy))
-X=np.zeros((2,M))
-X[0,:]=np.reshape(x,(M))
-X[1,:]=np.reshape(y,(M))
-
-th=2.
-
-f=g=np.ones(M)
-args1=args2=(1.,1.,1.,1.)
-
-L0=link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,ph.phiST,ph.phiST)
+# L=7.5
+# dx=0.3
+# dy=0.3
+# Nx=int(2*L/dx)
+# Ny=int(2*L/dy)
+# M=Nx*Ny
+# 
+# [x,y]=np.meshgrid(np.arange(-L+dx/2.,L,dx),np.arange(-L+dy/2.,L,dy))
+# X=np.zeros((2,M))
+# X[0,:]=np.reshape(x,(M))
+# X[1,:]=np.reshape(y,(M))
+# 
+# th=2.
+# 
+# f=g=np.ones(M)
+# args1=args2=(1.,1.,1.,1.)
+# 
+# L0=link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,ph.phiST,ph.phiST)
 
 
 
