@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
-import scipy.linalg as sl
 import convol as cv
 
-def link_operator(dx,dy,Nx,Ny,f,g,args1,args2,PHI1,PHI2):
+def link_operator(dx,dy,Nx,Ny,X,f,g,args1,args2,PHI1,PHI2):
+    # compute the discretization of the link operator
+    # args1 is the parameters for function PHI1
+    # args2 is the parameters for function PHI2
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
     
     [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,Nx,Ny)
