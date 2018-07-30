@@ -12,6 +12,7 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
     # args2 is the parameters for function PHI2
+    time_start0=time.clock()
     time_start=time.clock()
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
     print(time.clock()-time_start)
@@ -25,6 +26,7 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     
     [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
+    print(time.clock()-time_start0)
     return LO
 
 def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):

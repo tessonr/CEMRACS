@@ -3,11 +3,17 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import shift as sft
 import minmod as mmd
+import time
 
 def interp_E(f,th,dx,Nx,Ny):
+    time_start=time.clock()
     slope=(sft.shift_W(f,Nx,Ny)-sft.shift_E(f,Nx,Ny))/(2*dx)
     fE=f+slope*dx/2
+    print(time.clock()-time_start)
+    time_start=time.clock()
     fE[fE<0]=f[fE<0]+(dx/2.)*mmd.minmod(th*(f[fE<0]-sft.shift_E(f,Nx,Ny)[fE<0])/dx,slope[fE<0],th*(sft.shift_W(f,Nx,Ny)[fE<0]-f[fE<0])/dx)
+    print(time.clock()-time_start)
+    time_start=time.clock()
     return fE
     
 def interp_W(f,th,dx,Nx,Ny):
