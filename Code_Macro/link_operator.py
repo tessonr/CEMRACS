@@ -2,27 +2,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import convol as cv
+import linear_interpol as li
 
-def link_operator(dx,dy,Nx,Ny,X,f,g,args1,args2,PHI1,PHI2):
+def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
     # args2 is the parameters for function PHI2
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
+    fE=li.interp_E(f,th,dx,Nx,Ny)
+    fW=li.interp_W(f,th,dx,Nx,Ny)
+    fS=li.interp_S(f,th,dx,Nx,Ny)
+    fN=li.interp_N(f,th,dx,Nx,Ny)
     
-    [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,Nx,Ny)
-    LO=-(FluE-FluxW)/dx-(FluxN-FluxS)/dy
-    return L0
+    [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
+    LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
+    return LO
 
-def flux(Xi,fE,fW,fS,fN,Nx,Ny):
+def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
     # Definition des differents flux utilises dans l'operateur de lien
-    uE=-(shift_W(Xi)-Xi)/dx
+    uE=-(shift_W(Xi,Nx,Ny)-Xi)/dx
     FluxE=(np.abs(uE)+uE)/2.*fE+(np.abs(uE)-uE)/2.*shift_W(fW,Nx,Ny)
-    uW=-(Xi-shift_E(Xi))/dx
+    uW=-(Xi-shift_E(Xi,Nx,Ny))/dx
     FluxW=(np.abs(uW)+uW)/2.*shift_E(fE,Nx,Ny)+(np.abs(uW)-uW)/2.*fW
-    uN=-(shift_S(Xi)-Xi)/dy
+    uN=-(shift_S(Xi,Nx,Ny)-Xi)/dy
     FluxN=(np.abs(uN)+uN)/2.*fN+(np.abs(uN)-uN)/2.*shift_S(fS,Nx,Ny)
-    uS=-(Xi-shift_N(Xi))/dy
-    FluxS=(np.abs(uS)+uS)/2.*shift_N(fN)+(np.abs(uS)-uS)/2.*fS
+    uS=-(Xi-shift_N(Xi,Nx,Ny))/dy
+    FluxS=(np.abs(uS)+uS)/2.*shift_N(fN,Nx,Ny)+(np.abs(uS)-uS)/2.*fS
     return [FluxE,FluxW,FluxN,FluxS]
     
 def shift_E(u,Nx,Ny):
