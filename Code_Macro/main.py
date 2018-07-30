@@ -8,6 +8,7 @@ import logistic_operator as lo
 import link_operator as lop
 import phiST as ph
 import initial_condition as ic
+import time
 
 # Parameters for the model
 
@@ -56,7 +57,7 @@ X[0,:]=np.reshape(x,(M))
 X[1,:]=np.reshape(y,(M))
 
 dt=5e-3
-T=1.
+T=10.
 Nt=int(T/dt)
 
 th=2.
@@ -88,6 +89,7 @@ MatA=sp.csc_matrix(MatB)
 
 for i in range(Nt):
     print(i)
+    time_start=time.clock()
     
     # second membre
     # for A
@@ -108,9 +110,15 @@ for i in range(Nt):
     
     vecB=fB+LO_B+FR_B
     
+    print(time.clock()-time_start)
+    
     # solving of the system
+    time_start=time.clock()
+    
     fnewA=sla.spsolve(MatA,vecA)
     fnewB=sla.spsolve(MatB,vecB)
+    
+    print(time.clock()-time_start)
     
     # updating
     fA=fnewA
