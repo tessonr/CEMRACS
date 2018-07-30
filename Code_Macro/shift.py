@@ -32,7 +32,7 @@ def shift_S(u,Nx,Ny):
 def shift_N(u,Nx,Ny):
     # decale les inconnues de la grille d'un cran vers le haut
     A=np.reshape(u,(Nx,Ny))
-    Aini=u[0:Ny-1,:]
+    Aini=A[0:Ny-1,:]
     Afin=np.reshape(A[Ny-1,:],(1,Nx))
     As=np.concatenate((Afin,Aini),axis=0)
     s=np.reshape(As,(Nx*Ny))
