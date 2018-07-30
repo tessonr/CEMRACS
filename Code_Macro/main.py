@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
+import scipy.sparse.linalg as sla
 import convol as cv
 import diffusion_operator as do
 import logistic_operator as lo
@@ -29,13 +30,13 @@ R=1.
 
 fstar=1.
 
-nuAb=1.
-nuAd=1.
-nuA=1.
+nuAb=2e-3
+nuAd=1e-3
+nuA=1e-3
 
-nuBb=1.
-nuBd=1.
-nuB=1.
+nuBb=2e-3
+nuBd=1e-3
+nuB=1e-3
 
 DA=1e-4
 DB=1e-4
@@ -49,11 +50,16 @@ Nx=int(2*L/dx)
 Ny=int(2*L/dy)
 M=Nx*Ny
 
-X=
+[x,y]=np.meshgrid(np.arange(-L+dx/2.,L,dx),np.arange(-L+dy/2.,L,dy))
+X=np.zeros((2,M))
+X[0,:]=np.reshape(x,(M))
+X[1,:]=np.reshape(y,(M))
 
-dt=1.
+dt=5e-3
 T=1.
 Nt=int(T/dt)
+
+th=2.
 
 # Initial condition
 
@@ -81,38 +87,42 @@ MatA=sp.csc_matrix(MatB)
 # Time scheme
 
 for i in range(Nt):
-   
-   # second membre
-   # for A
-   argsAA=(KAA, nuAAc, nuAAd, R)
-   argsAB=(KAB, nuABc, nuABd, R)
-   LO_A=dt*lop.link_operator(dx,dy,Nx,Ny,X,fA,fB,argsAA,argsAA,ph.phiST,ph.phiST)
-   
-   FR_A=dt*lo.logistic(fA,fB,fstar,nuA)
-   
-   vecA=fA+LO_A+FR_A
-   
-   # for B
-   argsBB=(KBB, nuBBc, nuBBd, R)
-   argsBA=(KBA, nuBAc, nuBAd, R)
-   LO_B=dt*lop.link_operator(dx,dy,Nx,Ny,X,fB,fA,argsBB,argsBA,ph.phiST,ph.phiST)
-   
-   FR_B=dt*lo.logistic(fB,fA,fstar,nuB)
-   
-   vecB=fB+LO_B+FR_B
-   
-   # solving of the system
-   fnewA=sp.linalg.spsolve(MatA,vecA)
-   fnewB=sp.linalg.spsolve(MatB,vecB)
-   
-   # updating
-   fA=fnewA
-   fB=fnewB
-   
-   FA[:,i+1]=fA
-   FB[:,i+1]=fB
-   
-   
+    print(i)
+    
+    # second membre
+    # for A
+    argsAA=(KAA, nuAAc, nuAAd, R)
+    argsAB=(KAB, nuABc, nuABd, R)
+    LO_A=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fA,fB,argsAA,argsAA,ph.phiST,ph.phiST)
+    
+    FR_A=dt*lo.logistic(fA,fB,fstar,nuA)
+    
+    vecA=fA+LO_A+FR_A
+    
+    # for B
+    argsBB=(KBB, nuBBc, nuBBd, R)
+    argsBA=(KBA, nuBAc, nuBAd, R)
+    LO_B=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fB,fA,argsBB,argsBA,ph.phiST,ph.phiST)
+    
+    FR_B=dt*lo.logistic(fB,fA,fstar,nuB)
+    
+    vecB=fB+LO_B+FR_B
+    
+    # solving of the system
+    fnewA=sla.spsolve(MatA,vecA)
+    fnewB=sla.spsolve(MatB,vecB)
+    
+    # updating
+    fA=fnewA
+    fB=fnewB
+    
+    FA[:,i+1]=fA
+    FB[:,i+1]=fB
+
+
+plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
+plt.colorbar()
+plt.show()
    
    
    
