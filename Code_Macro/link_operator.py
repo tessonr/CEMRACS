@@ -3,16 +3,25 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import convol as cv
 import linear_interpol as li
+import shift as sft
+import time
+
+import phiST as ph
 
 def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
     # args2 is the parameters for function PHI2
+    time_start=time.clock()
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
+    print(time.clock()-time_start)
+    time_start=time.clock()
     fE=li.interp_E(f,th,dx,Nx,Ny)
     fW=li.interp_W(f,th,dx,Nx,Ny)
     fS=li.interp_S(f,th,dx,Nx,Ny)
     fN=li.interp_N(f,th,dx,Nx,Ny)
+    print(time.clock()-time_start)
+    time_start=time.clock()
     
     [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
@@ -20,45 +29,41 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
 
 def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
     # Definition des differents flux utilises dans l'operateur de lien
-    uE=-(shift_W(Xi,Nx,Ny)-Xi)/dx
-    FluxE=(np.abs(uE)+uE)/2.*fE+(np.abs(uE)-uE)/2.*shift_W(fW,Nx,Ny)
-    uW=-(Xi-shift_E(Xi,Nx,Ny))/dx
-    FluxW=(np.abs(uW)+uW)/2.*shift_E(fE,Nx,Ny)+(np.abs(uW)-uW)/2.*fW
-    uN=-(shift_S(Xi,Nx,Ny)-Xi)/dy
-    FluxN=(np.abs(uN)+uN)/2.*fN+(np.abs(uN)-uN)/2.*shift_S(fS,Nx,Ny)
-    uS=-(Xi-shift_N(Xi,Nx,Ny))/dy
-    FluxS=(np.abs(uS)+uS)/2.*shift_N(fN,Nx,Ny)+(np.abs(uS)-uS)/2.*fS
+    uE=-(sft.shift_W(Xi,Nx,Ny)-Xi)/dx
+    FluxE=(np.abs(uE)+uE)/2.*fE+(np.abs(uE)-uE)/2.*sft.shift_W(fW,Nx,Ny)
+    uW=-(Xi-sft.shift_E(Xi,Nx,Ny))/dx
+    FluxW=(np.abs(uW)+uW)/2.*sft.shift_E(fE,Nx,Ny)+(np.abs(uW)-uW)/2.*fW
+    uN=-(sft.shift_S(Xi,Nx,Ny)-Xi)/dy
+    FluxN=(np.abs(uN)+uN)/2.*fN+(np.abs(uN)-uN)/2.*sft.shift_S(fS,Nx,Ny)
+    uS=-(Xi-sft.shift_N(Xi,Nx,Ny))/dy
+    FluxS=(np.abs(uS)+uS)/2.*sft.shift_N(fN,Nx,Ny)+(np.abs(uS)-uS)/2.*fS
     return [FluxE,FluxW,FluxN,FluxS]
     
-def shift_E(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers la droite
-    A=np.diag(np.ones((Nx-1)),-1)
-    A[0,Nx-1]=1
-    P=sp.block_diag(tuple([A]*Ny))
-    s=P@u
-    return s
-
-def shift_W(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers la gauche
-    A=np.diag(np.ones((Nx-1)),1)
-    A[Nx-1,0]=1
-    P=sp.block_diag(tuple([A]*Ny))
-    s=P@u
-    return s
-
-def shift_S(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers le bas
-    A=np.diag(np.ones((Nx*Ny-Nx)),Nx)+np.diag(np.ones((Nx)),-Nx*Ny+Nx)
-    s=A@u
-    return s
-
-def shift_N(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers le haut
-    A=np.diag(np.ones((Nx*Ny-Nx)),-Nx)+np.diag(np.ones((Nx)),Nx*Ny-Nx)
-    s=A@u
-    return s
 
 #S=shift_W(np.arange(0,20,1),4,5)
 #S=shift_E(np.arange(0,20,1),4,5)
 #S=shift_S(np.arange(0,10,1),2,5)
 # S=shift_N(np.arange(0,10,1),2,5)
+
+L=7.5
+dx=0.3
+dy=0.3
+Nx=int(2*L/dx)
+Ny=int(2*L/dy)
+M=Nx*Ny
+
+[x,y]=np.meshgrid(np.arange(-L+dx/2.,L,dx),np.arange(-L+dy/2.,L,dy))
+X=np.zeros((2,M))
+X[0,:]=np.reshape(x,(M))
+X[1,:]=np.reshape(y,(M))
+
+th=2.
+
+f=g=np.ones(M)
+args1=args2=(1.,1.,1.,1.)
+
+L0=link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,ph.phiST,ph.phiST)
+
+
+
+
