@@ -1,14 +1,44 @@
 import numpy as np
 import gradphiST as gph
 
-def potential(NS,NT,args1,args2,XS,XT,i,mu,R):
+def potential(NS,NT,args1,args2,XS,XT,i,mu,R,L):
     W=np.zeros((2,NS))
+    V1=np.ones((1,XS.shape[1]))
+    V2=np.ones((1,XT.shape[1]))
+    Vx=np.array([[2*L],[0]])
+    Vy=np.array([[0],[2*L]])
     for i in range(NS):
-        YS=np.delete(np.reshape(XS[:,i],(2,1))*np.ones((1,XS.shape[1]))-XS,i,axis=1)
-        YT=np.reshape(XS[:,i],(2,1))*np.ones((1,XT.shape[1]))-XT
+        x=XS[0,i]
+        y=XS[1,i]
+        YS=np.delete(np.reshape(XS[:,i],(2,1))@V1-XS,i,axis=1)
+        YT=np.reshape(XS[:,i],(2,1))@np.ones((1,XT.shape[1]))-XT
         normS=np.linalg.norm(YS,axis=0)
         normT=np.linalg.norm(YT,axis=0)
-        W[:,i]=-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
+        W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
+        if (x<-L+R):
+            YS=np.delete(np.reshape(XS[:,i],(2,1))@V1-XS-Vx@V1,i,axis=1)
+            YT=np.reshape(XS[:,i],(2,1))@np.ones((1,XT.shape[1]))-XT-Vx@V2
+            normS=np.linalg.norm(YS,axis=0)
+            normT=np.linalg.norm(YT,axis=0)
+            W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
+        if (x>L-R):
+            YS=np.delete(np.reshape(XS[:,i],(2,1))@V1-XS+Vx@V1,i,axis=1)
+            YT=np.reshape(XS[:,i],(2,1))@np.ones((1,XT.shape[1]))-XT+Vx@V2
+            normS=np.linalg.norm(YS,axis=0)
+            normT=np.linalg.norm(YT,axis=0)
+            W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
+        if (y<-L+R):
+            YS=np.delete(np.reshape(XS[:,i],(2,1))@V1-XS-Vy@V1,i,axis=1)
+            YT=np.reshape(XS[:,i],(2,1))@np.ones((1,XT.shape[1]))-XT-Vy@V2
+            normS=np.linalg.norm(YS,axis=0)
+            normT=np.linalg.norm(YT,axis=0)
+            W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
+        if (y>L-R):
+            YS=np.delete(np.reshape(XS[:,i],(2,1))@V1-XS+Vy@V1,i,axis=1)
+            YT=np.reshape(XS[:,i],(2,1))*np.ones((1,XT.shape[1]))-XT+Vy@V2
+            normS=np.linalg.norm(YS,axis=0)
+            normT=np.linalg.norm(YT,axis=0)
+            W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
     return W
 
 # X = np.array([np.arange(0.,2.,1), np.zeros(2)])
@@ -19,8 +49,9 @@ def potential(NS,NT,args1,args2,XS,XT,i,mu,R):
 # nuSTc=1.
 # nuSTd=1.
 # R=2.
+# L=10.
 # i=0
 # mu=1.
-# W=potential(NX,NY,(KST, nuSTc, nuSTd, R),(KST, nuSTc, nuSTd, R),X,Y,i,mu,R)
+# W=potential(NX,NY,(KST, nuSTc, nuSTd, R),(KST, nuSTc, nuSTd, R),X,Y,i,mu,R,L)
 
 

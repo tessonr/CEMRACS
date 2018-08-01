@@ -34,7 +34,8 @@ def gradphiST(x, KST, nuSTc, nuSTd, R):
     # compute the module of x
     mod_x = np.sqrt((x[0])**2 + (x[1])**2)
     # if mod_x <= R:
-    f = ((nuSTc/nuSTd)*KST*(mod_x - R)*x/mod_x)*(mod_x <= R) + 0.*(mod_x > R)
+    ep=1e-10
+    f = ((nuSTc/nuSTd)*KST*(mod_x - R)*x/(mod_x+ep))*(mod_x <= R) + 0.*(mod_x > R)
     # else f = 0
     return f
 
