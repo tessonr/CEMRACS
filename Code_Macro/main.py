@@ -9,12 +9,13 @@ import link_operator as lop
 import phiST as ph
 import initial_condition as ic
 import time
+import matplotlib.animation as animation
 
 # Parameters for the model
 
 KAA=1.
-KAB=1.
-KBA=1.
+KAB=200.
+KBA=200.
 KBB=1.
 
 nuAAc=1.
@@ -95,7 +96,7 @@ for i in range(Nt):
     # for A
     argsAA=(KAA, nuAAc, nuAAd, R)
     argsAB=(KAB, nuABc, nuABd, R)
-    LO_A=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fA,fB,argsAA,argsAA,ph.phiST,ph.phiST)
+    LO_A=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fA,fB,argsAA,argsAB,ph.phiST,ph.phiST)
     
     FR_A=dt*lo.logistic(fA,fB,fstar,nuA)
     
@@ -127,10 +128,25 @@ for i in range(Nt):
     FA[:,i+1]=fA
     FB[:,i+1]=fB
 
+# fig = plt.figure(3)
+# plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
+# plt.colorbar()
+# plt.show()
+   
+t = np.arange(0., T,dt)
+fig = plt.figure(3)
 
-plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
-plt.colorbar()
+def update(iframe):
+    plt.clf()
+    fig.canvas.draw()
+    plt.subplot(121)
+    plt.contourf(x,y,np.reshape(FA[:,iframe],(Nx,Ny)),cmap=plt.cm.hot)
+    plt.colorbar()
+    
+    plt.subplot(122)
+    plt.contourf(x,y,np.reshape(FB[:,iframe],(Nx,Ny)),cmap=plt.cm.hot)
+    plt.colorbar()
+
+anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
-   
-   
    

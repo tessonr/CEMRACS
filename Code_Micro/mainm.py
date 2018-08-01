@@ -9,10 +9,10 @@ import matplotlib.animation as animation
 
 # Parameters for the model
 
-KAA=10.
-KAB=1.
-KBA=1.
-KBB=10.
+KAA=2.
+KAB=8.
+KBA=8.
+KBB=2.
 
 nuAAc=1.
 nuABc=1.
@@ -46,15 +46,15 @@ deltaA=7e-4
 betaB=1e-3
 deltaB=7e-4
 
-b0A=1.
-d0A=1.
-b0B=1.
-d0B=1.
+b0A=1e-3
+d0A=7e-4
+b0B=1e-3
+d0B=7e-4
 
-thA=1.
-thB=1.
+thA=8e-4
+thB=8e-4
 
-Nstar=1.
+Nstar=800
 
 # Parameters for the scheme
 
@@ -67,13 +67,13 @@ L=7.5
 # X[1,:]=np.reshape(y,(M))
 
 dt=0.01
-T=1.
+T=30.
 Nt=int(T/dt)
 
 
 # Initial condition
 
-[XA0,XB0]=ic.ini_half(L,NA,NB)
+[XA0,XB0]=ic.ini_uniform(L,NA,NB)
 
 
 XA=XA0
@@ -165,13 +165,12 @@ def update(iframe):
     
     return pp,ppp
     
-    
+
 anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
 
-Writer=animation.FFMpegWriter()
-# writer=Writer(fps=20)
-anim.save("test_cell.mp4",writer=Writer)
+# Writer=animation.AVConvWriter(fps=20)
+# anim.save("test_cell.avi",writer=Writer)
 
 
 
