@@ -159,16 +159,16 @@ for i in range(Nt):
 t = np.arange(0., T, dt)
 fig = plt.figure(3)
 
-
+cmap = plt.get_cmap("Spectral")
 def update(iframe):
     plt.clf()
     fig.canvas.draw()
     plt.subplot(121)
-    plt.contourf(x, y, np.reshape(FA[:, iframe], (Nx, Ny)), cmap=plt.cm.hot)
+    plt.imshow(np.reshape(FA[:, iframe], (Nx, Ny)), interpolation='spline16', cmap=cmap)
     plt.colorbar()
 
     plt.subplot(122)
-    plt.contourf(x, y, np.reshape(FB[:, iframe], (Nx, Ny)), cmap=plt.cm.hot)
+    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)),interpolation='spline16', cmap=cmap)
     plt.colorbar()
 
 
