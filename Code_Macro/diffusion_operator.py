@@ -10,7 +10,7 @@ def diffusion(Nx,Ny,dx,dy):
     d0y=(2/dy**2)*np.ones(N)
     d1=(-1/dx**2)*np.ones(N)
     d2=(-1/dy**2)*np.ones(N)
-    # Definitions of diffusion matrix   
+    # Definitions of diffusion matrix
     Al=sp.lil_matrix(sp.spdiags([d0x,d1,d1],[0,1,-1],Nx,Nx))
     Al[Nx-1,0]=-1/dx**2
     Al[0,Nx-1]=-1/dx**2
