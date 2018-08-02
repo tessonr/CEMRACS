@@ -2,12 +2,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import convol as cv
+import convol_fft as cvf
 import linear_interpol as li
 import shift as sft
 import time
 
 import phiST as ph
+def link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2):
+    # compute the discretization of the link operator
+    # args1 is the parameters for function PHI1
+    # args2 is the parameters for function PHI2
+    # time_start0=time.clock()
+    # time_start=time.clock()
+    Xi=cvf.discrete_convol_fft(dx, dy, phifft1, phifft2, f, g, Nx, Ny)
+    # print(time.clock()-time_start)
+    # time_start=time.clock()
+    fE=li.interp_E(f,th,dx,Nx,Ny)
+    fW=li.interp_W(f,th,dx,Nx,Ny)
+    fS=li.interp_S(f,th,dx,Nx,Ny)
+    fN=li.interp_N(f,th,dx,Nx,Ny)
+    # print(time.clock()-time_start)
+    # time_start=time.clock()
 
+    [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
+    LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
+    # print(time.clock()-time_start0)
+    return LO
 def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
