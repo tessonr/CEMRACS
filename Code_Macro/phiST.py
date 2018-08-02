@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 
 
-def phiST(x, KST, nuSTc, nuSTd, R):
+def phiST(x, args):
+# def phiST(x, KST, nuSTc, nuSTd, R):
     """
         Return the potential energy for the particles.
 
@@ -26,13 +27,14 @@ def phiST(x, KST, nuSTc, nuSTd, R):
         >>> x1 = np.array([np.arange(0., 2., 0.01), np.arange(0., 2., 0.01)])
         >>> mod_x = np.sqrt((x1[0])**2 + (x1[1])**2)
         >>> KST, nuSTc, nuSTd, R = 0.2, 0.6, 0.3, np.sqrt(2)
-        >>> f = phiST(KST,nuSTc,nuSTd,x1,R)
+        >>> f = phiST(x1,KST,nuSTc,nuSTd,R)
         >>> print(f)
         >>> plt.plot(mod_x,f)
         >>> plt.show()
         """
     # compute the module of x
-    mod_x = np.sqrt((x[0])**2 + (x[1])**2)
+    mod_x = np.sqrt((x[0,:])**2 + (x[1,:])**2)
+    KST, nuSTc, nuSTd, R = args[0], args[1], args[2], args[3]
     # if mod_x <= R:
     f = ((nuSTc/nuSTd)*(KST/2)*(mod_x - R)**2)*(mod_x <= R) + 0.*(mod_x > R)
     # else f = 0
