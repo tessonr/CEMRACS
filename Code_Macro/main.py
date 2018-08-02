@@ -13,8 +13,8 @@ import matplotlib.animation as animation
 # Parameters for the model
 
 KAA=1.
-KAB=1.
-KBA=1.
+KAB=100.
+KBA=100.
 KBB=1.
 
 nuAAc=1.
@@ -39,8 +39,8 @@ nuBb=2e-3
 nuBd=1e-3
 nuB=1e-3
 
-DA=1e-4
-DB=1e-4
+DA=0.1
+DB=0.1
 
 # Parameters for the scheme
 
@@ -57,7 +57,7 @@ X[0,:]=np.reshape(x,(M))
 X[1,:]=np.reshape(y,(M))
 
 dt=5e-3
-T=1.
+T=10.
 Nt=int(T/dt)
 
 th=2.
@@ -164,12 +164,14 @@ def update(iframe):
     plt.clf()
     fig.canvas.draw()
     plt.subplot(121)
-    plt.imshow(np.reshape(FA[:, iframe], (Nx, Ny)), interpolation='spline16', cmap=cmap)
+    plt.imshow(np.reshape(FA[:, iframe],  (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L], interpolation='spline16', cmap=cmap)
     plt.colorbar()
 
     plt.subplot(122)
-    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)),interpolation='spline16', cmap=cmap)
+    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L], interpolation='spline16', cmap=cmap)
     plt.colorbar()
+
+    plt.pause(1e-6);
 
 
 anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
