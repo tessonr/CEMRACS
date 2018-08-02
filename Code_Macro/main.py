@@ -9,7 +9,7 @@ import link_operator as lop
 import phiST as ph
 import initial_condition as ic
 import time
-
+import matplotlib.animation as animation
 # Parameters for the model
 
 KAA=1.
@@ -151,9 +151,28 @@ for i in range(Nt):
     FA[:,i+1]=fA
     FB[:,i+1]=fB
 
+# fig = plt.figure(3)
+# plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
+# plt.colorbar()
+# plt.show()
 
-plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
-plt.colorbar()
+t = np.arange(0., T, dt)
+fig = plt.figure(3)
+
+
+def update(iframe):
+    plt.clf()
+    fig.canvas.draw()
+    plt.subplot(121)
+    plt.contourf(x, y, np.reshape(FA[:, iframe], (Nx, Ny)), cmap=plt.cm.hot)
+    plt.colorbar()
+
+    plt.subplot(122)
+    plt.contourf(x, y, np.reshape(FB[:, iframe], (Nx, Ny)), cmap=plt.cm.hot)
+    plt.colorbar()
+
+
+anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
    
    
