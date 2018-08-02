@@ -25,6 +25,8 @@ nuBAd=1.
 nuBBd=1.
 
 R=1.
+R0=2.
+r=0.5
 
 nuAb=2e-3
 nuAd=1e-3
@@ -34,12 +36,12 @@ nuBb=2e-3
 nuBd=1e-3
 nuB=1e-3
 
-DA=1e0
-DB=1e0
+DA=1e-4
+DB=1e-4
 
-NA=300
-NB=300
-mu=10.
+NA=250
+NB=250
+mu=1.
 
 betaA=1e-3
 deltaA=7e-4
@@ -54,7 +56,7 @@ d0B=7e-4
 thA=8e-4
 thB=8e-4
 
-Nstar=800
+Nstar=20
 
 # Parameters for the scheme
 
@@ -66,8 +68,8 @@ L=7.5
 # X[0,:]=np.reshape(x,(M))
 # X[1,:]=np.reshape(y,(M))
 
-dt=0.01
-T=30.
+dt=0.1
+T=10.
 Nt=int(T/dt)
 
 
@@ -120,14 +122,11 @@ for i in range(Nt):
     
     # birth and death
     
-    betaA=b0A-(b0A-thA)*(NA+NB)/Nstar
-    deltaA=d0A+(thA-d0A)*(NA+NB)/Nstar
+    [betaA,deltaA]=bd.bdrate(XAnew,XBnew,R0,b0A,d0A,thA,Nstar,L)
+    [betaB,deltaB]=bd.bdrate(XBnew,XAnew,R0,b0B,d0B,thB,Nstar,L)
     
-    betaB=b0B-(b0B-thB)*(NA+NB)/Nstar
-    deltaB=d0B+(thB-d0B)*(NA+NB)/Nstar
-    
-    XAnew=bd.birthdeath(XAnew,betaA,deltaA)
-    XBnew=bd.birthdeath(XBnew,betaB,deltaB)
+    XAnew=bd.birthdeath(XAnew,betaA,deltaA,r)
+    XBnew=bd.birthdeath(XBnew,betaB,deltaB,r)
     
     # updating
     XA=XAnew
