@@ -10,37 +10,37 @@ import phiST as ph
 import initial_condition as ic
 import time
 import matplotlib.animation as animation
+from matplotlib import colors
+
 # Parameters for the model
 
-KAA=1.
-KAB=100.
-KBA=100.
+KAA=1.5
+KAB=6.
+KBA=6.
 KBB=1.
 
 nuAAc=1.
-nuABc=1.
-nuBAc=1.
+nuABc=2.
+nuBAc=2.
 nuBBc=1.
 
-nuAAd=1.
+nuAAd=2.
 nuABd=1.
 nuBAd=1.
-nuBBd=1.
+nuBBd=2.
 
 R=1.
 
-fstar=1.
-
 nuAb=2e-3
 nuAd=1e-3
-nuA=1e-3
+nuA= 0.0
 
 nuBb=2e-3
 nuBd=1e-3
-nuB=1e-3
+nuB= 0.0
 
-DA=0.1
-DB=0.1
+DA=1e-4
+DB=1e-4
 
 # Parameters for the scheme
 
@@ -57,9 +57,14 @@ X[0,:]=np.reshape(x,(M))
 X[1,:]=np.reshape(y,(M))
 
 dt=5e-3
-T=10.
+T=100.
 Nt=int(T/dt)
 
+# Definition of the population protability
+# Nstar = 20.
+# R0 = 2.
+# fstar=(Nstar)/(np.pi*R0**2)
+fstar= 1e-2
 th=2.
 
 # Initial condition
@@ -157,25 +162,28 @@ for i in range(Nt):
 # plt.show()
 
 t = np.arange(0., T, dt)
-fig = plt.figure(3)
 
-cmap = plt.get_cmap("Spectral")
+tps = 0
+fig = plt.figure(3)
+cmap = plt.get_cmap("gray")
 def update(iframe):
+    global tps
     plt.clf()
     fig.canvas.draw()
     plt.subplot(121)
-    plt.imshow(np.reshape(FA[:, iframe],  (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L], interpolation='spline16', cmap=cmap)
+    plt.imshow(np.reshape(FA[:, iframe],  (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
+               interpolation='spline16', cmap=cmap)
+    plt.title('$f^A$ at t= '+ str(round(tps,2)));
     plt.colorbar()
 
     plt.subplot(122)
-    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L], interpolation='spline16', cmap=cmap)
+    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
+               interpolation='spline16', cmap=cmap)
+    plt.title('$f^B$ at t= ' + str(round(tps,2)));
     plt.colorbar()
 
-    plt.pause(1e-6);
+    # plt.pause(1e-6);
 
-
+    tps += dt
 anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
-   
-   
-   
