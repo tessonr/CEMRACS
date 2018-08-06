@@ -10,8 +10,8 @@ import matplotlib.animation as animation
 # Parameters for the model
 
 KAA = 2.
-KAB = 8.
-KBA = 8.
+KAB = 1.
+KBA = 1.
 KBB = 2.
 
 nuAAc = 1.
@@ -41,20 +41,33 @@ DB = 1e-4
 
 NA = 250
 NB = 250
-mu = 1.
+mu = 10.
 
-betaA = 1e-3
-deltaA = 7e-4
-betaB = 1e-3
-deltaB = 7e-4
+# betaA = 1e-3
+# deltaA = 7e-4
+# betaB = 1e-3
+# deltaB = 7e-4
+#
+# b0A = 1e-3
+# d0A = 7e-4
+# b0B = 1e-3
+# d0B = 7e-4
+#
+# thA = 8e-4
+# thB = 8e-4
 
-b0A = 1e-3
-d0A = 7e-4
-b0B = 1e-3
-d0B = 7e-4
+betaA = 0.
+deltaA = 0.
+betaB = 0.
+deltaB = 0.
 
-thA = 8e-4
-thB = 8e-4
+b0A = 0.
+d0A = 0.
+b0B = 0.
+d0B = 0.
+
+thA = 0.
+thB = 0.
 
 Nstar = 20
 
@@ -68,7 +81,7 @@ L = 7.5
 # X[1,:]=np.reshape(y,(M))
 
 dt = 0.1
-T = 10.
+T = 8000.
 Nt = int(T / dt)
 
 # Initial condition
@@ -147,25 +160,32 @@ pp, ppp = plt.plot([], [], [], [])
 plt.xlim(-L + 0.5, L - 0.5)
 plt.ylim(-L + 0.5, L - 0.5)
 
+tps = 0
+
 
 def update(iframe):
-    global pp, ppp
+    global pp, ppp, tps
     # pp.set_data([XAmem[iframe][0],XBmem[iframe][0]],[XAmem[iframe][1],XBmem[iframe][1]])
     # plt.setp(pp,marker="o",linewidth=0)
     pp.set_data(XAmem[iframe][0], XAmem[iframe][1])
-    plt.setp(pp, marker="o", markersize=10., color="b", linewidth=0)
+    plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
 
     ppp.set_data(XBmem[iframe][0], XBmem[iframe][1])
-    plt.setp(ppp, marker="o", markersize=10., color="r", linewidth=0)
+    plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
 
+    plt.title('t= ' + str(round(tps, 2)))
+    if tps > Nt*dt:
+        tps = 0
+    else:
+        tps += dt
     return pp, ppp
 
 
 anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
 
-# Writer=animation.AVConvWriter(fps=20)
-# anim.save("test_cell.avi",writer=Writer)
+Writer=animation.FFMpegWriter(fps=20)
+anim.save("test_cell.avi",writer=Writer)
 
 
 
