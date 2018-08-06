@@ -1,0 +1,68 @@
+	\section{Numerical scheme}
+	\subsection{Macroscopic model}
+
+
+
+
+%Laplacian discretization
+%$$ F_D= -D_A \frac{f_{j-i,k}}{}  $$
+
+\begin{equation}
+\frac{d f^{A}_{j,k}}{dt}= -\frac{F_{j+\frac{1}{2},k}-F_{j-\frac{1}{2},k}}{\Delta x}-\frac{F_{j,k+\frac{1}{2}}-F_{j,k-\frac{1}{2}}}{\Delta y}
+\end{equation}
+
+$$ F^{x}_{j+\frac{1}{2},k}=u^{+}_{j+\frac{1}{2},k}f^{E}_{j,k}+
+u^{-}_{j+\frac{1}{2},k}f^{W}_{j+1,k}   $$
+$$ F^{x}_{j-\frac{1}{2},k}=u^{+}_{j-\frac{1}{2},k}f^{E}_{j-1,k}+
+u^{-}_{j-\frac{1}{2},k}f^{W}_{j,k}   $$
+
+$$ F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}+
+u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}   $$
+
+$$ F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}+
+u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k}   $$
+
+with $u^{+}=\max(u,0)$, $u^{-}=\min(-u,0)$ and $u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}$. \\
+
+$$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{AA}_{j-i,k-\l} f^{A}_{i,\l}+
+\tilde{\Phi}^{AB}_{j-i,k-\l} f^{B}_{i,\l} $$
+with ${\Phi}^{AA}(x_j-x_i,x_k-x_{\l})$,
+$$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},x_{k}-x_{\l}) f^{A}_{i,\l}+
+\tilde{\Phi}^{AB}(x_{j}-x_{i},x_{k}-x_{\l}) f^{B}_{i,\l} $$
+
+$$ F_R=\nu_b^{A}f^{A}_{j,k}\left(1-\frac{f^{A}_{j,k}+f^{B}_{j,k}}{f^{*}}\right). $$
+
+\begin{equation}
+	f_{j,k}^{n+1}-F_{D}^{n+1} \Delta t= f_{j,k}^{n}+(LO)^{n} \Delta t + F_{R}^{n} \Delta t
+\end{equation}
+ $$(LO)^{n}=-\frac{F^{x,n}_{j+\frac{1}{2},k}-F^{x,n}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y,n}_{j,k+\frac{1}{2}}-F^{y,n}_{j,k-\frac{1}{2}}}{\Delta y}.	$$
+\subsection{Microscopic model}
+
+
+
+	\begin{center}
+	\begin{tabular}{ l | c | r }
+		\hline
+		Parameters & Values $A, B$ & Description \\ \hline
+		L & $7.5$ & Length half size demain  \\ 
+		R & ? &  radius \\
+	
+		$\mu$ & 1  & ..\\
+		$\nu_c$  & .&  . \\
+		$\nu_d$  & .&  . \\
+		k & . & .\\
+		D & & \\
+		$\beta$ & & \\
+		$\delta$ & & \\
+
+%	$N_A$ & 250 & particles of type A\\
+%	$N_B$ & 250 & particles of type B \\
+		\hline
+	\end{tabular}
+\end{center}	
+
+% logistic term
+\begin{equation}
+\beta_{A}=b_{0}^{A}-(b_{0}^{A}-\theta_{A})\left(\frac{N_A+N_B}{N^{*}}\right), \quad\quad \delta_{A}=d_{0}^{A}+(\theta_{A}-d_{0}^{A})\left(\frac{N_A+N_B}{N^{*}}\right)
+\end{equation}
+

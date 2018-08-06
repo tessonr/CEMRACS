@@ -1,0 +1,20 @@
+\section{Mathematical model}
+	\subsection{Macroscopic model}
+	
+	\begin{equation}
+		\begin{cases}
+	\p_t f^{A}=  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) + \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right) \\
+	
+	\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B)) + \nabla \cdot (f^B \nabla_x \Phi^{BA}*f^A) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
+		\end{cases}
+	\end{equation}
+	
+
+
+	\subsection{Microscopic model}
+	\begin{equation}
+	\begin{cases}
+	d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \quad \forall i \in\{1, \dots, N_{A}\} \\
+	d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\l}, \quad \forall \l \in \{1, \dots, N_{B}\}
+	\end{cases}
+	\end{equation}
