@@ -29,7 +29,7 @@ nuABd=1.
 nuBAd=1.
 nuBBd=2.
 
-R=1.
+R=2.
 
 nuAb=2e-3
 nuAd=1e-3
@@ -65,7 +65,7 @@ Nt=int(T/dt)
 # R0 = 2.
 # fstar=(Nstar)/(np.pi*R0**2)
 fstar= 1e-2
-th=2.
+th=1
 
 # Initial condition
 
@@ -127,19 +127,20 @@ for i in range(Nt):
 
     FR_A=dt*lo.logistic(fA,fB,fstar,nuA)
     
-    vecA=fA+LO_A+FR_A
+    vecA=fA+LO_A
     
     # for B
     # argsBB=(KBB, nuBBc, nuBBd, R)
     # argsBA=(KBA, nuBAc, nuBAd, R)
     # LO_B=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fB,fA,argsBB,argsBA,ph.phiST,ph.phiST)
+    # link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2)
     LO_B=dt*lop.link_operator_fft(dx,dy,Nx,Ny,th,fA,fB,fftphiBA,fftphiBB)
 
     FR_B=dt*lo.logistic(fB,fA,fstar,nuB)
     
-    vecB=fB+LO_B+FR_B
+    vecB=fB+LO_B
     
-    print(time.clock()-time_start)
+    #print(time.clock()-time_start)
     
     # solving of the system
     time_start=time.clock()
@@ -147,8 +148,13 @@ for i in range(Nt):
     fnewA=sla.spsolve(MatA,vecA)
     fnewB=sla.spsolve(MatB,vecB)
     
-    print(time.clock()-time_start)
+    #print(time.clock()-time_start)
     
+    if (any(fnewA<0)):
+        print('\x1b[6;30;41m' + 'Negative values: ' + '\x1b[0m')
+        print(fnewA[fnewA<0])
+        plt.spy(sp.csc_matrix(np.reshape(1*(fnewA<0), (Nx,Ny))))
+        break
     # updating
     fA=fnewA
     fB=fnewB
@@ -165,7 +171,7 @@ t = np.arange(0., T, dt)
 
 tps = 0
 fig = plt.figure(3)
-cmap = plt.get_cmap("gray")
+cmap = plt.get_cmap("Spectral_r")
 def update(iframe):
     global tps
     plt.clf()

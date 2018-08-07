@@ -3,16 +3,16 @@ import scipy.sparse as sp
 import time
 
 def shift_E(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers la droite
+    # decale les inconnues de la grille d'un cran vers la droite (east)
     A=np.reshape(u,(Nx,Ny))
-    Aini=np.reshape(A[:,Nx-1],(Ny,1))
-    Afin=A[:,0:Nx-1]
+    Aini=A[:,0:Nx-1]
+    Afin=np.reshape(A[:,Nx-1],(Ny,1))
     As=np.concatenate((Afin,Aini),axis=1)
     s=np.reshape(As,(Nx*Ny))
     return s
 
 def shift_W(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers la gauche
+    # decale les inconnues de la grille d'un cran vers la gauche (west)
     A=np.reshape(u,(Nx,Ny))
     Aini=np.reshape(A[:,0],(Ny,1))
     Afin=A[:,1:Nx]
@@ -21,7 +21,7 @@ def shift_W(u,Nx,Ny):
     return s
 
 def shift_S(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers le bas
+    # decale les inconnues de la grille d'un cran vers le bas (south)
     A=np.reshape(u,(Nx,Ny))
     Aini=np.reshape(A[0,:],(1,Nx))
     Afin=A[1:Ny,:]
@@ -30,7 +30,7 @@ def shift_S(u,Nx,Ny):
     return s
 
 def shift_N(u,Nx,Ny):
-    # decale les inconnues de la grille d'un cran vers le haut
+    # decale les inconnues de la grille d'un cran vers le haut (north)
     A=np.reshape(u,(Nx,Ny))
     Aini=A[0:Ny-1,:]
     Afin=np.reshape(A[Ny-1,:],(1,Nx))
