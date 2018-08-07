@@ -8,7 +8,7 @@ import time
 def interp_E(f,th,dx,Nx,Ny):
     # time_start=time.clock()
     slope=(sft.shift_W(f,Nx,Ny)-sft.shift_E(f,Nx,Ny))/(2*dx)
-    fE=f+slope*dx/2
+    fE=f+slope*dx/2.
 #    if (any(fE<0)):
 #        print(f[fE<0])
 #        print(th*(f[fE<0]-sft.shift_E(f,Nx,Ny)[fE<0]))
@@ -26,7 +26,7 @@ def interp_E(f,th,dx,Nx,Ny):
     
 def interp_W(f,th,dx,Nx,Ny):
     slope=(sft.shift_W(f,Nx,Ny)-sft.shift_E(f,Nx,Ny))/(2*dx)
-    fW=f-slope*dx/2
+    fW=f-slope*dx/2.
 #    if (any(fW<0)):
 #        print(f[fW<0])
 #        print(th*(f[fW<0]-sft.shift_E(f,Nx,Ny)[fW<0]))
@@ -41,7 +41,7 @@ def interp_W(f,th,dx,Nx,Ny):
     
 def interp_N(f,th,dy,Nx,Ny):
     slope=(sft.shift_S(f,Nx,Ny)-sft.shift_N(f,Nx,Ny))/(2*dy)
-    fN=f+slope*dy/2
+    fN=f+slope*dy/2.
 #    if (any(fN<0)):
 #        print(f[fN<0])
 #        print(th*(f[fN<0]-sft.shift_N(f,Nx,Ny)[fN<0]))
@@ -55,7 +55,7 @@ def interp_N(f,th,dy,Nx,Ny):
     
 def interp_S(f,th,dy,Nx,Ny):
     slope=(sft.shift_S(f,Nx,Ny)-sft.shift_N(f,Nx,Ny))/(2*dy)
-    fS=f-slope*dy/2
+    fS=f-slope*dy/2.
     #if (any(fS<0)):
 #        print(fS[fS<0])
 #        print(th*(f[fS<0]-sft.shift_N(f,Nx,Ny)[fS<0]))

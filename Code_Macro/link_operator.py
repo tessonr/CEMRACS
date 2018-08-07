@@ -6,8 +6,8 @@ import convol_fft as cvf
 import linear_interpol as li
 import shift as sft
 import time
-
 import phiST as ph
+
 def link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
@@ -28,6 +28,7 @@ def link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2):
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
     # print(time.clock()-time_start0)
     return LO
+    
 def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
     # args1 is the parameters for function PHI1
@@ -80,7 +81,6 @@ def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
              (np.abs(uN)+uN)/2.,(np.abs(uN)-uN)/2.,(np.abs(uS)+uS)/2.,(np.abs(uS)-uS)/2.])
     CFL=dx/(4*M)
     print("CFL: ",CFL)
-    
     return [FluxE,FluxW,FluxN,FluxS]
 
 

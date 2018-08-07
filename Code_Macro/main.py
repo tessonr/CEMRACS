@@ -87,7 +87,7 @@ MatT=sp.lil_matrix(np.eye(M))
 MatA=(MatT+dt*DA*MatD)
 MatA=sp.csc_matrix(MatA)
 MatB=(MatT+dt*DB*MatD)
-MatA=sp.csc_matrix(MatB)
+MatB=sp.csc_matrix(MatB)
 
 #construction of the intra and inter species interaction potentials their FOurier Transform
 
@@ -97,8 +97,8 @@ argsAB=(KAB, nuABc, nuABd, R)
 phiAA = ph.phiST(X,argsAA)
 phiAB = ph.phiST(X,argsAB)
 #Fast Fourier Transform of phiAA and phiAB
-rphiAA = np.reshape(phiAA,(Nx,Ny))
-rphiAB = np.reshape(phiAB,(Nx,Ny))
+rphiAA = np.reshape(phiAA,(Ny,Nx))
+rphiAB = np.reshape(phiAB,(Ny,Nx))
 fftphiAA = np.fft.fft2(rphiAA)
 fftphiAB = np.fft.fft2(rphiAB)
 
@@ -108,10 +108,10 @@ argsBA=(KBA, nuBAc, nuBAd, R)
 phiBA = ph.phiST(X,argsBA)
 phiBB = ph.phiST(X,argsBB)
 #Fast Fourier Transform of phiBA and phiBB
-rphiBA = np.reshape(phiBA,(Nx,Ny))
-rphiBB = np.reshape(phiBB,(Nx,Ny))
-fftphiBA = np.fft.fft2(rphiAA)
-fftphiBB = np.fft.fft2(rphiAB)
+rphiBA = np.reshape(phiBA,(Ny,Nx))
+rphiBB = np.reshape(phiBB,(Ny,Nx))
+fftphiBA = np.fft.fft2(rphiBA)
+fftphiBB = np.fft.fft2(rphiBB)
 # Time scheme
 
 for i in range(Nt):
@@ -153,6 +153,7 @@ for i in range(Nt):
     if (any(fnewA<0)):
         print('\x1b[6;30;41m' + 'Negative values: ' + '\x1b[0m')
         print(fnewA[fnewA<0])
+        print(vecA[fnewA<0])
         plt.spy(sp.csc_matrix(np.reshape(1*(fnewA<0), (Nx,Ny))))
         break
     # updating

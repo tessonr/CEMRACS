@@ -40,11 +40,13 @@ def discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2): # calcul du terme de con
 # dx=dy=1
 # 
 # KST, nuSTc, nuSTd, R = 1., 1., 1., 2.
-# x1 = np.array([[0,1,0,1],[0,0,1,1]])
-# f=g=0.5*np.ones((4,1))
+# x1 = np.array([[0,1,2,0,1,2,0,1,2],[0,0,0,1,1,1,2,2,2]])
+# # f=g=0.5*np.ones((4,1))
+# 
+# f=g=np.reshape(np.arange(0,9,1),(9,1))
 # 
 # Xi=discrete_convol(dx,dy,ph.phiST,ph.phiST,x1,f,g,(KST, nuSTc, nuSTd, R),(KST, nuSTc, nuSTd, R ))
-
-# Resultats theorique : (12-4*np.srqt(2))/2
+# 
+# # Resultats theorique : (12-4*np.srqt(2))/2
     
 
