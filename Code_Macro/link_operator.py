@@ -22,10 +22,10 @@ def link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2):
     # print(time.clock()-time_start)
     # time_start=time.clock()
 
-    [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
+    [FluxE,FluxW,FluxN,FluxS,CFL]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
     # print(time.clock()-time_start0)
-    return LO
+    return [LO,CFL]
     
 def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # compute the discretization of the link operator
@@ -41,10 +41,10 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     # print(time.clock()-time_start)
     # time_start=time.clock()
     
-    [FluxE,FluxW,FluxN,FluxS]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
+    [FluxE,FluxW,FluxN,FluxS,CFL]=flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny)
     LO=-(FluxE-FluxW)/dx-(FluxN-FluxS)/dy
     # print(time.clock()-time_start0)
-    return LO
+    return [LO,CFL]
 
 # flux
 #def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
@@ -73,10 +73,11 @@ def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
     uS=-(Xi-sft.shift_N(Xi,Nx,Ny))/dy
     FluxS=((np.abs(uS)+uS)/2.)*sft.shift_N(fN,Nx,Ny)-((np.abs(uS)-uS)/2.)*fS    
     
-    M=np.amax([(np.abs(uE)+uE)/2.,(np.abs(uE)-uE)/2.,(np.abs(uN)+uN)/2.,(np.abs(uN)-uN)/2.])
-    CFL=dx/(4*M)
+    M1=np.amax([(np.abs(uE)+uE)/2.,(np.abs(uE)-uE)/2.])
+    M2=np.amax([(np.abs(uN)+uN)/2.,(np.abs(uN)-uN)/2.])
+    CFL=min(dx/(4*M1),dy/(4*M2))
     print("CFL: ",CFL)
-    return [FluxE,FluxW,FluxN,FluxS]
+    return [FluxE,FluxW,FluxN,FluxS,CFL]
 
 
 

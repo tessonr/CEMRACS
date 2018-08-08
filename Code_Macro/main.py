@@ -14,10 +14,10 @@ from matplotlib import colors
 
 # Parameters for the model
 
-KAA=1.5
-KAB=6.
-KBA=6.
-KBB=1.
+KAA=2
+KAB=8.
+KBA=8.
+KBB=2.
 
 nuAAc=1.
 nuABc=2.
@@ -29,7 +29,7 @@ nuABd=1.
 nuBAd=1.
 nuBBd=2.
 
-R=2.
+R=1.
 
 nuAb=2e-3
 nuAd=1e-3
@@ -56,9 +56,13 @@ X=np.zeros((2,M))
 X[0,:]=np.reshape(x,(M))
 X[1,:]=np.reshape(y,(M))
 
-dt=5e-3
-T=100.
-Nt=int(T/dt)
+deltat=1e-2
+tt=0.
+tps=np.arange(0,1,1)
+T=200.
+
+# parameter for the CFL
+pCFL=0.9
 
 # Definition of the population protability
 # Nstar = 20.
@@ -75,19 +79,12 @@ fB0=ic.random_square(M,dx,dy)
 fA=fA0
 fB=fB0
 
-FA=np.zeros((M,Nt+1))
-FA[:,0]=fA0
-FB=np.zeros((M,Nt+1))
-FB[:,0]=fB0
+FA=np.reshape(fA0,(M,1))
+FB=np.reshape(fB0,(M,1))
 
 # matrix of the linear system
-MatD=do.diffusion(Nx,Ny,dx,dy)
-MatT=sp.lil_matrix(np.eye(M))
-  
-MatA=(MatT+dt*DA*MatD)
-MatA=sp.csc_matrix(MatA)
-MatB=(MatT+dt*DB*MatD)
-MatB=sp.csc_matrix(MatB)
+MatD=sp.csc_matrix(do.diffusion(Nx,Ny,dx,dy))
+MatT=sp.csc_matrix(sp.lil_matrix(np.eye(M)))
 
 #construction of the intra and inter species interaction potentials their FOurier Transform
 
@@ -114,16 +111,28 @@ fftphiBA = np.fft.fft2(rphiBA)
 fftphiBB = np.fft.fft2(rphiBB)
 # Time scheme
 
-for i in range(Nt):
-    print(i)
+while (tt<T):
+    print(tt)
     time_start=time.clock()
+    
+    # computation of link operators (without dt) and CFL
+    [LO_A,CFLA]=lop.link_operator_fft(dx,dy,Nx,Ny,th,fA,fB,fftphiAA,fftphiAB)
+    [LO_B,CFLB]=lop.link_operator_fft(dx,dy,Nx,Ny,th,fA,fB,fftphiBA,fftphiBB)
+    
+    # computation of the time step
+    dt=min(deltat,pCFL*CFLA,pCFL*CFLB)
+    #dt=deltat
+    
+    #computation of the matrix
+    MatA=(MatT+dt*DA*MatD)
+    MatB=(MatT+dt*DB*MatD)
     
     # second membre
     # for A
     # argsAA=(KAA, nuAAc, nuAAd, R)
     # argsAB=(KAB, nuABc, nuABd, R)
     # LO_A=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fA,fB,argsAA,argsAB,ph.phiST,ph.phiST)
-    LO_A=dt*lop.link_operator_fft(dx,dy,Nx,Ny,th,fA,fB,fftphiAA,fftphiAB)
+    LO_A=dt*LO_A
 
     FR_A=dt*lo.logistic(fA,fB,fstar,nuA)
     
@@ -134,7 +143,7 @@ for i in range(Nt):
     # argsBA=(KBA, nuBAc, nuBAd, R)
     # LO_B=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fB,fA,argsBB,argsBA,ph.phiST,ph.phiST)
     # link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2)
-    LO_B=dt*lop.link_operator_fft(dx,dy,Nx,Ny,th,fA,fB,fftphiBA,fftphiBB)
+    LO_B=dt*LO_B
 
     FR_B=dt*lo.logistic(fB,fA,fstar,nuB)
     
@@ -143,7 +152,6 @@ for i in range(Nt):
     #print(time.clock()-time_start)
     
     # solving of the system
-    time_start=time.clock()
     
     fnewA=sla.spsolve(MatA,vecA)
     fnewB=sla.spsolve(MatB,vecB)
@@ -160,37 +168,40 @@ for i in range(Nt):
     fA=fnewA
     fB=fnewB
     
-    FA[:,i+1]=fA
-    FB[:,i+1]=fB
+    FA=np.concatenate((FA,np.reshape(fA,(M,1))),axis=1)
+    FB=np.concatenate((FB,np.reshape(fB,(M,1))),axis=1)
+    
+    tt=tt+dt
+    tps = np.concatenate((tps,np.reshape(tt,(1))))
 
 # fig = plt.figure(3)
 # plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
 # plt.colorbar()
 # plt.show()
 
-t = np.arange(0., T, dt)
+print(tt)
 
-tps = 0
+tpsbis = 0
 fig = plt.figure(3)
 cmap = plt.get_cmap("Spectral_r")
 def update(iframe):
-    global tps
+    global tpsbis
     plt.clf()
     fig.canvas.draw()
     plt.subplot(121)
     plt.imshow(np.reshape(FA[:, iframe],  (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
                interpolation='spline16', cmap=cmap)
-    plt.title('$f^A$ at t= '+ str(round(tps,2)));
+    plt.title('$f^A$ at t= '+ str(round(tpsbis,2)));
     plt.colorbar()
 
     plt.subplot(122)
     plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
                interpolation='spline16', cmap=cmap)
-    plt.title('$f^B$ at t= ' + str(round(tps,2)));
+    plt.title('$f^B$ at t= ' + str(round(tpsbis,2)));
     plt.colorbar()
 
     # plt.pause(1e-6);
 
-    tps += dt
-anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
+    tpsbis += tps[iframe]
+anim = animation.FuncAnimation(fig, update, frames=tps.size, interval=1, repeat=True)
 plt.show()
