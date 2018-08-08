@@ -17,10 +17,8 @@ def link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2):
     Xi=cvf.discrete_convol_fft(dx, dy, phifft1, phifft2, f, g, Nx, Ny)
     # print(time.clock()-time_start)
     # time_start=time.clock()
-    fE=li.interp_E(f,th,dx,Nx,Ny)
-    fW=li.interp_W(f,th,dx,Nx,Ny)
-    fS=li.interp_S(f,th,dx,Nx,Ny)
-    fN=li.interp_N(f,th,dx,Nx,Ny)
+    [fE,fW]=li.interp_EW(f,th,dx,Nx,Ny)
+    [fN,fS]=li.interp_NS(f,th,dx,Nx,Ny)
     # print(time.clock()-time_start)
     # time_start=time.clock()
 
@@ -38,10 +36,8 @@ def link_operator(dx,dy,Nx,Ny,X,th,f,g,args1,args2,PHI1,PHI2):
     Xi=cv.discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2)
     # print(time.clock()-time_start)
     # time_start=time.clock()
-    fE=li.interp_E(f,th,dx,Nx,Ny)
-    fW=li.interp_W(f,th,dx,Nx,Ny)
-    fS=li.interp_S(f,th,dx,Nx,Ny)
-    fN=li.interp_N(f,th,dx,Nx,Ny)
+    [fE,fW]=li.interp_EW(f,th,dx,Nx,Ny)
+    [fN,fS]=li.interp_NS(f,th,dx,Nx,Ny)
     # print(time.clock()-time_start)
     # time_start=time.clock()
     
@@ -75,10 +71,9 @@ def flux(Xi,fE,fW,fS,fN,dx,dy,Nx,Ny):
     uN=-(sft.shift_S(Xi,Nx,Ny)-Xi)/dy
     FluxN=((np.abs(uN)+uN)/2.)*fN-((np.abs(uN)-uN)/2.)*sft.shift_S(fS,Nx,Ny)
     uS=-(Xi-sft.shift_N(Xi,Nx,Ny))/dy
-    FluxS=((np.abs(uS)+uS)/2.)*sft.shift_N(fN,Nx,Ny)-((np.abs(uS)-uS)/2.)*fS
+    FluxS=((np.abs(uS)+uS)/2.)*sft.shift_N(fN,Nx,Ny)-((np.abs(uS)-uS)/2.)*fS    
     
-    M=np.amax([(np.abs(uE)+uE)/2.,(np.abs(uE)-uE)/2., (np.abs(uW)+uW)/2.,(np.abs(uW)-uW)/2., 
-             (np.abs(uN)+uN)/2.,(np.abs(uN)-uN)/2.,(np.abs(uS)+uS)/2.,(np.abs(uS)-uS)/2.])
+    M=np.amax([(np.abs(uE)+uE)/2.,(np.abs(uE)-uE)/2.,(np.abs(uN)+uN)/2.,(np.abs(uN)-uN)/2.])
     CFL=dx/(4*M)
     print("CFL: ",CFL)
     return [FluxE,FluxW,FluxN,FluxS]
