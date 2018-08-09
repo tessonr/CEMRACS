@@ -59,7 +59,7 @@ X[1,:]=np.reshape(y,(M))
 deltat=1e-2
 tt=0.
 tps=np.arange(0,1,1)
-T=50.
+T=20.
 
 # parameter for the CFL
 pCFL=0.9
@@ -184,7 +184,7 @@ print(tt)
 
 tpsbis = 0
 fig = plt.figure(3)
-cmap = plt.get_cmap("Spectral_r")
+cmap = plt.get_cmap("jet")
 # def update(iframe):
 #     global tpsbis
 #     plt.clf()
@@ -226,4 +226,28 @@ plt.subplot(224)
 plt.imshow(np.reshape(fB,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
 plt.title('$f^A$ at t= '+ str(round(tt,2)));
 plt.colorbar()
+plt.show()
+
+# Plot like in the article with 2 colors
+
+One=np.ones((M,1))
+Zer=np.zeros((M,1))
+f=Zer
+f0=Zer
+f[fA>fB]=One[fA>fB]
+f0[fA0>fB0]=One[fA0>fB0]
+
+plt.figure(4)
+cmap = plt.get_cmap("RdYlGn")
+
+plt.subplot(121)
+plt.imshow(np.reshape(f0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f$ at t= '+ str(0));
+plt.colorbar()
+
+plt.subplot(122)
+plt.imshow(np.reshape(f,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f$ at t= '+ str(round(tt,2)));
+plt.colorbar()
+
 plt.show()
