@@ -1,16 +1,12 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import scipy.sparse.linalg as sla
-import convol as cv
 import diffusion_operator as do
 import logistic_operator as lo
 import link_operator as lop
 import phiST as ph
 import initial_condition as ic
 import time
-import matplotlib.animation as animation
-from matplotlib import colors
 
 # Parameters for the model
 
@@ -59,7 +55,7 @@ X[1,:]=np.reshape(y,(M))
 deltat=1e-2
 tt=0.
 tps=np.arange(0,1,1)
-T=500.
+T=1.
 
 # parameter for the CFL
 pCFL=0.9
@@ -174,80 +170,10 @@ while (tt<T):
     
     tt=tt+dt
     tps = np.concatenate((tps,np.reshape(tt,(1))))
-
-# fig = plt.figure(3)
-# plt.contourf(x,y,np.reshape(fA,(Nx,Ny)),cmap=plt.cm.hot)
-# plt.colorbar()
-# plt.show()
-
+    
 print(tt)
 
-tpsbis = 0
-fig = plt.figure(3)
-cmap = plt.get_cmap("jet")
-# def update(iframe):
-#     global tpsbis
-#     plt.clf()
-#     fig.canvas.draw()
-#     plt.subplot(121)
-#     plt.imshow(np.reshape(FA[:, iframe],  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
-#                interpolation='spline16', cmap=cmap)
-#     plt.title('$f^A$ at t= '+ str(round(tpsbis,2)));
-#     plt.colorbar()
-# 
-#     plt.subplot(122)
-#     plt.imshow(np.reshape(FB[:, iframe], (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
-#                interpolation='spline16', cmap=cmap)
-#     plt.title('$f^B$ at t= ' + str(round(tpsbis,2)));
-#     plt.colorbar()
-# 
-#     # plt.pause(1e-6);
-# 
-#     tpsbis += tps[iframe]
-#     
-# anim = animation.FuncAnimation(fig, update, frames=tps.size, interval=1, repeat=True)
-
-plt.subplot(221)
-plt.imshow(np.reshape(fA0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f^A$ at t= '+ str(0));
-plt.colorbar()
-
-plt.subplot(222)
-plt.imshow(np.reshape(fA,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f^A$ at t= '+ str(round(tt,2)));
-plt.colorbar()
-
-plt.subplot(223)
-plt.imshow(np.reshape(fB0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f^B$ at t= '+ str(0));
-plt.colorbar()
-
-plt.subplot(224)
-plt.imshow(np.reshape(fB,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f^B$ at t= '+ str(round(tt,2)));
-plt.colorbar()
-plt.show()
-
-# Plot like in the article with 2 colors
-
-One=np.ones((M,1))
-Zer=np.zeros((M,1))
-f=Zer
-f0=Zer
-f[fA>fB]=One[fA>fB]
-f0[fA0>fB0]=One[fA0>fB0]
-
-plt.figure(4)
-cmap = plt.get_cmap("RdYlGn")
-
-plt.subplot(121)
-plt.imshow(np.reshape(f0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f$ at t= '+ str(0));
-plt.colorbar()
-
-plt.subplot(122)
-plt.imshow(np.reshape(f,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
-plt.title('$f$ at t= '+ str(round(tt,2)));
-plt.colorbar()
-
-plt.show()
+np.savetxt('fileA0.txt',fA0)
+np.savetxt('fileAfin.txt',fA)
+np.savetxt('fileB0.txt',fB0)
+np.savetxt('fileBfin.txt',fB)

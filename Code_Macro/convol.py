@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import phiST as ph
 
@@ -11,7 +10,7 @@ def evaluate_potential(PHI,X,*args): # evaluation de phi en les points de la gri
     return P
 
 def convol(dx,dy,phi1,phi2,f,g): # calcul d'une convolution
-    Xi=dx*dy*(phi1.T @ f+ phi2.T @ g)
+    Xi=dx*dy*(np.matmul(phi1.T,f)+ np.matmul(phi2.T, g))
     return Xi
     
 def discrete_convol(dx,dy,PHI1,PHI2,X,f,g,args1,args2): # calcul du terme de convolution discrete global
