@@ -14,20 +14,20 @@ from matplotlib import colors
 
 # Parameters for the model
 
-KAA=2
+KAA=2.
 KAB=8.
 KBA=8.
 KBB=2.
 
 nuAAc=1.
-nuABc=2.
-nuBAc=2.
+nuABc=1.
+nuBAc=1.
 nuBBc=1.
 
-nuAAd=2.
+nuAAd=1.
 nuABd=1.
 nuBAd=1.
-nuBBd=2.
+nuBBd=1.
 
 R=1.
 
@@ -59,7 +59,7 @@ X[1,:]=np.reshape(y,(M))
 deltat=1e-2
 tt=0.
 tps=np.arange(0,1,1)
-T=200.
+T=50.
 
 # parameter for the CFL
 pCFL=0.9
@@ -73,8 +73,10 @@ th=1
 
 # Initial condition
 
-fA0=ic.random_square(M,dx,dy)
-fB0=ic.random_square(M,dx,dy)
+pert=0.01
+
+fA0=ic.random_square(M,pert,dx,dy)
+fB0=ic.random_square(M,pert,dx,dy)
 
 fA=fA0
 fB=fB0
@@ -123,7 +125,7 @@ while (tt<T):
     dt=min(deltat,pCFL*CFLA,pCFL*CFLB)
     #dt=deltat
     
-    #computation of the matrix
+    # computation of the matrix
     MatA=(MatT+dt*DA*MatD)
     MatB=(MatT+dt*DB*MatD)
     
@@ -142,7 +144,6 @@ while (tt<T):
     # argsBB=(KBB, nuBBc, nuBBd, R)
     # argsBA=(KBA, nuBAc, nuBAd, R)
     # LO_B=dt*lop.link_operator(dx,dy,Nx,Ny,X,th,fB,fA,argsBB,argsBA,ph.phiST,ph.phiST)
-    # link_operator_fft(dx,dy,Nx,Ny,th,f,g,phifft1,phifft2)
     LO_B=dt*LO_B
 
     FR_B=dt*lo.logistic(fB,fA,fstar,nuB)
@@ -184,24 +185,45 @@ print(tt)
 tpsbis = 0
 fig = plt.figure(3)
 cmap = plt.get_cmap("Spectral_r")
-def update(iframe):
-    global tpsbis
-    plt.clf()
-    fig.canvas.draw()
-    plt.subplot(121)
-    plt.imshow(np.reshape(FA[:, iframe],  (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
-               interpolation='spline16', cmap=cmap)
-    plt.title('$f^A$ at t= '+ str(round(tpsbis,2)));
-    plt.colorbar()
+# def update(iframe):
+#     global tpsbis
+#     plt.clf()
+#     fig.canvas.draw()
+#     plt.subplot(121)
+#     plt.imshow(np.reshape(FA[:, iframe],  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
+#                interpolation='spline16', cmap=cmap)
+#     plt.title('$f^A$ at t= '+ str(round(tpsbis,2)));
+#     plt.colorbar()
+# 
+#     plt.subplot(122)
+#     plt.imshow(np.reshape(FB[:, iframe], (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
+#                interpolation='spline16', cmap=cmap)
+#     plt.title('$f^B$ at t= ' + str(round(tpsbis,2)));
+#     plt.colorbar()
+# 
+#     # plt.pause(1e-6);
+# 
+#     tpsbis += tps[iframe]
+#     
+# anim = animation.FuncAnimation(fig, update, frames=tps.size, interval=1, repeat=True)
 
-    plt.subplot(122)
-    plt.imshow(np.reshape(FB[:, iframe], (Nx, Ny)), origin='lower', aspect='auto', extent=[-L, L, -L, L],
-               interpolation='spline16', cmap=cmap)
-    plt.title('$f^B$ at t= ' + str(round(tpsbis,2)));
-    plt.colorbar()
+plt.subplot(221)
+plt.imshow(np.reshape(fA0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f^A$ at t= '+ str(0));
+plt.colorbar()
 
-    # plt.pause(1e-6);
+plt.subplot(222)
+plt.imshow(np.reshape(fA,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f^A$ at t= '+ str(round(tt,2)));
+plt.colorbar()
 
-    tpsbis += tps[iframe]
-anim = animation.FuncAnimation(fig, update, frames=tps.size, interval=1, repeat=True)
+plt.subplot(223)
+plt.imshow(np.reshape(fB0,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f^B$ at t= '+ str(0));
+plt.colorbar()
+
+plt.subplot(224)
+plt.imshow(np.reshape(fB,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$f^A$ at t= '+ str(round(tt,2)));
+plt.colorbar()
 plt.show()
