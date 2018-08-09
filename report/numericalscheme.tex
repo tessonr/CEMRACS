@@ -4,25 +4,28 @@
 
 
 
-%Laplacian discretization
+%Laplacian discretization with boundary condition
 %$$ F_D= -D_A \frac{f_{j-i,k}}{}  $$
 
+
+A general semi-discrete finite-volume scheme can be written as follows:
 \begin{equation}
-\frac{d f^{A}_{j,k}}{dt}= -\frac{F_{j+\frac{1}{2},k}-F_{j-\frac{1}{2},k}}{\Delta x}-\frac{F_{j,k+\frac{1}{2}}-F_{j,k-\frac{1}{2}}}{\Delta y}
+\frac{d f^{A}_{j,k}}{dt}= -\frac{F^{x}_{j+\frac{1}{2},k}-F^{x}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y}_{j,k+\frac{1}{2}}-F^{y}_{j,k-\frac{1}{2}}}{\Delta y}
 \end{equation}
 
-$$ F^{x}_{j+\frac{1}{2},k}=u^{+}_{j+\frac{1}{2},k}f^{E}_{j,k}+
+$$ F^{x}_{j+\frac{1}{2},k}=u^{+}_{j+\frac{1}{2},k}f^{E}_{j,k}-
 u^{-}_{j+\frac{1}{2},k}f^{W}_{j+1,k}   $$
-$$ F^{x}_{j-\frac{1}{2},k}=u^{+}_{j-\frac{1}{2},k}f^{E}_{j-1,k}+
+
+$$ F^{x}_{j-\frac{1}{2},k}=u^{+}_{j-\frac{1}{2},k}f^{E}_{j-1,k}-
 u^{-}_{j-\frac{1}{2},k}f^{W}_{j,k}   $$
 
-$$ F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}+
+$$ F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}-
 u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}   $$
 
-$$ F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}+
+$$ F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}-
 u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k}   $$
 
-with $u^{+}=\max(u,0)$, $u^{-}=\min(-u,0)$ and $u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}$. \\
+with $u^{+}=\max(u,0)$, $u^{-}=\min(-u,0)$ and with $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j-\frac{1}{2},k}=-\frac{\xi_{j,k}-\xi_{j-1,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}, \quad u_{j,k-\frac{1}{2}}=-\frac{\xi_{j,k}-\xi_{j,k-1}}{\Delta y}$$. \\
 
 $$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{AA}_{j-i,k-\l} f^{A}_{i,\l}+
 \tilde{\Phi}^{AB}_{j-i,k-\l} f^{B}_{i,\l} $$
@@ -32,6 +35,8 @@ $$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},
 
 $$ F_R=\nu_b^{A}f^{A}_{j,k}\left(1-\frac{f^{A}_{j,k}+f^{B}_{j,k}}{f^{*}}\right). $$
 
+
+% time discretization
 \begin{equation}
 	f_{j,k}^{n+1}-F_{D}^{n+1} \Delta t= f_{j,k}^{n}+(LO)^{n} \Delta t + F_{R}^{n} \Delta t
 \end{equation}
