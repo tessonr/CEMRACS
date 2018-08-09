@@ -1,11 +1,20 @@
 	\section{Numerical scheme}
 	\subsection{Macroscopic model}
+	
+The equation for the macroscopic equations can be written as:
+
+\begin{equation}
+ \p_t f^{A}=
+\end{equation}
+
+
+\begin{equation}
+ =  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) + \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
+\end{equation}
 
 
 
-
-%Laplacian discretization with boundary condition
-%$$ F_D= -D_A \frac{f_{j-i,k}}{}  $$
+\subsubsection{Spatial Discretization}
 
 
 A general semi-discrete finite-volume scheme can be written as follows:
@@ -25,7 +34,7 @@ u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}   $$
 $$ F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}-
 u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k}   $$
 
-with $u^{+}=\max(u,0)$, $u^{-}=\min(-u,0)$ and with $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j-\frac{1}{2},k}=-\frac{\xi_{j,k}-\xi_{j-1,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}, \quad u_{j,k-\frac{1}{2}}=-\frac{\xi_{j,k}-\xi_{j,k-1}}{\Delta y}$$. \\
+with $u^{+}=\max(u,0)$, $u^{-}=\max(-u,0)$ and with $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j-\frac{1}{2},k}=-\frac{\xi_{j,k}-\xi_{j-1,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}, \quad u_{j,k-\frac{1}{2}}=-\frac{\xi_{j,k}-\xi_{j,k-1}}{\Delta y}$$. \\
 
 $$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{AA}_{j-i,k-\l} f^{A}_{i,\l}+
 \tilde{\Phi}^{AB}_{j-i,k-\l} f^{B}_{i,\l} $$
@@ -36,7 +45,7 @@ $$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},
 $$ F_R=\nu_b^{A}f^{A}_{j,k}\left(1-\frac{f^{A}_{j,k}+f^{B}_{j,k}}{f^{*}}\right). $$
 
 
-% time discretization
+\subsubsection{Time Discretization}
 \begin{equation}
 	f_{j,k}^{n+1}-F_{D}^{n+1} \Delta t= f_{j,k}^{n}+(LO)^{n} \Delta t + F_{R}^{n} \Delta t
 \end{equation}
