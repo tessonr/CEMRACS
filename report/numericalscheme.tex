@@ -41,42 +41,21 @@ $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j,k+\fra
 
 $$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{SS}_{j-i,k-\l} f^{S}_{i,\l}+
 \tilde{\Phi}^{ST}_{j-i,k-\l} f^{T}_{i,\l} $$
-with ${\Phi}^{SS}(x_j-x_i,x_k-x_{\l})$,
-$$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},x_{k}-x_{\l}) f^{A}_{i,\l}+
-\tilde{\Phi}^{AB}(x_{j}-x_{i},x_{k}-x_{\l}) f^{B}_{i,\l} $$
-
-$$ F_R=\nu_b^{A}f^{A}_{j,k}\left(1-\frac{f^{A}_{j,k}+f^{B}_{j,k}}{f^{*}}\right). $$
+with ${\Phi}^{SS}(x_j-x_i,x_k-x_{\l})$. We compute te convolution term with a FFT method.
+% $$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},x_{k}-x_{\l}) f^{A}_{i,\l}+
+% \tilde{\Phi}^{AB}(x_{j}-x_{i},x_{k}-x_{\l}) f^{B}_{i,\l} $$
+% 
+% $$ F_R=\nu_b^{A}f^{A}_{j,k}\left(1-\frac{f^{A}_{j,k}+f^{B}_{j,k}}{f^{*}}\right). $$
 
 
 \subsubsection{Time Discretization}
+
+The time discretization of the equations is done with an Euler scheme. The diffusion term is treated implicitly whereas the link term and the logistic term are treated explicitly. This leads to the following scheme:
 \begin{equation}
-	f_{j,k}^{n+1}-F_{D}^{n+1} \Delta t= f_{j,k}^{n}+(LO)^{n} \Delta t + F_{R}^{n} \Delta t
+	\frac{f_{j,k}^{S,n+1}-f_{j,k}^{S,n}}{\Delta t}=\Linkop_{j,k}^n+\Difop_{j,k}^{n+1}+\Logop_{j,k}^n
 \end{equation}
- $$(LO)^{n}=-\frac{F^{x,n}_{j+\frac{1}{2},k}-F^{x,n}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y,n}_{j,k+\frac{1}{2}}-F^{y,n}_{j,k-\frac{1}{2}}}{\Delta y}.	$$
+%  $$(LO)^{n}=-\frac{F^{x,n}_{j+\frac{1}{2},k}-F^{x,n}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y,n}_{j,k+\frac{1}{2}}-F^{y,n}_{j,k-\frac{1}{2}}}{\Delta y}.	$$
 \subsection{Microscopic model}
-
-
-
-	\begin{center}
-	\begin{tabular}{ l | c | r }
-		\hline
-		Parameters & Values $A, B$ & Description \\ \hline
-		L & $7.5$ & Length half size demain  \\ 
-		R & ? &  radius \\
-	
-		$\mu$ & 1  & ..\\
-		$\nu_c$  & .&  . \\
-		$\nu_d$  & .&  . \\
-		k & . & .\\
-		D & & \\
-		$\beta$ & & \\
-		$\delta$ & & \\
-
-%	$N_A$ & 250 & particles of type A\\
-%	$N_B$ & 250 & particles of type B \\
-		\hline
-	\end{tabular}
-\end{center}	
 
 % logistic term
 \begin{equation}
