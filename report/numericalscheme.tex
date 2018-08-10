@@ -1,48 +1,47 @@
 	\section{Numerical scheme}
 	\subsection{Macroscopic model}
 	
-The equation for the macroscopic equations can be written as:
+The equations for the macroscopic model can be written as:
 
 \begin{equation}
- \p_t f^{A}=\Linkop+\Difop+\Logop
+ \p_t f^{S}=\Linkop(f^S,f^T)+\Difop(f^S)+\Logop(f^S,f^T), \quad S\neq T\in\{A,B\}
 \end{equation}
 with
 \begin{equation}
-\Linkop=  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) + \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B)
+\Linkop(f^S,f^T)=  \nabla \cdot (f^S\nabla_x(\Phi^{SS}* f^S)) + \nabla \cdot (f^S \nabla_x \Phi^{ST}*f^T)
 \end{equation}
 \begin{equation}
-\Difop= D_A \Delta_x f^A
+\Difop(f^S)= D_S \Delta_x f^S
 \end{equation}
 \begin{equation}
-\Logop=\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
+\Logop(f^S,f^T)=\nu^{S}f^S\left( 1-\frac{f^S+f^T}{f^{*}} \right)
 \end{equation}
 
 
 \subsubsection{Spatial Discretization}
 
 
-A general semi-discrete finite-volume scheme can be written as follows:
+First we focus on the spatial discretization of the equations. A general semi-discrete finite-volume scheme can be written as follows:
 \begin{equation}
-\frac{d f^{A}_{j,k}}{dt}= -\frac{F^{x}_{j+\frac{1}{2},k}-F^{x}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y}_{j,k+\frac{1}{2}}-F^{y}_{j,k-\frac{1}{2}}}{\Delta y}
+\frac{d f^{S}_{j,k}}{dt}=\Linkop_{j,k}+\Difop_{j,k}+\Logop_{j,k}
 \end{equation}
+The discrtization of the terms $\Difop_{j,k}$ and $\Logop_{j,k}$ is straightforward and we will present only the details for the link operator $\Linkop_{j,k}$. As in \textbf{citation}, we set :
+\begin{equation}
+\Linkop_{j,k}= -\frac{F^{x}_{j+\frac{1}{2},k}-F^{x}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y}_{j,k+\frac{1}{2}}-F^{y}_{j,k-\frac{1}{2}}}{\Delta y},
+\end{equation}
+with
+\begin{equation*}
+ F^{x}_{j+\frac{1}{2},k}=u^{+}_{j+\frac{1}{2},k}f^{E}_{j,k}-
+u^{-}_{j+\frac{1}{2},k}f^{W}_{j+1,k}, \quad F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}-
+u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}
+\end{equation*}
+where $u^{+}=\max(u,0)$, $u^{-}=\max(-u,0)$ and with 
 
-$$ F^{x}_{j+\frac{1}{2},k}=u^{+}_{j+\frac{1}{2},k}f^{E}_{j,k}-
-u^{-}_{j+\frac{1}{2},k}f^{W}_{j+1,k}   $$
+$$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}$$.
 
-$$ F^{x}_{j-\frac{1}{2},k}=u^{+}_{j-\frac{1}{2},k}f^{E}_{j-1,k}-
-u^{-}_{j-\frac{1}{2},k}f^{W}_{j,k}   $$
-
-$$ F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}-
-u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}   $$
-
-$$ F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}-
-u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k}   $$
-
-with $u^{+}=\max(u,0)$, $u^{-}=\max(-u,0)$ and with $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j-\frac{1}{2},k}=-\frac{\xi_{j,k}-\xi_{j-1,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}, \quad u_{j,k-\frac{1}{2}}=-\frac{\xi_{j,k}-\xi_{j,k-1}}{\Delta y}$$. \\
-
-$$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{AA}_{j-i,k-\l} f^{A}_{i,\l}+
-\tilde{\Phi}^{AB}_{j-i,k-\l} f^{B}_{i,\l} $$
-with ${\Phi}^{AA}(x_j-x_i,x_k-x_{\l})$,
+$$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{SS}_{j-i,k-\l} f^{S}_{i,\l}+
+\tilde{\Phi}^{ST}_{j-i,k-\l} f^{T}_{i,\l} $$
+with ${\Phi}^{SS}(x_j-x_i,x_k-x_{\l})$,
 $$ \xi_{j,k}=\Delta x \Delta y \sum_{i} \sum_{\l} \tilde{\Phi}^{AA}(x_{j}-x_{i},x_{k}-x_{\l}) f^{A}_{i,\l}+
 \tilde{\Phi}^{AB}(x_{j}-x_{i},x_{k}-x_{\l}) f^{B}_{i,\l} $$
 
