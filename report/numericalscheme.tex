@@ -35,9 +35,14 @@ with
 u^{-}_{j+\frac{1}{2},k}f^{W}_{j+1,k}, \quad F^{y}_{j,k+\frac{1}{2}}=u^{+}_{j,k+\frac{1}{2}}f^{N}_{j,k}-
 u^{-}_{j,k+\frac{1}{2}}f^{S}_{j,k+1}
 \end{equation*}
-where $u^{+}=\max(u,0)$, $u^{-}=\max(-u,0)$ and with 
+% $$F^{x}_{j-\frac{1}{2},k}=u^{+}_{j-\frac{1}{2},k}f^{E}_{j-1,k}-
+% u^{-}_{j-\frac{1}{2},k}f^{W}_{j,k}, \quad F^{y}_{j,k-\frac{1}{2}}=u^{+}_{j,k-\frac{1}{2}}f^{N}_{j,k-1}-
+% u^{-}_{j,k-\frac{1}{2}}f^{S}_{j,k}$$
+where $u^{+}=\max(u,0)$, $u^{-}=-\min(u,0)$ and with 
 
 $$u_{j+\frac{1}{2},k}=-\frac{\xi_{j+1,k}-\xi_{j,k}}{\Delta x}, \quad u_{j,k+\frac{1}{2}}=-\frac{\xi_{j,k+1}-\xi_{j,k}}{\Delta y}$$.
+
+% $$u_{j-\frac{1}{2},k}=-\frac{\xi_{j,k}-\xi_{j-1,k}}{\Delta x}, \quad u_{j,k-\frac{1}{2}}=-\frac{\xi_{j,k}-\xi_{j,k-1}}{\Delta y}$$.
 
 $$ \xi_{j,k}=\Delta x \Delta y \sum_{i,\l} \tilde{\Phi}^{SS}_{j-i,k-\l} f^{S}_{i,\l}+
 \tilde{\Phi}^{ST}_{j-i,k-\l} f^{T}_{i,\l} $$
