@@ -1,24 +1,38 @@
 \section{Mathematical model}
-	\subsection{Macroscopic model}
-	
-	\begin{equation}
-		\begin{cases}
-	\p_t f^{A}=  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) + \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right) \\
-	
-	\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B)) + \nabla \cdot (f^B \nabla_x \Phi^{BA}*f^A) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
-		\end{cases}
-	\end{equation}
-	
-
+The starting point for this work was the model previously proposed in \textbf{Citation}. In this model, it is assumed that the cell population remain constant over the time. In this study, we want to investigate the effect of cell division on the model.
 
 	\subsection{Microscopic model}
+	For the microscopic model, we start from the model presented in \textbf{citation}, using the same dynamics for each individuals.
 	\begin{equation}
 	\begin{cases}
-	d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \quad \forall i \in\{1, \dots, N_{A}\} \\
+	d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \quad \forall i \in\{1, \dots, N_{A}\}
+	\\
 	d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\l}, \quad \forall \l \in \{1, \dots, N_{B}\}
 	\end{cases}
 	\end{equation}
+	The main change on the model is to introduce a cell birth and death process. We base the modelisation of the birth and death process on the one proposed in \textbf{citation}. The idea is that at each time step, a cell of population $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die. The probability depend on the size of the population. Here we add also a spatial dependencie for the probability rate:
+	\begin{equation}
+\beta_{S}(X_i^S)=b_{0}^{S}-(b_{0}^{S}-\theta_{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right), \quad\quad \delta_{S}(X_i^S)=d_{0}^{S}+(\theta_{S}-d_{0}^{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right)
+\end{equation}
+	where the coefficient $\mathcal{N}_{R_0}(X_i^S)$ is the number of cell (of both population) at distance $R_0$ of the cell located in $X_i^S$ and $N^*$ is the maximal number of cell in a radius $R_0$ allowing cell division. The coefficient $\theta$ must be taken in the range $d_{0}^{S}<\theta<b_{0}^{S}$.
+
+
+	\subsection{Macroscopic model}
+	The Macroscopic model presented in \textbf{citation} can be derived from the microscopic model in a large population assumption. Here, we modify this model, simply by adding a logistic term to the equations. We assume for the moment that the obtained model can also be derived from the microscopic one.
 	
 	\begin{equation}
-\beta_{A}=b_{0}^{A}-(b_{0}^{A}-\theta_{A})\left(\frac{N_A+N_B}{N^{*}}\right), \quad\quad \delta_{A}=d_{0}^{A}+(\theta_{A}-d_{0}^{A})\left(\frac{N_A+N_B}{N^{*}}\right)
-\end{equation}
+		\begin{cases}
+	\p_t f^{A}=  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B)) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right) \\
+	
+	\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
+		\end{cases}
+	\end{equation}
+	where the function $\Phi$ correspond to an Hookean interaction potential:
+	\begin{equation}
+	\Phi^{ST}(x)=\frac{\nucST}{\nudST}\frac{\KST}{2}
+	 \begin{cases}
+	  (|x|-R)^2, \quad \text{for } |x|\leq R\\
+	  0, \quad \text{for } |x|> R
+	 \end{cases}
+	\end{equation}
+	The logistic growth involve both cells of population $A$ and $B$ in the same way. The coefficient $f^*$ is the carrying capacity of the environment.
