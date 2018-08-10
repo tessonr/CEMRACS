@@ -1,5 +1,47 @@
 \section{Stability analysis}
 
+In this section we perform a linear stability analysis of macroscopic model with logistic term.
+We will linearize around the homogeneous states, i.e. we consider the constant steady states $\bfA$ and $\bfB$ which satisfy:
+	\begin{equation}
+\begin{cases}
+\p_t f^{A}-  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) - \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B) - D_A \Delta_x f^A - \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0 \\
+
+\p_t f^{B}-  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B)) - \nabla \cdot (f^B \nabla_x \Phi^{BA}*f^A) - D_A \Delta_x f^A - \nu^{A}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0
+\end{cases}
+\end{equation}
+
+Since $\bfA,\bfB$ do not depend on time and space, all derivative terms are zero and it leads us to following equations:
+$$
+\begin{cases}
+	\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0 \\
+	\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0
+\end{cases}
+$$
+The first equation is satisfied either when $\bfA=0$ or $f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0$ and the second one is satisfied by $\bfB=0$ or $f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0$. In this case we obtain the following relation:  
+$$ \bfA+\bfB=f^* $$
+which means that, at the homogeneous states, we have reached the maximum carrying capacity. 
+We perform a stability analysis, using perturbation term and Fourier transform, in order to understand if a possible perturbation can have effects on our model and it corresponds to the appearance of some clusters. \\
+We obtain the following system:
+\begin{align}
+\p_t \begin{pmatrix} \hat{f}^A \\ \hat{f}^B
+\end{pmatrix}(y,t)=
+\end{align}
+\begin{align}
+\begin{pmatrix} -|y|^2(2\pi\bfA\hPAA(y)+D_A)-\nu_{b}^A\frac{\bfA}{f^*} & -|y|^22\pi\bfA\hPAB(y)-\nu_{b}^A\frac{\bfA}{f^*} \\ 
+-|y|^2\bfB\hPBA(y)-\nu_{b}^B\frac{\bfB}{f^*} & -|y|^2(2\pi\bfB\hPBB(y)+D_B)-\nu_{b}^B\frac{\bfB}{f^*} 
+\end{pmatrix}
+\begin{pmatrix} \hat{f}^A \\ \hat{f}^B
+\end{pmatrix}(y,t)
+\end{align}
+\begin{align}
+=M(y)\begin{pmatrix} \hat{f}^A \\ \hat{f}^B
+\end{pmatrix}(y,t)
+\end{align}
+This is a linear ODE system, hence its solution is:
+$$
+\begin{pmatrix} \hat{f}^A \\ \hat{f}^B
+\end{pmatrix}(y,t)=c_1(y)exp^{\la_1(y)t}u_1(y)+c_2(y)exp^{\la_2(y)t}u_2(y).
+$$
 We want to compare the critical value of model with logistic term and without it. We are interested in instability  that implies the appearance of cell aggregates.
 \begin{equation}
 s^{*}_{\nu_b,\nu_d \ne 0}=\frac{(24 D_A+c'^{AA})\nu_{b}^{B}\bar{f}^{B}+(24 D_B+c'^{BB})\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}\bar{f}^B\tilde{c}'^{AB}+\nu_{b}^{A}\bar{f}^A\tilde{c}'^{BA}}
@@ -37,6 +79,11 @@ $\Delta=4\eps^2 \g^2 + 4 \g \b \d^2 -4 \g \d \a \eps = 4\eps^2(24D_A \nu_b^B f^*
 \begin{equation}
 \bfA=\frac{f^*(D_A \nu_b^B \pm \sqrt{D_A D_B \nu_b^B \nu_b^A})}{D_A \nu_b^B -\nu_b^A D_B}.
 \end{equation}
+
+
+
+
+
 
 
 
