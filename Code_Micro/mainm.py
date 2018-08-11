@@ -43,31 +43,31 @@ NA = 250
 NB = 250
 mu = 10.
 
-# betaA = 1e-3
-# deltaA = 7e-4
-# betaB = 1e-3
-# deltaB = 7e-4
+betaA = 1e-3
+deltaA = 7e-4
+betaB = 1e-3
+deltaB = 7e-4
+
+b0A = 1e-4
+d0A = 7e-5
+b0B = 1e-4
+d0B = 7e-5
+
+thA = 8e-5
+thB = 8e-5
+
+# betaA = 0.
+# deltaA = 0.
+# betaB = 0.
+# deltaB = 0.
 #
-# b0A = 1e-3
-# d0A = 7e-4
-# b0B = 1e-3
-# d0B = 7e-4
+# b0A = 0.
+# d0A = 0.
+# b0B = 0.
+# d0B = 0.
 #
-# thA = 8e-4
-# thB = 8e-4
-
-betaA = 0.
-deltaA = 0.
-betaB = 0.
-deltaB = 0.
-
-b0A = 0.
-d0A = 0.
-b0B = 0.
-d0B = 0.
-
-thA = 0.
-thB = 0.
+# thA = 0.
+# thB = 0.
 
 Nstar = 20
 
@@ -81,7 +81,7 @@ L = 7.5
 # X[1,:]=np.reshape(y,(M))
 
 dt = 0.1
-T = 8000.
+T = 2000.
 Nt = int(T / dt)
 
 # Initial condition
@@ -173,7 +173,8 @@ def update(iframe):
     ppp.set_data(XBmem[iframe][0], XBmem[iframe][1])
     plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
 
-    plt.title('t= ' + str(round(tps, 2)))
+    plt.title('blue $N_A$= '+str(XAmem[iframe].shape[1])+' -- red $N_B$= '
+              +str(XBmem[iframe].shape[1])+' -- t= ' + str(round(tps, 2)), fontweight='bold')
     if tps > Nt*dt:
         tps = 0
     else:
@@ -184,8 +185,8 @@ def update(iframe):
 anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
 plt.show()
 
-Writer=animation.FFMpegWriter(fps=20)
-anim.save("test_cell.avi",writer=Writer)
+Writer = animation.FFMpegWriter(fps=20)
+anim.save("test_cell_Cas1A_decreaseBD.avi", writer=Writer)
 
 
 
