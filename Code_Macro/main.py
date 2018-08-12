@@ -14,10 +14,10 @@ from matplotlib import colors
 
 # Parameters for the model
 
-KAA=2.
-KAB=1.
-KBA=1.
-KBB=2.
+KAA=0.1
+KAB=8.
+KBA=8.
+KBB=0.1
 
 nuAAc=1.
 nuABc=1.
@@ -59,7 +59,7 @@ X[1,:]=np.reshape(y,(M))
 deltat=1e-2
 tt=0.
 tps=np.arange(0,1,1)
-T=500.
+T=100.
 
 # parameter for the CFL
 pCFL=0.9
