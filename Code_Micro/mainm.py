@@ -68,7 +68,7 @@ L = 7.5
 # X[1,:]=np.reshape(y,(M))
 
 dt = 0.1
-T = 1000
+T = 100
 Nt = int(T / dt)
 
 # Initial condition
@@ -100,8 +100,8 @@ for i in range(Nt):
     BB = bw.brownian(DB, NB)
     WB = pt.potential(NB, NA, argsBB, argsBA, XB, XA, i, mu, R, L)
 
-    XAnew = XA + dt * (WA + BA)
-    XBnew = XB + dt * (WB + BB)
+    XAnew = XA + dt * WA + np.sqrt(dt) * BA
+    XBnew = XB + dt * WB + np.sqrt(dt) * BB
 
     # boundary conditions
 
