@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 # Model parameters 
 
 KAA=2.
-KAB=2.
+KAB=1.
 KBA=2.
-KBB=1.
+KBB=2.
 K=[KAA,KAB,KBA,KBB]
 
 nuAAc=1.

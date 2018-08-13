@@ -10,8 +10,8 @@ import matplotlib.animation as animation
 # Parameters for the model
 
 KAA = 2.
-KAB = 1.
-KBA = 1.
+KAB = 8.
+KBA = 8.
 KBB = 2.
 
 nuAAc = 1.
@@ -28,44 +28,31 @@ R = 1.
 R0 = 2.
 r = 0.5
 
-nuAb = 2e-3
-nuAd = 1e-3
-nuA = 1e-3
-
-nuBb = 2e-3
-nuBd = 1e-3
-nuB = 1e-3
-
 DA = 1e-4
 DB = 1e-4
 
-NA = 250
-NB = 250
-mu = 10.
+NA = 50
+NB = 50
+mu = 1.
 
-betaA = 1e-3
-deltaA = 7e-4
-betaB = 1e-3
-deltaB = 7e-4
-
-b0A = 1e-4
-d0A = 7e-5
-b0B = 1e-4
-d0B = 7e-5
-
-thA = 8e-5
-thB = 8e-5
-
-# betaA = 0.
-# deltaA = 0.
-# betaB = 0.
-# deltaB = 0.
+# betaA = 1e-3
+# deltaA = 7e-4
+# betaB = 1e-3
+# deltaB = 7e-4
 #
+b0A = 1e-3
+d0A = 1e-5
+b0B = 1e-3
+d0B = 1e-5
+
+thA = 8e-4
+thB = 8e-4
+
 # b0A = 0.
 # d0A = 0.
 # b0B = 0.
 # d0B = 0.
-#
+# 
 # thA = 0.
 # thB = 0.
 
@@ -81,7 +68,7 @@ L = 7.5
 # X[1,:]=np.reshape(y,(M))
 
 dt = 0.1
-T = 2000.
+T = 1000
 Nt = int(T / dt)
 
 # Initial condition
@@ -97,7 +84,7 @@ XBmem = [XB0]
 # Time scheme
 
 for i in range(Nt):
-    print(i)
+    print(i*dt)
     time_start = time.clock()
 
     # second membre
@@ -153,6 +140,28 @@ for i in range(Nt):
 # plt.colorbar()
 # plt.show()
 
+
+plt.figure(0)
+pp=plt.plot(XA0[0], XA0[1])
+plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
+
+ppp=plt.plot(XB0[0], XB0[1])
+plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
+
+plt.title('t= ' + str(0)+", NA="+str(50)+", NA="+str(50))
+plt.show()
+
+plt.figure(1)
+pp=plt.plot(XA[0], XA[1])
+plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
+
+ppp=plt.plot(XB[0], XB[1])
+plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
+
+plt.title('t= ' + str(T)+", NA="+str(NA)+", NA="+str(NA))
+plt.show()
+
+
 fig = plt.figure(2)
 t = np.arange(0., T, dt)
 # axis = fig.add_subplot(111, xlim=(-L, L), ylim=(-L, L))
@@ -173,8 +182,7 @@ def update(iframe):
     ppp.set_data(XBmem[iframe][0], XBmem[iframe][1])
     plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
 
-    plt.title('blue $N_A$= '+str(XAmem[iframe].shape[1])+' -- red $N_B$= '
-              +str(XBmem[iframe].shape[1])+' -- t= ' + str(round(tps, 2)), fontweight='bold')
+    plt.title('t= ' + str(round(tps, 2)))
     if tps > Nt*dt:
         tps = 0
     else:
@@ -182,17 +190,14 @@ def update(iframe):
     return pp, ppp
 
 
-anim = animation.FuncAnimation(fig, update, frames=t.size, interval=1, repeat=True)
+anim = animation.FuncAnimation(fig, update, frames=t.size, interval=0.1, repeat=True)
 plt.show()
 
-Writer = animation.FFMpegWriter(fps=20)
-anim.save("test_cell_Cas1A_decreaseBD.avi", writer=Writer)
+# Writer=animation.FFMpegWriter(fps=20)
+# anim.save("test_cell.mp4",writer=Writer)
 
-
-
-
-
-
+# Writer=animation.AVConvWriter(fps=20)
+# anim.save("test_cell_bis.avi",writer=Writer)
 
 
 
