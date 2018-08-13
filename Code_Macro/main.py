@@ -250,4 +250,9 @@ plt.imshow(np.reshape(f,  (Ny, Nx)), origin='lower', aspect='auto', extent=[-L, 
 plt.title('$f$ at t= '+ str(round(tt,2)));
 plt.colorbar()
 
+plt.figure(5)
+cmap = plt.get_cmap("Spectral_r")
+plt.imshow(np.abs(np.reshape(fA,  (Ny, Nx))-np.reshape(fB,  (Ny, Nx))), origin='lower', aspect='auto', extent=[-L, L, -L, L],interpolation='spline16', cmap=cmap)
+plt.title('$|f_A - f_B|$ at t= '+ str(round(tt,2)));
+plt.colorbar()
 plt.show()
