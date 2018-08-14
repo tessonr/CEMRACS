@@ -16,7 +16,7 @@ def potential(NS,NT,args1,args2,XS,XT,i,mu,R,L):
         normT=np.linalg.norm(YT,axis=0)
         W[:,i]=W[:,i]-mu/NS*np.sum(gph.gradphiST(YS[:,normS<R],*args1),axis=1)-mu/NT*np.sum(gph.gradphiST(YT[:,normT<R],*args2),axis=1)
         if (x<-L+R):
-            YS=np.delete(np.matmul(np.reshape(XS[:,i],(2,1)),V1)-XS-Vx@V1,i,axis=1)
+            YS=np.delete(np.matmul(np.reshape(XS[:,i],(2,1)),V1)-XS-np.matmul(Vx,V1),i,axis=1)
             YT=np.matmul(np.reshape(XS[:,i],(2,1)),np.ones((1,XT.shape[1])))-XT-np.matmul(Vx,V2)
             normS=np.linalg.norm(YS,axis=0)
             normT=np.linalg.norm(YT,axis=0)
