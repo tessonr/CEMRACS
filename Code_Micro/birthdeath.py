@@ -35,7 +35,7 @@ def bdrate(XS, XT, R0, b0, d0, thS, Nstar, L):
 
         Npop = np.sum(normS < R0) + np.sum(normT < R0)
         if (x < -L + R0):
-            YS = np.matmul(np.reshape(XS[:, i], (2, 1)) , V1) - XS - Vx @ V1
+            YS = np.matmul(np.reshape(XS[:, i], (2, 1)) , V1) - XS - np.matmul(Vx , V1)
             YT = np.matmul(np.reshape(XS[:, i], (2, 1)) , np.ones((1, XT.shape[1]))) - XT - np.matmul(Vx , V2)
             normS = np.linalg.norm(YS, axis=0)
             normT = np.linalg.norm(YT, axis=0)
