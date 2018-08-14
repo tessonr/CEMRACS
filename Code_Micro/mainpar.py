@@ -110,13 +110,13 @@ def test_process(index):
     NB = 250
     mu = 1.
     
-    b0A = nuAb
-    d0A = nuAb/10.
-    b0B = nuBb
-    d0B = nuBb/10.
+    b0A = nuAb*logi
+    d0A = nuAb/10.*logi
+    b0B = nuBb*logi
+    d0B = nuBb/10.*logi
     
-    thA = nuAb*0.75
-    thB = nuBb*0.75
+    thA = nuAb*0.75*logi
+    thB = nuBb*0.75*logi
     
     # b0A = 0.
     # d0A = 0.
@@ -212,5 +212,5 @@ def test_process(index):
 if __name__=="__main__":
     cpus=os.cpu_count()
     p=Pool(cpus)
-    p.map(test_process,[])
+    p.map(test_process,[8,9])
 
