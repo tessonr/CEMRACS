@@ -108,19 +108,7 @@ for i in range(Nt):
 
     XAnew = XA + dt * WA + np.sqrt(dt) * BA
     XBnew = XB + dt * WB + np.sqrt(dt) * BB
-
-    # boundary conditions
-
-    XAnew[0, XAnew[0, :] > L] = XAnew[0, XAnew[0, :] > L] - 2 * L
-    XAnew[0, XAnew[0, :] < -L] = XAnew[0, XAnew[0, :] < -L] + 2 * L
-    XAnew[1, XAnew[1, :] > L] = XAnew[1, XAnew[1, :] > L] - 2 * L
-    XAnew[1, XAnew[1, :] < -L] = XAnew[1, XAnew[1, :] < -L] + 2 * L
-
-    XBnew[0, XBnew[0, :] > L] = XBnew[0, XBnew[0, :] > L] - 2 * L
-    XBnew[0, XBnew[0, :] < -L] = XBnew[0, XBnew[0, :] < -L] + 2 * L
-    XBnew[1, XBnew[1, :] > L] = XBnew[1, XBnew[1, :] > L] - 2 * L
-    XBnew[1, XBnew[1, :] < -L] = XBnew[1, XBnew[1, :] < -L] + 2 * L
-
+    
     # birth and death
 
     [betaA, deltaA] = bd.bdrate(XAnew, XBnew, R0, b0A, d0A, thA, Nstar, L)
@@ -133,6 +121,18 @@ for i in range(Nt):
 
     XAnew = bd.birthdeath(XAnew, betaA, deltaA, r)
     XBnew = bd.birthdeath(XBnew, betaB, deltaB, r)
+    
+    # boundary conditions
+
+    XAnew[0, XAnew[0, :] > L] = XAnew[0, XAnew[0, :] > L] - 2 * L
+    XAnew[0, XAnew[0, :] < -L] = XAnew[0, XAnew[0, :] < -L] + 2 * L
+    XAnew[1, XAnew[1, :] > L] = XAnew[1, XAnew[1, :] > L] - 2 * L
+    XAnew[1, XAnew[1, :] < -L] = XAnew[1, XAnew[1, :] < -L] + 2 * L
+
+    XBnew[0, XBnew[0, :] > L] = XBnew[0, XBnew[0, :] > L] - 2 * L
+    XBnew[0, XBnew[0, :] < -L] = XBnew[0, XBnew[0, :] < -L] + 2 * L
+    XBnew[1, XBnew[1, :] > L] = XBnew[1, XBnew[1, :] > L] - 2 * L
+    XBnew[1, XBnew[1, :] < -L] = XBnew[1, XBnew[1, :] < -L] + 2 * L
 
     # updating
     XA = XAnew
