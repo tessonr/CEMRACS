@@ -6,6 +6,7 @@ import potential as pt
 import birthdeath as bd
 import time
 import matplotlib.animation as animation
+import index as ind
 
 # Parameters for the model
 
@@ -25,14 +26,14 @@ nuBAd = 1.
 nuBBd = 1.
 
 R = 1.
-R0 = 2.
+R0 = 1.
 r = 0.5
 
 DA = 1e-4
 DB = 1e-4
 
-NA = 50
-NB = 50
+NA = 250
+NB = 250
 mu = 1.
 
 # betaA = 1e-3
@@ -56,7 +57,7 @@ thB = 8e-4
 # thA = 0.
 # thB = 0.
 
-Nstar = 20
+Nstar = 15
 
 # Parameters for the scheme
 
@@ -81,6 +82,9 @@ XB = XB0
 XAmem = [XA0]
 XBmem = [XB0]
 
+[firstindexA,vectcellA]=ind.upindex(XA,R,L)
+[firstindexB,vectcellB]=ind.upindex(XB,R,L)
+
 # Time scheme
 
 for i in range(Nt):
@@ -92,13 +96,15 @@ for i in range(Nt):
     argsAA = (KAA, nuAAc, nuAAd, R)
     argsAB = (KAB, nuABc, nuABd, R)
     BA = bw.brownian(DA, NA)
-    WA = pt.potential(NA, NB, argsAA, argsAB, XA, XB, i, mu, R, L)
+    # WA = pt.potential(NA, NB, argsAA, argsAB, XA, XB, i, mu, R, L)
+    WA = pt.potential_index(NA, NB, argsAA, argsAB, XA, XB, firstindexA, vectcellA, firstindexB, vectcellB, i, mu, R, L)
 
     # for B
     argsBB = (KBB, nuBBc, nuBBd, R)
     argsBA = (KBA, nuBAc, nuBAd, R)
     BB = bw.brownian(DB, NB)
-    WB = pt.potential(NB, NA, argsBB, argsBA, XB, XA, i, mu, R, L)
+    # WB = pt.potential(NB, NA, argsBB, argsBA, XB, XA, i, mu, R, L)
+    WB = pt.potential_index(NB, NA, argsBB, argsBA, XB, XA, firstindexB, vectcellB, firstindexA, vectcellA, i, mu, R, L)
 
     XAnew = XA + dt * WA + np.sqrt(dt) * BA
     XBnew = XB + dt * WB + np.sqrt(dt) * BB
@@ -119,6 +125,11 @@ for i in range(Nt):
 
     [betaA, deltaA] = bd.bdrate(XAnew, XBnew, R0, b0A, d0A, thA, Nstar, L)
     [betaB, deltaB] = bd.bdrate(XBnew, XAnew, R0, b0B, d0B, thB, Nstar, L)
+    
+    betaA=dt*betaA
+    deltaA=dt*deltaA
+    betaB=dt*betaB
+    deltaB=dt*deltaB
 
     XAnew = bd.birthdeath(XAnew, betaA, deltaA, r)
     XBnew = bd.birthdeath(XBnew, betaB, deltaB, r)
@@ -133,6 +144,9 @@ for i in range(Nt):
 
     XAmem.append(XA)
     XBmem.append(XB)
+    
+    [firstindexA,vectcellA]=ind.upindex(XA,R,L)
+    [firstindexB,vectcellB]=ind.upindex(XB,R,L)
 
 #
 # plt.plot(XA0[0,:],XA0[1,:],"o")
