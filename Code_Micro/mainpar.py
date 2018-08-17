@@ -13,73 +13,73 @@ def test_process(index):
     
     if index==0:
         s=1.7
-        nuAb=1e-5
-        nuBb=1e-4
+        nuAb=1e-4
+        nuBb=1e-3
         logi=1
     if index==1:
         s=1.7
-        nuAb=1e-5
-        nuBb=1e-4
+        nuAb=1e-4
+        nuBb=1e-3
         logi=0
     if index==2:
         s=1.51
-        nuAb=5e-5
-        nuBb=1e-4
+        nuAb=5e-4
+        nuBb=1e-3
         logi=1
     if index==3:
         s=1.51
-        nuAb=5e-5
-        nuBb=1e-4
+        nuAb=5e-4
+        nuBb=1e-3
         logi=0
     if index==4:
         s=1.43
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=1
     if index==5:
         s=1.43
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=0
     if index==6:
         s=1.
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=1
     if index==7:
         s=1.
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=0
     if index==8:
         s=2.
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=1
     if index==9:
         s=2.
-        nuAb=1e-4
-        nuBb=1e-4
+        nuAb=1e-3
+        nuBb=1e-3
         logi=0
     if index==10:
         s=1.35
-        nuAb=1e-4
-        nuBb=5e-5
+        nuAb=1e-3
+        nuBb=5e-4
         logi=1
     if index==11:
         s=1.35
-        nuAb=1e-4
-        nuBb=5e-5
+        nuAb=1e-3
+        nuBb=5e-4
         logi=0
     if index==12:
         s=1.3
-        nuAb=1e-4
-        nuBb=1e-5
+        nuAb=1e-3
+        nuBb=1e-4
         logi=1
     if index==13:
         s=1.3
-        nuAb=1e-4
-        nuBb=1e-5
+        nuAb=1e-3
+        nuBb=1e-4
         logi=0
     
     # Parameters for the model
@@ -138,7 +138,7 @@ def test_process(index):
     # X[1,:]=np.reshape(y,(M))
     
     dt = 0.1
-    T = 100
+    T = 4000.
     Nt = int(T / dt)
     
     # Initial condition
@@ -189,6 +189,11 @@ def test_process(index):
     
         [betaA, deltaA] = bd.bdrate(XAnew, XBnew, R0, b0A, d0A, thA, Nstar, L)
         [betaB, deltaB] = bd.bdrate(XBnew, XAnew, R0, b0B, d0B, thB, Nstar, L)
+        
+        betaA=dt*betaA
+        deltaA=dt*deltaA
+        betaB=dt*betaB
+        deltaB=dt*deltaB
     
         XAnew = bd.birthdeath(XAnew, betaA, deltaA, r)
         XBnew = bd.birthdeath(XBnew, betaB, deltaB, r)
@@ -204,13 +209,13 @@ def test_process(index):
         XAmem.append(XA)
         XBmem.append(XB)
     
-    np.save('results_case_'+str(index),[XAmem,XBmem])
-
+    np.savez('results_A_case_'+str(index),*XAmem)
+    np.savez('results_B_case_'+str(index),*XBmem)
 
 
 
 if __name__=="__main__":
     cpus=os.cpu_count()
     p=Pool(cpus)
-    p.map(test_process,[8,9])
+    p.map(test_process,[0,1,2,3,4,5,6,7,8,9,10,11,12,13])
 
