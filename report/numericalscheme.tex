@@ -61,6 +61,18 @@ The time discretization of the equations is done with an Euler scheme. The diffu
 \end{equation}
 %  $$(LO)^{n}=-\frac{F^{x,n}_{j+\frac{1}{2},k}-F^{x,n}_{j-\frac{1}{2},k}}{\Delta x}-\frac{F^{y,n}_{j,k+\frac{1}{2}}-F^{y,n}_{j,k-\frac{1}{2}}}{\Delta y}.	$$
 \subsection{Microscopic model}
+We perform numerical simulations on a $2D$ domain as in [cit] $[-L, L]\times[-L,L]=[-7.5,7.5]^2$ with periodic boundary conditions. We set diffusion constants $D_A=D_B=10^{-4}$ and investigate different values of inter- and intra- species intensities such as $\ka^{AA}, \ka^{BB}, \ka^{AB}=s\tilde{\ka}^{AB},  \ka^{BA}=s\tilde{\ka}^{BA}.$ For each equation of system \eqref{micro} we have the following time discretization:
+
+\begin{equation}
+X_i^{n+1}=X_i^{n}-\mu\nabla_{X_i} W(X^n)\Delta t^n+\sqrt{2D \Delta t^n}\mathcal{N}(0,1)
+\end{equation}
+ $\mathcal{N}(0,1)$ is the normal distribution with mean 0 and standard
+deviation 1. \\
+By the addition of logistic growth term in the model, the number of particles $N_A, N_B$ changes at each time step. Daughter cells are supposed to born at distance $r$ from 'parent' cells that divide themselves. In our model we set $r=0.5$.
+
+%% R related to link term (repulsion)
+%% R0 related to logistic term (distance for birth and death)
+%% r related to distance between parents and daughter cells
 
 % logistic term
 \begin{equation}

@@ -6,7 +6,7 @@ We will linearize around the homogeneous states, i.e. we consider the constant s
 \begin{cases}
 \p_t f^{A}-  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A)) - \nabla \cdot (f^A \nabla_x \Phi^{AB}*f^B) - D_A \Delta_x f^A - \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0 \\
 
-\p_t f^{B}-  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B)) - \nabla \cdot (f^B \nabla_x \Phi^{BA}*f^A) - D_A \Delta_x f^A - \nu^{A}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0
+\p_t f^{B}-  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B)) - \nabla \cdot (f^B \nabla_x \Phi^{BA}*f^A) - D_A \Delta_x f^A - \nu^{B}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)=0
 \end{cases}
 \end{equation}
 
@@ -42,19 +42,26 @@ $$
 \begin{pmatrix} \hat{f}^A \\ \hat{f}^B
 \end{pmatrix}(y,t)=c_1(y)exp^{\la_1(y)t}u_1(y)+c_2(y)exp^{\la_2(y)t}u_2(y).
 $$
-We want to compare the critical value of model with logistic term and without it. We are interested in instability  that implies the appearance of cell aggregates.
+where $\la_1(y), \la_2(y)$ are the eigenvalues of the matrix and $u_1(y),u_2(y)$ the corrisponding eigenvectors. 
+In general case, the constant steady state will be stable only if the eigenvalues of the matrix $M(y)$ are both negative, otherwise it will be unstable if the eigenvalues have different signs. Since we know that $det(M(y))=\la_1 \cdot \la_2$ and $tr(M(y))=\la_1+\la_2$, then we can consider different possibilities.
+The determinant of $M(y)$ is:
+\begin{align}
+det(M(y))=|y|^4 \left[ (\bfA 2\pi \hPAA +D_A)(\bfB 2\pi \hPBB +D_B) - \bfA \bfB 4 \pi^2 \hPAB \hPBA \right] + \\
++|y|^4 \left[ \nu_b^B \frac{\bfB}{f^{*}}(\bfA 2\pi \hPAA + D_A -\bfA 2\pi \hPAB) - \nu_b^A \frac{\bfA}{f^{*}}(\bfB 2\pi \hPBB + D_B -\bfB 2\pi \hPBA)   \right].
+\end{align}
+We find the critical value of model with logistic term and without it and we compare them. We are interested in instability that implies the appearance of cell aggregates. In the case of model with logistic term we have:
 \begin{equation}
 s^{*}_{\nu_b,\nu_d \ne 0}=\frac{(24 D_A+c'^{AA})\nu_{b}^{B}\bar{f}^{B}+(24 D_B+c'^{BB})\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}\bar{f}^B\tilde{c}'^{AB}+\nu_{b}^{A}\bar{f}^A\tilde{c}'^{BA}}
 \end{equation}
 
 with $\bar{f}^A$ and $\bar{f}^B$ constant steady states, not necessarily equal and 
 $c'^{ST}=\frac{2\pi k^{ST} \bfA \nu_c^{ST} R^{4}}{\nu_d^{ST}}$, $S,T \in \{ A,B \}$.
-
+As did in [cit], we introduce a parameter $s\in \mathbb{R}$ to scale the interspecies potential intensities such that $\ka^{ST}=s\tilde{\ka}^{ST} $. 
 We define $c'^{AA}=k_1 \bfA, c'^{BB}=k_2\bfB, c'^{AB}=k_3\bfA, c'^{BA}=k_4\bfB$.
-By $\bar{f}^B=f^*-\bar{f}^A$ we rewrite the following $s^*$:
+By $\bar{f}^B=f^*-\bar{f}^A$ we rewrite the following $s^*_{L}$:
 
 \begin{equation}
-s^{*}_{\nu_b,\nu_d \ne 0}=\frac{(24 D_A+k_1\bfA)\nu_{b}^{B}(f^*-\bfA)+(24 D_B+k_2(f^*-\bfA))\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}(f^*-\bfA)k_3\bfA+\nu_{b}^{A}\bar{f}^Ak_4(f^*-\bfA)}
+s^{*}_{L}=\frac{(24 D_A+k_1\bfA)\nu_{b}^{B}(f^*-\bfA)+(24 D_B+k_2(f^*-\bfA))\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}(f^*-\bfA)k_3\bfA+\nu_{b}^{A}\bar{f}^Ak_4(f^*-\bfA)}
 \end{equation}
 
 To simplify notation, we take into account the following function depending on $\bfA$ and its derivative :
@@ -92,6 +99,35 @@ and
 
 
 
+With regard to model without logistic term, we obtain the following critical value:
+$$ s^{*}_{C}= \left[\frac{576}{\tilde{c}'^{AB} \tilde{c}'^{BA}} \left( D_A+\frac{c'^{AA}}{24} \right) \left(D_B+\frac{c'^{BB}}{24} \right) \right]^{\frac{1}{2}} $$
 
+We simplify notation as already done taking:
+\begin{align}
+\a=24D_Bk_3-24D_Ak_4+k_3k_4f^{*}, \quad \b=k_3k_4, \quad \g=576D_AD_B+24D_Ak_4f^{*}, \\
+\d=k_1k_2f^{*}, \quad \eps=k_1k_2.
+\end{align}
+             
+Then, we obtain: 
+$$ s^{*}_c=F(\bfA)=\left[\frac{\g +\a \bfA - \b (\bfA)^2}{\d \bfA-\eps(\bfA)^2} \right]^{\frac{1}{2}},  \quad \frac{\p F(\bfA)}{\p \bfA}=\frac{1}{2} \frac{(\bfA)^{2}(\eps \a-\d\b)+2\eps\g\bfA-\d\g}{(\g+\a \bfA-\b(\bfA)^2)^{1/2} (\d\bfA-\eps(\bfA)^2)^{3/2} }.  $$
+We want to find the point that minimizes this function, i.e $\frac{\p F(\bfA)}{\p \bfA}=0$. 
+\begin{remark}
+	Also in this case we find the following relation: $\frac{\d}{\eps}=f^{*}$ and we consider $\bar{f}^B=f^*-\bar{f}^A$.
+\end{remark}
+We get:
+$\bfA= \frac{-2\eps \g \pm \sqrt{\Delta}}{2(\eps \a-\d\b)}=\frac{-2\eps \g \pm \sqrt{\Delta}}{2\eps (\a-f^{*}\b)}.$
 
+After additional simplifications we can write:
+\begin{equation}
+\bfA=\frac{-(24 D_AD_B+D_Ak_4f^{*}) \pm \sqrt{\Delta'}}{D_Bk_3-D_Ak_4}  
+\end{equation}
+
+with $\Delta'=(24D_AD_B+D_Ak_4f^{*})^2+24D_AD_B^{2}k_3f^{*}-24D_A^2D_Bk_4f^{*}+D_A D_B k_3 k_4(f^{*})^{2}-D_A^{2} k_4^2 (f^{*})^2.  $
+
+Both critical values $s^{*}_C, s^{*}_L$ are markers of instability and we perform some simulations to compare them.
+
+\begin{itemize}
+	\item case $s^{*}_{C}<s^*_{L}$. If $s< s^{*}_{c}$ we should observe stability for both model, if $s \in (s^{*}_C, s^{*}_L)$ we should observe instability for model and no aggregates for with logistic one. In the case of $s>s^{*}_{L}$ we expect instability and cell aggregates for both models. 
+	\item case $s^{*}_{C}>s^*_{L}$. We should observe the opposite behavior compared to the prevoius one and instability for logistic model and no aggregates for the other one when  $s \in (s^{*}_L, s^{*}_C)$.
+\end{itemize}
 
