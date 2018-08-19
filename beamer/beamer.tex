@@ -157,7 +157,7 @@ Cell segregation and border sharpening in two-species systems
 \section{Mathematical Model}
 \begin{frame}
 \frametitle{Microscopic framework}
-\Fontvi
+\Fontvii
 Individual Based Model for particles interacting through repulsion interactions:
 \begin{equation}
 	\begin{cases}
@@ -172,7 +172,7 @@ where $\mu>0$ is the mobility coefficient and $B_i$ is a 2-dimensional Brownian 
 
 \begin{frame}
 \frametitle{Macroscopic framework}
-\Fontvi
+\Fontvii
 	\begin{equation}
 \begin{cases}
 \p_t f^{A}=  \nabla \cdot \underbrace{(f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B))}_{interaction \ potential} + \underbrace{ D_A \Delta_x f^A}_{diffusion} + \underbrace{ \textcolor{red}{\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)}}_{logistic \ term} \\
@@ -180,7 +180,8 @@ where $\mu>0$ is the mobility coefficient and $B_i$ is a 2-dimensional Brownian 
 \p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_A \Delta_x f^A + \textcolor{red}{\nu^{B}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)}
 \end{cases}
 \end{equation}
-with  $f^{S}(x,t)$ particle distributions of type S that give the probability to find a particle of type S at a point $x$ and time $t$, $S \in \{ A,B \}$.
+with  $f^{S}(x,t)$ particle distributions of type S that give the probability to find a particle of type S at a point $x$ and time $t$, $S \in \{ A,B \}$. \\
+ $f^*$: carrying capacity, it represents the maximum popolation size that can be present in the environment.
 
 \end{frame}
 
@@ -205,7 +206,7 @@ We suppose that the homo-heterotypic species links act as a springs of rest leng
 		0, \quad \text{for } |x|> R
 		\end{cases}
 		$$
-			
+		with $\nu_{c}^{ST},\nu_{d}^{ST}$ Poisson processes frequencies and $\ka^{ST}$ interaction intensity.
 		}
 	\end{tabular}  \\
 \end{tabular}
@@ -245,6 +246,7 @@ Linearization around constant steady states $\bfA, \bfB$ and Fourier transform:
 The constant steady states will be unstable if:
 \begin{itemize}
 	\item 
+	\item 
 \end{itemize}
 
 \end{frame}
@@ -257,16 +259,40 @@ The constant steady states will be unstable if:
 	\begin{column}{.48\textwidth}
 		\color{orange}\rule{\linewidth}{4pt}
 		
-		Left Part
+		Logistic growth model
 	\end{column}%
 	\hfill%
 	\begin{column}{.48\textwidth}
 		\color{blue}\rule{\linewidth}{4pt}
 		
-		Right Part
+		No logistic model
 	\end{column}%
 \end{columns}
 \end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Numerical simulations}
+\begin{columns}[T] % align columns
+	\begin{column}{.48\textwidth}
+		\color{orange}\rule{\linewidth}{4pt}
+		
+		Micro
+	\end{column}%
+	\hfill%
+	\begin{column}{.48\textwidth}
+		\color{blue}\rule{\linewidth}{4pt}
+		
+		Macro
+	\end{column}%
+\end{columns}
+\end{frame}
+
+
+
+
 
 %\section{Any questions?}
 %\begin{frame}
@@ -275,6 +301,7 @@ The constant steady states will be unstable if:
 %%\includegraphics[scale=.2,keepaspectratio]{}
 %%\end{figure}
 %\end{frame}
+
 
 
 
