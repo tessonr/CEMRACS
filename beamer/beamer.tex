@@ -13,7 +13,7 @@
 \usepackage{tikz}
 \usepackage{bm} % per avere formule in grassetto
 %\usepackage[dvips]{graphicx}
-\usepackage{xcolor} % formule o testo a colori
+%\usepackage{xcolor} % formule o testo a colori
 \usepackage{indentfirst}
 \usepackage{fancyhdr}
 \usepackage{fancybox}
@@ -28,6 +28,9 @@
 \usepackage{enumerate}
 \usepackage{subfigure}
 
+% to define colors
+
+\definecolor{remivert}{RGB}{0,160,0}
 
 %--------NEWCOMMAND----
 
@@ -59,6 +62,11 @@
 \def \hPBB {{\hat{\Phi}^{BB}}}
 \def \hPAB {{\hat{\Phi}^{AB}}}
 \def \hPBA {{\hat{\Phi}^{BA}}}
+
+\def \PAA {{\Phi^{AA}}}
+\def \PBB {{\Phi^{BB}}}
+\def \PAB {{\Phi^{AB}}}
+\def \PBA {{\Phi^{BA}}}
 
 %-- shortcuts for operators in macro model
 \def \Linkop {{\mathcal{L}}}
@@ -133,30 +141,71 @@
 
 \section{Introduction}
 \begin{frame}
+\Fontvii
 \frametitle{Biological context}
-Cell segregation and border sharpening in two-species systems
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=.6,keepaspectratio]{bio_image}
+Cells of the same type can regroup into regions  $\Rightarrow $ spatial organisation. \\
+\textbf{Cell segregation} and border sharpening in two-species systems:
+\begin{figure}
+\includegraphics[height=2.5cm, width=9.5cm]{bio_paper}
 \end{figure}
-\textbf{Working hypothesis:} inter(heterotypic) and intra(homotypic) species repulsion control cell segregation and border sharpening. They have more influence than inter- or intra- species adhesion. 
 
+\textbf{Working hypothesis:} inter(heterotypic) and intra(homotypic) species repulsion control cell segregation and border sharpening. They have more influence than inter- or intra- species adhesion. 
+ 
 \textbf{Goal:} to understand the mechanisms of morphogenesis.
+
+\begin{figure}[hb]
+	\centering
+	\includegraphics[scale=.45,keepaspectratio]{bio_image}
+\end{figure}
+
 \end{frame}
 
 
 \begin{frame}
-\frametitle{blabla}
+\frametitle{How to model?}
+Several mathematical models and differents approaches have been proposed for cell segregation. 
+
+\vspace{0.5cm}
+\begin{columns}[T] % align columns
+	\begin{column}{.48\textwidth}
+		\color{blue}\rule{\linewidth}{4pt}
+	Microscopic model	
+	\begin{itemize}
+		\item Agent-based models: simplicity and flexibility
+		\item Precision of the modeling
+		\item Link with experimental data \\
+		\vspace{0.5cm}
+		BUT
+		\item Computational expensive
+		\item Theoretically harder
+		
+	\end{itemize}
+		
+	\end{column}%
+	\hfill%
+	\begin{column}{.48\textwidth}
+		\color{blue}\rule{\linewidth}{4pt}
+	Macroscopic model	
+		\begin{itemize}
+		\item Continuous approach $\rightarrow$ analysis tools
+		\item Theoretical framework to link the solutions to the model parameters \\
+			\vspace{0.5cm}
+		BUT
+		\item Loss of info about cell-interactions
+		\item No info about number of clusters size and popolation size
+	\end{itemize}
+		
+	\end{column}%
+\end{columns}
 \end{frame}
-
-
 
 
 \section{Mathematical Model}
 \begin{frame}
 \frametitle{Microscopic framework}
 \Fontvii
-Individual Based Model for particles interacting through repulsion interactions:
+
+\textbf{Individual Based Model} for particles interacting through repulsion interactions:
 \begin{equation}
 	\begin{cases}
 d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \quad \forall i \in\{1, \dots, N_{A}\}
@@ -164,13 +213,101 @@ d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \
 d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\ell}, \quad \forall \l \in \{1, \dots, N_{B}\}
 \end{cases}
 \end{equation}
-where $\mu>0$ is the mobility coefficient and $B_i$ is a 2-dimensional Brownian motion $B_i=(B_i^1,B_i^2)$ of intensity $D_A,D_B>0$ respectively for species A and B.
+\begin{itemize}
+%\item $\mu>0$ is the constant mobility coefficient, 
+\item  $B_i$ is a 2-dimensional Brownian motion $B_i=(B_i^1,B_i^2)$ of intensity $D_A,D_B>0$ respectively for species A and B,
+\item $W^S$ total energy of the S-type particle, $S \in \{ A,B \}$, defined as:  
+
+ $$ W^{A}(X^{A},X^{B})=\underbrace{\sum_{k_1=1}^{K_{AA}} \PAA(X^{A}_{i(k_1)}-X^{A}_{j(k_1)})+
+\sum_{k_3=1}^{K_{AB}} \PAB(X^{A}_{i(k_3)}-X^{B}_{\l(k_3)})}_{sum \ over \ all \ pairwise \ link \ potentials \ acting \ on \ particles \ A},  $$
+
+$$ W^{B}(X^{A},X^{B})=\sum_{k_2=1}^{K_{BB}} \PBB(X^{B}_{\l(k_2)}-X^{B}_{m(k_2)})+
+\sum_{k_3=1}^{K_{AB}} \PBA(X^{B}_{\l(k_3)}-X^{A}_{\l(k_3)}) $$
+%$W^{S}(X^{S},X^{T})=\sum_{i \ne j: |X_i^S-X_j^S|<R} \Phi^{SS}(X_{i}^{S},X_{j}^{s})+ \sum_{i \ne j: |X_i^S-X_j^S|<R}  $
+
+\end{itemize}
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Case: Hookean interaction potential}
+\Fontvii
+We suppose that the homotypic (AA,BB) species links and heterotypic (AB,BA) act as a springs of equilibrium length $R$ between the particles that it is also detection radius  for the interaction.
+
+\begin{tabular}{cl}  
+	\begin{tabular}{c}
+		\includegraphics[height=3cm, width=4cm]{link}
+	\end{tabular}
+	& \begin{tabular}{l}
+		\parbox{0.5\linewidth}{%  change the parbox width as appropriate
+			\textbf{Case of Hookean springs} \\  
+			$$
+			\Phi^{ST}(x)=\frac{\nucST}{\nudST}\frac{\KST}{2}
+			\begin{cases}
+			(|x|-R)^2, \quad \text{for } |x|\leq R\\
+			0, \quad \text{for } |x|> R
+			\end{cases}
+			$$
+			with $\nu_{c}^{ST},\nu_{d}^{ST}$ Poisson processes frequencies and $\ka^{ST}$ interaction/repulsion intensity.
+		}
+	\end{tabular}  \\
+\end{tabular}
+\vspace{0.5cm}
+%Each link is supposed to act as a spring by generating a pairwise potential
+
+\begin{itemize}
+	\item[-] Each particle can link/unlink with its neighbors located in a ball of radius $R$
+	\item[-] Links are not permanent: created and supressed via random processes 
+	\item[-] Linking/unlinking processes are very fast
+\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Additional logistic growth term}
+We add a growth process to the microscopic model as follows:
+
+\begin{itemize}
+	\item  Cell of type $S$ divide into 2 cells with probability $\textcolor{blue}{\beta_S}$ and die with probability $\textcolor{remivert}{\delta_S}$ at each time step.
+	%Each individual can give birth to a new one with a probability $\beta$ or die, with a probability $\alpha$. 
+	\item  Birth and death processes depend on the local density of individuals.
+	\end{itemize}
+\begin{equation}
+\textcolor{blue}{\beta(X_i) = b_0 -(b_0 - \theta)\left(\frac{\mathcal{N}_{0}}{N^{*}}\right)},
+\quad
+\textcolor{remivert}{\delta(X_i) = d_0 + (\theta - d_0) \left(\frac{\mathcal{N}_{0}}{N^{*}}\right)}
+\end{equation}
+
+
+
+
+\textbf{Parameters:}
+\begin{itemize}
+\item $N_{0}=\mathcal{N}_{R_0}(X_i^S)$: number of cell (of both population) at distance $R_0$ of the cell located in $X_i^S$ 
+\item $N^*$ is the maximal number of cell in a radius $R_0$ allowing cell division. 
+\item $\theta$, constant coefficient must be taken in the range $d_{0}^{S}<\theta<b_{0}^{S}$.
+\end{itemize}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Micro macro}
+
+\end{frame}
+
+
+
+
 
 
 \begin{frame}
 \frametitle{Macroscopic framework}
 \Fontvii
+Macroscopic model should provide an approximation of the agent-based model:
 	\begin{equation}
 \begin{cases}
 \p_t f^{A}=  \nabla \cdot \underbrace{(f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B))}_{interaction \ potential} + \underbrace{ D_A \Delta_x f^A}_{diffusion} + \underbrace{ \textcolor{red}{\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)}}_{logistic \ term} \\
@@ -186,37 +323,10 @@ with  $f^{S}(x,t)$ particle distributions of type S that give the probability to
 
 
 
-\begin{frame}
-\frametitle{Macroscopic framework}
-\Fontvii
-We suppose that the homo-heterotypic species links act as a springs of rest length $R$ between the particles that it is also detection radius  for the interaction.
- \begin{tabular}{cl}  
-	\begin{tabular}{c}
-		\includegraphics[height=3cm, width=4cm]{link}
-	\end{tabular}
-	& \begin{tabular}{l}
-		\parbox{0.55\linewidth}{%  change the parbox width as appropriate
-			\textbf{Case of Hookean springs} \\  
-		$$
-		\Phi^{ST}(x)=\frac{\nucST}{\nudST}\frac{\KST}{2}
-		\begin{cases}
-		(|x|-R)^2, \quad \text{for } |x|\leq R\\
-		0, \quad \text{for } |x|> R
-		\end{cases}
-		$$
-		with $\nu_{c}^{ST},\nu_{d}^{ST}$ Poisson processes frequencies and $\ka^{ST}$ interaction intensity.
-		}
-	\end{tabular}  \\
-\end{tabular}
-$$
-pp
-$$		
-\end{frame}
 
 
-\begin{frame}
-\frametitle{blabla}
-\end{frame}
+
+
 
 
 \begin{frame}
@@ -274,13 +384,13 @@ To simplify notation and by $\bar{f}^B=f^*-\bar{f}^A$, we take into account the 
 $$F(\bfA)=\frac{\a \bfA + \b (\bfA)^2 + \g}{\d \bfA + \eps(\bfA)^2}, \quad\quad 
 \frac{\p F(\bfA)}{\p \bfA}=\frac{(\bfA)^2(\b \d-\a \eps)-2\eps \g \bfA - \g\d}{(\d \bfA+\eps (\bfA)^2)^2}$$ 
 with parameters:
-\begin{align}
+$$
 \a= 24D_B \nu_b^A -24 D_A \nu_b^B +k_1 \nu_b^B f^* + k_2 \nu_b^A f^*, \quad
-\b=-k_1 \nu_b^B -k_2 \nu_b^A, \\
-\g= 24 D_A \nu_b^B f^*, \quad 
+\b=-k_1 \nu_b^B -k_2 \nu_b^A, $$
+$$ \g= 24 D_A \nu_b^B f^*, \quad 
 \d= k_3\nu_b^B f^*+k_4 \nu_b^A f^*, \quad
 \eps= -\nu_b^B k_3-	\nu_b^A k_4.
-\end{align}
+$$
 \end{frame}
 
 
@@ -291,7 +401,7 @@ with parameters:
 \Fontv
 \begin{columns}[T] % align columns
 	\begin{column}{.50\textwidth}
-		\color{orange}\rule{\linewidth}{2pt}
+		\color{blue}\rule{\linewidth}{2pt}
 		Logistic growth model
 		$$s_{L}^{*}=\frac{(24 D_A+c'^{AA})\nu_{b}^{B}\bar{f}^{B}+(24 D_B+c'^{BB})\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}\bar{f}^B\tilde{c}'^{AB}+\nu_{b}^{A}\bar{f}^A\tilde{c}'^{BA}}, $$
 		$$F(\bfA)=\frac{\a \bfA + \b (\bfA)^2 + \g}{\d \bfA + \eps(\bfA)^2}, $$
