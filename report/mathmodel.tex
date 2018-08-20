@@ -1,9 +1,258 @@
 \section{Mathematical model}
-The starting point for this work is the model previously proposed in \textbf{Citation}. The authors describe two families of particles referred to as type A and tyoe B and it is assumed that the cell population not depends on time, then  $N_A, N_B$ number of particles are fixed. In this section we want to introduce and to investigate a simple modification of the model, i.e. the effect of cell division on the model. We will introduce and analyze the model with logistic growth term that take into account birth and death cells.
+In this section, we begin by describing the microscopic model introduced in [citation] for a cell population belonging to the same species. Then, after adding a mechanism of cell division to this microscopic model, we will study its convergence towards a macroscopic model. Finally, we will apply the same process to the case of two species of cells.
+	\subsection{The one species logistic model: microscopic and macroscopic}
+	\subsubsection{from microscopic to macroscopic without growth}
+	\begin{paragraph}{Introduction to the microscopic model}
+	In this section we introduce the model presented in [citation]. The model describes the interactions between spherical particles of a system of $N$ particles in which each particle is identified by their position $X_i$ . The  particles which are located at the positions $X_i$ and $X_j$ can be linked through a Poisson process with probability $\nu_{f}^{N}$ if their distance is less than a given radius of interaction $R$. And the created links can be destroyed with a probability $\nu_{d}^{N}$. The probabilities $\nu_{f}^{N}$ and $\nu_{d}^{N}$ depends on the number particles in the whole system ($N$).
+	 the interactions between the particles are subject to a pairwise potential:
+	 \begin{equation}
+	 V(X_i, X_j) = U(\vert X_i - X_j \vert)
+	 \end{equation}
+Therefore, between two linking or unlinking events, the equation of motion for each particle is: 
+	\begin{equation}
+	d X_i = -\mu \nabla_{X_i} W dt + \sqrt{2D}d B_i, \quad i = 1, \ldots ,N.
+	\end{equation}
+where, $W$ denotes the energy related the potential of interaction $V$ exerted by linked neighboring particles,
+	$$ W = \sum_{k=1}^{K} V(X_{i(k)}, X_j(k)),$$
+with $i(k), j(k)$ indexing particles connected by a link $k$. $\mu$ is a positive mobility coefficient and the positive coefficient $D$ is the diffusion coefficient related to a 2-dimensional Brownian motion $B_i = (B_i^1, B_i^2)$.
+	\end{paragraph}
+	\begin{paragraph}{Derivation of the macroscopic model}
+	The macroscopic model is derived in two steps, first, the limit of large number of individuals and links leading to the derivation of a kinetic model describing the evolution of the particles and the links density distributions (when the ratio between the number of links and the number of particles is finite at the limit), respectively:  
+	$$ f_N(x,t) = \dfrac{1}{N} \sum_{i=1}^{N} \delta_{X_i}(x);$$
+and 
+    $$ g_K(x_1,x_2,t) = \dfrac{1}{2K} \sum_{k=1}^{K} \delta_{X_i(k), X_j(k)}(x_1, x_2) + \delta_{X_j(k), X_i(k)}(x_1, x_2);$$
+where the symbol $ \delta_{X_i}(x)$ is the Dirac delta centred at $X_i(t)$. And second, a large scale or fast network remodelling limit, denoted $\varepsilon \rightarrow 0$.
 
-	\subsection{Microscopic model}
-	For the microscopic model, we start from the model presented in \textbf{citation}, using the same dynamics. The equation of motion for each individual particle in the so-called overdamped regime, between two linking/unlinking events is:
-	\begin{equation}\label{micro}
+\begin{theo}(J. Barré et al. [citation])
+	the kinetic system resulting from the large number of individuals and links limit as $N, K \rightarrow \infty$ provided that 
+$$ \lim_{K, N \rightarrow \infty} \dfrac{K}{N} = \xi > 0$$	
+is:
+	\begin{equation}
+	\begin{array}{l}
+	\p_t f(x,t)  = D \Delta_x f(x,t) + 2\mu\xi \nabla_x \cdot F(x,t),\\
+	\p_t \gxy =  D (\Delta_{x_1} \gxy  + \Delta_{x_2} \gxy)  \\
+	+ 2\mu\xi \left( \nabla_{x_1} \cdot \left( \dfrac{\gxy}{f(x_1)} F(x_1, t)\right) + \nabla_{x_2} \cdot \left( \dfrac{\gxy}{f(x_2)} F(x_2, t)\right) \right) \\
+	+ \dfrac{\nu_f}{2 \xi} h(x_1, x_2, t) \chi _{\vert x_1 - x_2 \vert \leq R} - \nu_d \gxy,
+	\end{array}
+	\end{equation}
+	where 
+	$$ F(x,t) = \int \gxy \nabla_{x_1} V(x,y) dy,$$
+	$$ \hNxy = \dfrac{1}{N(N-1)} \sum_{i\neq j} \delta_{X_i(t), X_j(t)}(x_1,x_2), \text{the number of pair of particles}$$
+	and 
+	$$f(x,t) = \lim_{N \rightarrow \infty} f^{N}(x,t),\quad \gxy = \lim_{K \rightarrow \infty} \gKxy, \quad \hxy = \lim_{K \rightarrow \infty} \hNxy, $$
+	$$ \nu_f = \lim_{N \rightarrow \infty} \nu_f^N (N-1), \quad \nu_d = \lim_{N \rightarrow \infty} \nu_d^{N}. $$
+\end{theo}
+and in the large scale limit, we have the following proposition: 
+\begin{prop}(J. Barré et al. [citation])
+Assuming that time and space are defined such that $\mu = 1$ and $D = 1$ and assuming that the scaled particle pairs distribution $h_{\varepsilon}(x_1, x_2) = f_{\varepsilon}(x_1)f_{\varepsilon}(x_2)$, with $\varepsilon << 1$ the macroscopic scaling parameter, and that $V(X_i, X_j) = U(\vert X_i - X_j \vert)$, then provided the following limits exist 
+$$ f := \lim_{\varepsilon \rightarrow 0} f_{\varepsilon}, g := \lim_{\varepsilon \rightarrow 0} g_{\varepsilon} $$
+they formally satisfy 
+\begin{equation}
+	\begin{array}{l}
+	\p_t f(x,t)  = \Delta_x f(x,t) + \dfrac{\nu_f}{\nu_d} \nabla_x \cdot (f(t,x) \nabla_x \cdot (\title{V} \star f)(t,x)),\\
+	g(x,y,t) = \dfrac{\nu_f}{2 \xi \nu_d}  f(x,t)f(y,t) \chi_{\vert x- y \vert \leq R,}
+	\end{array}
+	\end{equation}
+form some compactly supported potential $\tilde{V}$ such that : 
+$$ \nabla_i \tilde{V}(x) = U' (\vert x \vert) \chi_{\vert x \vert \leq R} \vec{e_i}, \quad i=1, 2 $$
+\end{prop}
+We refer to [citation] for the details of the proofs.
+\end{paragraph}
+
+\subsubsection{From microscopic to macroscopic with spatial logistic growth}
+In this section, we add a growth process to the microscopic model. thus, we assume that each individual can give birth to a new one with a probability $\beta$ or die, with a probability $\alpha$. To introduce the spatial logistic effect at the microscopic scale, we assume that the birth and death processes depend on the local density of individuals. Therefore, 
+\begin{equation}
+\beta(X_i) = b_0 -(b_0 - \theta)\left(\frac{\mathcal{N}_{R_0}(X_i)}{N^{*}}\right)
+\end{equation}
+
+\begin{equation}
+\alpha(X_i) = d_0 + (\theta - d_0) \left(\frac{\mathcal{N}_{R_0}(X_i)}{N^{*}}\right)
+\end{equation}
+where $b_0$ and $d_0$ are respectively the intrinsic birth rate and death rate of an individual, $\mathcal{N}_{R_0}(X_i)$ is the number of particles in a radius $R_0$ around the particle $X_i$, $N^{*}$ is the carrying capacity of the ball of radius $R_0$ and the parameter $\theta$ is the turnover, which is equal to birth and death probabilities when the population reaches its local population carrying capacity ($N^{*}$), it must be taken in the range $d_{0}<\theta<b_{0}$. 
+we should bear in mind that, the probability of giving birth or dying within a small of time step  $\tau$ is respectively:
+\begin{equation}
+\tau \beta(X_i)  \text{ or } \tau \alpha(X_i)
+\end{equation}
+
+\begin{paragraph}{Derivation of the macroscopic model}
+The main difficulty in the derivation of the macroscopic model is the fact that the number of individuals varies due to the growth process. Therefore to deal with this problem, we will introduce a tool for studying stochastically evolving populations. In this paragraph, we will follow slightly the formulation used in [citation]
+
+\begin{paragraph}{Fock space and population dynamics}
+\begin{itemize}
+	\item At a time t, we identify the population by the number of cells, $k$, and a vector, $X_k$, which contains the positions of all the $k$ cells: 
+	\begin{equation}
+		X_k := \left[ x_1, x_2, \ldots, x_k \right] 
+	\end{equation}	  
+    \item The Fock space is a probability space describing all the possible states of the particle system. It has a measure of probability which we will denote by $\Pr_k(X_k, t)$. This probability distribution is defined such that, $\Pr_k(X_k, t)dX_k$ is the probability of having $k$ individuals at time t with each particle in a volume $dx_i$, $i= 1, \ldots, k$
+    \item Normalization condition:
+    \begin{equation}
+       \sum_{k=0}^{\infty} \int \Pr_k(X_k, t) dX_k = 1.
+    \end{equation}
+	\item Permutation symmetry property:
+	for all permutation $\sigma \in \{1, \ldots, k\}$
+	\begin{equation}
+	\label{permutationSymmetry}
+	\Pr_k(x_1, \ldots,  x_k, t) = \Pr_k(x_ {\sigma(1)}, \ldots, x_{\sigma(k)}, t)
+	\end{equation}
+	\item Expectation in the Fock space: 
+	 A function $C_k$ defined on the Fock space is a collection : 
+	 $$ \{ C_k(X_k) \}_{k=0, \ldots, \infty} $$
+	 and,
+	 \begin{equation}
+	 \label{expectationFormulae}
+	 	\langle C \rangle = \sum_{k=0}^{\infty} \int C_k(X_k) \Pr_k(X_k, t) dX_k
+	 \end{equation}	  
+\end{itemize}
+\end{paragraph}
+
+\begin{paragraph}{Reduced distribution functions}
+The number cells in a volume $\mathcal{V}$ in system of $k$ particles is by definition: 
+$$ C_k = \sum_{p=1}^{k} \chi_{\mathcal{V}}(x_p)$$
+let us denote by $N$ this quantity. Using \eqref{expectationFormulae}, we get: 
+\begin{equation}
+\langle N \rangle =  \sum_{k=0}^{\infty} \int \sum_{p=1}^{k} \chi_{\mathcal{V}}(x_p) \Pr_k(X_k, t) dX_k
+\end{equation}
+ Using the permutation symmetry property \eqref{permutationSymmetry}, we get: 
+ %--\begin{equation}
+ \begin{align}
+	 \langle N \rangle & = \sum_{k=1}^{\infty} k \int  \chi_{\mathcal{V}}(x_1) \Pr_k(X_k, t) dX_k, \\[5pt]
+	 & =  \int \chi(x_1) f^{(1)}(x_1, t)dx_1 .
+	\end{align}
+%-- \end{equation}  
+where 
+\begin{equation}
+\label{firstReducedFunction}
+f^{(1)}(x,t) =  \sum_{k=1}^{\infty} k \int \Pr_k(x, X_{k-1}, t)dX_{k-1},
+\end{equation}
+is the concentration or \textbf{density of cells}, 
+\begin{equation}
+f^{(1)}(x,t) = \langle \sum_{p=1}{k} \delta(x-x_p)\rangle .
+\end{equation}
+We can also deduce the \textbf{density of pairs of (different) individuals}, $f^{(2)}(x,y,t)$ by computing $\langle N^2 - N \rangle$, where $N^2$ is defined by: 
+$$ N^2 =  \sum_{p=1}^{k} \sum_{q=1}^{k} \chi(x_p) \chi(x_q) $$
+we get: 
+\begin{equation}
+	\langle N^2 - N \rangle = \int \int f^{(2)}(x, y, t) \chi(x)\chi(y) dxdy,
+\end{equation}
+where: 
+\begin{equation}
+f^{(2)}(x,y,t) = \sum_{k=2}^{\infty} k(k-1) \int \Pr_k(x, y, X_{k-2}, t)dX_{k-2}
+\end{equation} 
+we can also write on the form: 
+\begin{equation}
+f^{(2)}(x,y,t) = \langle \sum_{\substack{p, q=1 \\ p \neq q}}^{k} \delta(x - x_p) \delta(y - x_q) \rangle.
+\end{equation} 
+Finally we can deduce a general expression of those distributions:
+\begin{equation}
+f^{(s)}(X_s,t) = \sum_{k=s}^{\infty} \dfrac{k!}{(k-s)!} \int \Pr_k(X_s, X_{k-s},t)dX_{k-s}.
+\end{equation}
+\end{paragraph}
+
+\begin{paragraph}{A master equation for the probability evolution}
+To construct a master equation for the evolution of the (unreduced) probability density $\Pr_k(X_k,t)$, we shall model the evolution of the particles as a one step Markov process. 
+we denote by $\W_k(X_k, t+\tau \vert X_k^{'},t)$, the transition probability from a state $X_k^{'}$ with $k$ particles to another state with $X_k$ particles due to the particles motion. Therefore the master equation can be constructed as follow:
+\begin{align}
+\label{masterEquation}
+\Pr_k(X_k, t+\tau) &= \int \W_k(X_k, t+\tau \vert X_k^{'},t)\Pr_k( X_k^{'},t)d X_k^{'} \nonumber \\ 
+&+ \tau \sum_{i=1}^{k-1}\beta(X_i) \Bo \Pr_{k-1} - \tau \left[ \sum_{i=1}^{k} (\beta(X_i) + \alpha(X_i)) \right] \Pr_k(X_k,t) \\ 
+&+ \tau \int \sum_{k=1}^{k+1} \beta(X_i) \Pr_{k+1}(X_{k+1}, t)dx_i \nonumber
+\end{align}
+Where the first term of the right hand side is, 
+$$ A = \int \W_k(X_k, t+\tau \vert X_k^{'},t)\Pr_k( X_k^{'},t)d X_k^{'}$$
+is the probability of being in state $X_k$ at time $t+\tau$, expressed in term of the transition probability $\W_k$ and the marginal probability $\Pr_k$, the second term: 
+$$B = \tau \sum_{i=1}^{k-1}\beta(X_i) \Bo \Pr_{k-1},$$ 
+is the production of individuals due to birth in a configuration with $k-1$ cells. The term $\Bo \Pr_{k-1}$ is an operator, describing the birth, it has been called "The Birth Operator" in [Citation]. It is expressed as follows: 
+\begin{equation}
+\label{birthOperator}
+Bo \Pr_{k-1} = \dfrac{2}{k(k-1)} \sum \sum_{1 \leq p < q \leq k} \delta_{pq} \Pr_{k-1} (X_{k|p},t) 
+\end{equation}
+where $X_{k|p}$ is the collection $X_k$ with $x_p$ deleted. the normalization  factor $\dfrac{2}{k(k-1)}$ ensures that
+\begin{equation}
+\int Bo \Pr_{k-1} dX_k = \int \Pr_{k-1} dX_{k-1}
+\end{equation}
+so that the probability is conserved. The third term:
+$$C=  \tau \left[ \sum_{i=1}^{k} (\beta(X_i) + \alpha(X_i)) \right] \Pr_k(X_k,t)$$
+is the probability of losing an individual in a configuration of $k$ individuals due to birth and death processes. And the final term:
+$$D = \tau \int \sum_{k=1}^{k+1} \beta(X_i) \Pr_{k+1}(X_{k+1}, t)dx_i$$ 
+is the probability of death in a configuration of $k+1$ individuals passing the system to a configuration with $k$ individuals.
+
+\begin{paragraph}{The transition probability $\W_k(X_k, t+\tau \vert X_k^{'},t)$}
+We can rewrite $\W_k$ on the form: 
+\begin{equation}
+\label{transtionExpression}
+\W_k(X_k, t+\tau \vert X_k^{'},t) = \int \delta (Y_k - X_k) \W_k(Y_k, t+\tau \vert X_k^{'},t) d Y_k
+\end{equation}
+A Taylor series expansion at $Y_k = X_k$ of the $\delta$ function (we refer to R.Estrada et al. 1993) has the form:  
+\begin{align*}
+\delta(Y_k - X_k) &= \delta(X^{'}_k -X_k + Y_k - X^{'}_k) \nonumber \\
+ & = \sum_{n_1=0}^{\infty} \ldots \sum_{n_k=0}^{\infty} \dfrac{\prod_{p=1}^{k} (y_p - x'_p)^{n_p}}{\prod_{p=1}^{k}n_p!} \left(\dfrac{\p^{\sum_{p=1}^{k}n_p}}{\p x_1^{' n_{1}} \ldots \p x_k^{' n_{k}}} \delta(X'_k - X_k) \right) \nonumber \\
+ & = \sum_{n_1=0}^{\infty} \ldots \sum_{n_k=0}^{\infty}  \left( \dfrac{(-\p)^{\sum_{p=1}^{k}n_p}}{\p x_1^{n_{1}} \ldots \p x_k^{n_{k}}} \dfrac{\prod_{p=1}^{k} (y_p - x'_p)^{n_p}}{\prod_{p=1}^{k}n_p!} \delta(X'_k - X_k) \right) 
+\end{align*} 
+on the last line, we use the fact that $\dfrac{\p}{\p x_p} \delta(X'_k - X_k) = -\dfrac{\p}{\p x_p} \delta (X'_k - X_k) $. Finally, we obtain: 
+\begin{equation}
+\label{diracTaylor}
+\delta(Y_k - X_k) = \left[1 + \sum_{n_1=1}^{\infty} \ldots \sum_{n_k=1}^{\infty}  \left( \dfrac{(-\p)^{\sum_{p=1}^{k}n_p}}{\p x_1^{n_{1}} \ldots \p x_k^{n_{k}}} \dfrac{\prod_{p=1}^{k} (y_p - x'_p)^{n_p}}{\prod_{p=1}^{k}n_p!} \right] \delta(X'_k - X_k)
+\end{equation}
+In conclusion, by inserting \eqref{diracTaylor} into  \eqref{transtionExpression} the transition probability is expressed as follows:
+\begin{equation}
+\label{transitionProbality}
+\W_k(X_k, t+\tau \vert X_k^{'},t) = \left[1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert} \p^{\alpha} \int \dfrac{1}{\alpha !}(Y_k - X'_k)^{\alpha} \W_k(Y_k, t+\tau \vert X_k^{'},t)dY_k \right] \delta(X'_k - X_k).
+\end{equation}
+Where $\alpha$ is the multi-index; $(n_1, \ldots, n_k)$ with $\vert alpha \vert = \sum_{p=1}^{k}n_p $.
+Assuming that $\vert \alpha \vert$th order moment $\mathcal{M}^{\vert \alpha \vert}$ exist, we can rewrite \eqref{transitionProbality} on the form: 
+\begin{equation}
+\label{transitionProbalityWithMoment}
+\W_k(X_k, t+\tau \vert X_k^{'},t) = \left[1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert} \dfrac{1}{\alpha !} \p^{\alpha}  \mathcal{M}^{\vert \alpha \vert} (X_k,t,\tau) \right] \delta(X'_k - X_k).
+\end{equation}
+Where : 
+\begin{equation}
+\label{moments}
+\mathcal{M}^{\vert \alpha \vert} (X_k,t,\tau) = \int (Y_k - X'_k)^{\alpha} \W_k(Y_k, t+\tau \vert X_k^{'},t)dY_k.
+\end{equation}
+Indeed those moments can be expressed on the form: 
+\begin{equation}
+\mathcal{M}^{\vert \alpha \vert} (X_k,t,\tau)  = \langle \left[ \xi(t+\tau) - \xi(t) \right]^{\alpha} \rangle |_{\xi(t)=X'_k}. 
+\end{equation}
+Expanding the moments for small $\tau$
+\begin{equation}
+\label{KramerMoyal}
+\dfrac{\mathcal{M}^{\vert \alpha \vert} (X_k,t,\tau) }{\alpha!} = D^{\vert \alpha \vert} (X_k, t)\tau + O(\tau^2),
+\end{equation}
+where the coefficients $D^{(\alpha)}$ are the so-called Kramers-Moyal expansion coefficients with:
+\begin{equation}
+D^{\vert \alpha \vert} (X_k, t) = \dfrac{1}{\alpha !} \lim_{\tau \rightarrow 0} \dfrac{1}{\tau} \langle (\xi(t+\tau) - X_k)^{\alpha} \rangle \vert_{\xi(t)=X_k}.
+\end{equation}
+
+\begin{paragraph}{the resulting Master Equation}
+By inserting \eqref{KramerMoyal} and \eqref{transitionProbalityWithMoment} into the term $A$, we obtain: 
+\begin{equation}
+A = \left[ 1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert}  \p^{\alpha} \left(D^{\vert \alpha \vert} (X_k, t) \tau + O(\tau^2) \right) \right] \Pr_k(X_k,t).
+\end{equation}
+The Master Equation now takes the form: 
+
+\begin{align}
+\label{masterEquation}
+\Pr_k(X_k, t+\tau) &= \left[ 1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert}  \p^{\alpha} \left(D^{\vert \alpha \vert} (X_k, t) \tau + O(\tau^2) \right) \right] \Pr_k(X_k,t) \nonumber \\ 
+&+ \tau \sum_{i=1}^{k-1}\beta(X_i) \Bo \Pr_{k-1} - \tau \left[ \sum_{i=1}^{k} (\beta(X_i) + \alpha(X_i)) \right] \Pr_k(X_k,t) \\ 
+&+ \tau \int \sum_{k=1}^{k+1} \beta(X_i) \Pr_{k+1}(X_{k+1}, t)dx_i \nonumber
+\end{align}
+
+\end{paragraph}
+
+\end{paragraph}
+
+\end{paragraph}
+
+\begin{paragraph}{The reduced equation on $f^{(1)}(x,t)$}
+Using the definition \eqref{firstReducedFunction}, We can deduce the reduced equation on $f^{(1)}(x,t)$ by summing and integrating the master equation
+\end{paragraph}
+
+\end{paragraph}
+
+
+\subsection{The two species microscopic model}
+	For the microscopic model, we start from the model presented in \textbf{citation}, using the same dynamics for each individuals.
+	\begin{equation}
 	\begin{cases}
 	d X_i^{A}=-\mu \nabla_{X_{i}^{A}}W^{A}(X^{A},X^{B})dt + \sqrt{2D_{A}} d B_{i}, \quad \forall i \in\{1, \dots, N_{A}\}
 	\\
@@ -13,7 +262,7 @@ The starting point for this work is the model previously proposed in \textbf{Cit
 	with $W^A(X^A,X^B)$ and $W^B(X^A,X^B)$ total energy of A-particles and B-particles defined as the sum over all pairwise link potentials acting respectively on particles A and on particles B. \\
 	The main change in the model is to introduce a cell birth and death process. Our modeling is based on the birth and death process proposed in \textbf{citation}. The idea is that a cell of population of type $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die at each time step. This probability depends on the population size. Here we add also a spatial dependence to the probability rate:
 
-	
+
 %	-------
 %The main change on the model is to introduce a cell birth and death process. We base the modelisation of the birth and death process on the one proposed in \textbf{citation}. The idea is that at each time step, a cell of population $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die. The probability depend on the size of the population. Here we add also a spatial dependencie for the probability rate:
 %   ----------
