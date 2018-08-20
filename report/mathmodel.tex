@@ -191,7 +191,7 @@ A Taylor series expansion at $Y_k = X_k$ of the $\delta$ function (we refer to R
 on the last line, we use the fact that $\dfrac{\p}{\p x_p} \delta(X'_k - X_k) = -\dfrac{\p}{\p x_p} \delta (X'_k - X_k) $. Finally, we obtain: 
 \begin{equation}
 \label{diracTaylor}
-\delta(Y_k - X_k) = \left[1 + \sum_{n_1=1}^{\infty} \ldots \sum_{n_k=1}^{\infty}  \left( \dfrac{(-\p)^{\sum_{p=1}^{k}n_p}}{\p x_1^{n_{1}} \ldots \p x_k^{n_{k}}} \dfrac{\prod_{p=1}^{k} (y_p - x'_p)^{n_p}}{\prod_{p=1}^{k}n_p!} \right] \delta(X'_k - X_k)
+\delta(Y_k - X_k) = \left[1 + \sum_{n_1=1}^{\infty} \ldots \sum_{n_k=1}^{\infty}   \dfrac{(-\p)^{\sum_{p=1}^{k}n_p}}{\p x_1^{n_{1}} \ldots \p x_k^{n_{k}}} \dfrac{\prod_{p=1}^{k} (y_p - x'_p)^{n_p}}{\prod_{p=1}^{k}n_p!} \right] \delta(X'_k - X_k)
 \end{equation}
 In conclusion, by inserting \eqref{diracTaylor} into  \eqref{transtionExpression} the transition probability is expressed as follows:
 \begin{equation}
@@ -231,7 +231,7 @@ A = \left[ 1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert}  \p^{\alph
 The Master Equation now takes the form: 
 
 \begin{align}
-\label{masterEquation}
+\label{masterEquation1}
 \Pr_k(X_k, t+\tau) &= \left[ 1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert}  \p^{\alpha} \left(D^{\vert \alpha \vert} (X_k, t) \tau + O(\tau^2) \right) \right] \Pr_k(X_k,t) \nonumber \\ 
 &+ \tau \sum_{i=1}^{k-1}\beta(X_i) \Bo \Pr_{k-1} - \tau \left[ \sum_{i=1}^{k} (\beta(X_i) + \alpha(X_i)) \right] \Pr_k(X_k,t) \\ 
 &+ \tau \int \sum_{k=1}^{k+1} \beta(X_i) \Pr_{k+1}(X_{k+1}, t)dx_i \nonumber
@@ -259,13 +259,7 @@ Using the definition \eqref{firstReducedFunction}, We can deduce the reduced equ
 	d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\l}, \quad \forall \l \in \{1, \dots, N_{B}\}
 	\end{cases}
 	\end{equation}
-	with $W^A(X^A,X^B)$ and $W^B(X^A,X^B)$ total energy of A-particles and B-particles defined as the sum over all pairwise link potentials acting respectively on particles A and on particles B. \\
-	The main change in the model is to introduce a cell birth and death process. Our modeling is based on the birth and death process proposed in \textbf{citation}. The idea is that a cell of population of type $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die at each time step. This probability depends on the population size. Here we add also a spatial dependence to the probability rate:
-
-
-%	-------
-%The main change on the model is to introduce a cell birth and death process. We base the modelisation of the birth and death process on the one proposed in \textbf{citation}. The idea is that at each time step, a cell of population $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die. The probability depend on the size of the population. Here we add also a spatial dependencie for the probability rate:
-%   ----------
+	The main change on the model is to introduce a cell birth and death process. We base the modelisation of the birth and death process on the one proposed in \textbf{citation}. The idea is that at each time step, a cell of population $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die. The probability depend on the size of the population. Here we add also a spatial dependencie for the probability rate:
 	\begin{equation}
 \beta_{S}(X_i^S)=b_{0}^{S}-(b_{0}^{S}-\theta_{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right), \quad\quad \delta_{S}(X_i^S)=d_{0}^{S}+(\theta_{S}-d_{0}^{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right)
 \end{equation}
@@ -279,7 +273,7 @@ Using the definition \eqref{firstReducedFunction}, We can deduce the reduced equ
 		\begin{cases}
 	\p_t f^{A}=  \nabla \cdot (f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B)) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right) \\
 	
-	\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_A \Delta_x f^A + \nu^{B}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)
+	\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_A \Delta_x f^A + \nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)
 		\end{cases}
 	\end{equation}
 	where the function $\Phi$ correspond to an Hookean interaction potential:
@@ -290,5 +284,4 @@ Using the definition \eqref{firstReducedFunction}, We can deduce the reduced equ
 	  0, \quad \text{for } |x|> R
 	 \end{cases}
 	\end{equation}
-	with  $\ka^{ST}$ intra- and inter-species repulsion intesities already included in function.
-	The logistic growth involve both cells of population $A$ and $B$ in the same way. The coefficient $f^*$ called the carrying capacity represents the maximum popolation size that can be present in the environment.
+	The logistic growth involve both cells of population $A$ and $B$ in the same way. The coefficient $f^*$ is the carrying capacity of the environment.
