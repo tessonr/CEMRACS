@@ -1,5 +1,5 @@
 \section{Mathematical model}
-In this section, we begin by describing the microscopic model introduced in [citation] for a cell population belonging to the same species. Then, after adding a mechanism of cell division to this microscopic model, we will study its convergence towards a macroscopic model. Finally, we will apply the same process to the case of two species of cells.
+In this section, we begin by describing the microscopic model introduced in [citation] for a cell population belonging to the same species. Then, after adding a mechanism of cell division to this microscopic model, we  study its convergence towards a macroscopic model. Finally, we apply the same process to the case of two species of cells.
 	\subsection{The one species logistic model: microscopic and macroscopic}
 	\subsubsection{from microscopic to macroscopic without growth}
 	\begin{paragraph}{Introduction to the microscopic model}
@@ -106,7 +106,7 @@ The main difficulty in the derivation of the macroscopic model is the fact that 
 \end{paragraph}
 
 \begin{paragraph}{Reduced distribution functions}
-The number cells in a volume $\mathcal{V}$ in system of $k$ particles is by definition: 
+The number of  cells in a volume $\mathcal{V}$ in system of $k$ particles is by definition: 
 $$ C_k = \sum_{p=1}^{k} \chi_{\mathcal{V}}(x_p)$$
 let us denote by $N$ this quantity. Using \eqref{expectationFormulae}, we get: 
 \begin{equation}
@@ -130,7 +130,7 @@ f^{(1)}(x,t) = \langle \sum_{p=1}{k} \delta(x-x_p)\rangle .
 \end{equation}
 We can also deduce the \textbf{density of pairs of (different) individuals}, $f^{(2)}(x,y,t)$ by computing $\langle N^2 - N \rangle$, where $N^2$ is defined by: 
 $$ N^2 =  \sum_{p=1}^{k} \sum_{q=1}^{k} \chi(x_p) \chi(x_q) $$
-we get: 
+proceeding the same as for $\langle N \rangle$ we get: 
 \begin{equation}
 	\langle N^2 - N \rangle = \int \int f^{(2)}(x, y, t) \chi(x)\chi(y) dxdy,
 \end{equation}
@@ -164,7 +164,7 @@ $$B = \tau \sum_{i=1}^{k-1}\beta(X_i) \Bo \Pr_{k-1},$$
 is the production of individuals due to birth in a configuration with $k-1$ cells. The term $\Bo \Pr_{k-1}$ is an operator, describing the birth, it has been called "The Birth Operator" in [Citation]. It is expressed as follows: 
 \begin{equation}
 \label{birthOperator}
-Bo \Pr_{k-1} = \dfrac{2}{k(k-1)} \sum \sum_{1 \leq p < q \leq k} \delta_{pq} \Pr_{k-1} (X_{k|p},t) 
+\Bo \Pr_{k-1} = \dfrac{2}{k(k-1)} \sum \sum_{1 \leq p < q \leq k} \delta_{pq} \Pr_{k-1} (X_{k|p},t) 
 \end{equation}
 where $X_{k|p}$ is the collection $X_k$ with $x_p$ deleted. the normalization  factor $\dfrac{2}{k(k-1)}$ ensures that
 \begin{equation}
