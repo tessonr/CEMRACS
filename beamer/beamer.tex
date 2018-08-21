@@ -131,8 +131,11 @@
   \includegraphics[width=1.5cm,height=1cm,keepaspectratio]{logo_cirm}}
 
 % beamer theme
-\usetheme{Annarbor}
+\usetheme{AnnArbor}
 \usecolortheme{lily}
+
+\newcommand{\highlight}[1]{%
+	\colorbox{yellow}{$\displaystyle#1$}}
 
 \begin{document}
 \begin{frame}
@@ -300,30 +303,26 @@ We add a growth process to the microscopic model as follows:
 
 \begin{frame}
 \frametitle{Micro macro}
+\textcolor{blue}{Microscopic Model}
 
 \end{frame}
 
 \begin{frame}{Form micro to macro}{Fock space}
-\begin{itemize}
-	\item Main difficult the varying size of the cell population
-	\item  Introduction of the Fock Space: 
-	\item Probability space of all the possible states of the particle system
-	$$ X_k := \left[ x_1, x_2, \ldots, x_k \right] $$
+\textcolor{blue}{Main difficulty:} the varying size of the cell population
+\vspace{0.5cm}
+
+\textcolor{blue}{Fock Space:}
+\begin{itemize} 
+	\item Probability space of all the possible states of the particle system $(X_k)_k$
 	$$ \mathbb{P}_k(X_k,t)dX_k = \text{Pr\{k cells, with one cell in }dx_1,\text{ another in } dx_2\text{ etc. \}} $$
 \end{itemize}
-\end{frame}
-
-\begin{frame}{Form micro to macro}{Reduced distribution function}
-\begin{itemize}
-	\item  The density or concentration of cells is define by: 
-	$$ f(x,t) = \langle \sum_{p=1}^{k} \delta(x-x_p)\rangle . $$
-	which becomes
-	$$f(x,t) =  \sum_{k=1}^{\infty} k \int \mathbb{P}_k(x, X_{k-1}, t)dX_{k-1},$$
-	\item  We define a master equation for the Probability  $\mathbb{P}_k(X_{k}, t)$ time evolution: 
-\end{itemize}
+\vspace{0.5cm}
+The density or concentration of cells can then be writen as: 
+	$$ f(x,t) = \sum_{k=1}^{\infty} k \int \mathbb{P}_k(x, X_{k-1}, t)dX_{k-1},$$
 \end{frame}
 
 \begin{frame}{Master Equation}
+We define a \textcolor{blue}{master equation} for the Probability  $\mathbb{P}_k(X_{k}, t)$ time evolution:
 \begin{align*}
 \label{masterEquation}
 \mathbb{P}_k(X_k, t+\tau) &= \int \mathbb{W}_k(X_k, t+\tau \vert X_k^{'},t)\mathbb{P}_k( X_k^{'},t)d X_k^{'} \nonumber \\ 
@@ -331,28 +330,20 @@ We add a growth process to the microscopic model as follows:
 &+ \tau \int \sum_{k=1}^{k+1} \beta(X_i) \mathbb{P}{_k+1}(X_{k+1}, t)dx_i \nonumber
 \end{align*}
 with $\mathbb{W}_k(X_k, t+\tau \vert X_k^{'},t)$ the transition probability from a state $X_k^{'}$ to a state $X_k$ and 
-\begin{equation}
+\begin{equation*}
 \label{birthOperator}
 \mathbb{B} \mathbb{P}_{k-1} = \dfrac{2}{k(k-1)} \sum \sum_{1 \leq p < q \leq k} \delta_{pq} \mathbb{P}_{k-1} (X_{k|p},t) 
-\end{equation}
-\end{frame}
-
-\begin{frame}{Master Equation}
-Using Kramers-Moyal expansion on the term $\int \mathbb{W}_k(X_k, t+\tau \vert X_k^{'},t)\mathbb{P}_k( X_k^{'},t)d X_k^{'}$: 
-\begin{align*}
-\mathbb{P}_k(X_k, t+\tau) &= \left[ 1 + \sum_{\vert \alpha \vert >0} (-1)^{\vert \alpha \vert}  \partial^{\alpha} \left(D^{\vert \alpha \vert} (X_k, t) \tau + O(\tau^2) \right) \right] \mathbb{P}_k(X_k,t) \nonumber \\ 
-&+ \tau \sum_{i=1}^{k-1}\beta(X_i) \mathbb{B} \mathbb{P}_{k-1} - \tau \left[ \sum_{i=1}^{k} (\beta(X_i) + \delta(X_i)) \right] \mathbb{P}_k(X_k,t) \\ 
-&+ \tau \int \sum_{k=1}^{k+1} \beta(X_i) \mathbb{P}_{k+1}(X_{k+1}, t)dx_i. 
-\end{align*}
-\end{frame}
-
-\begin{frame}{Master Equation}
-the coefficients $D^{\vert \alpha \vert}$ are the so-called\textbf{ Kramers-Moyal} expansion coefficients with:
-\begin{equation*}
-D^{\vert \alpha \vert} (X_k, t) = \dfrac{1}{\alpha !} \lim_{\tau \rightarrow 0} \dfrac{1}{\tau} \langle (\xi(t+\tau) - X_k)^{\alpha} \rangle \vert_{\xi(t)=X_k}.
 \end{equation*}
-Using the definition : $$f(x,t) =  \sum_{k=1}^{\infty} k \int \mathbb{P}_k(x, X_{k-1}, t)dX_{k-1},$$
-we can deduce the reduced equation on $f(x,t)$ by summing and integrating the master equation. 
+\end{frame}
+
+\begin{frame}{Master Equation}
+Using a Kramers-Moyal expansion and the definition : $$f(x,t) =  \sum_{k=1}^{\infty} k \int \mathbb{P}_k(x, X_{k-1}, t)dX_{k-1},$$
+we can deduce the \textcolor{blue}{kinetic model} by summing and integrating the master equation.
+\vspace{0.3cm}
+
+To obtain the macroscopic model we perform rescaling of the equations:
+\[\text{blabla}\]
+Taking $\varepsilon\rightarrow0$ allow us to derive the \textcolor{blue}{macroscopic model}.
 \end{frame}
 
 
@@ -420,7 +411,7 @@ The constant steady states will be unstable if:
 \end{itemize}
 \vspace{0.3cm}
 We want to focus on the ratio of homo- and hetero-typic species repulsion. \\
-We introduce a parameter $s\in \mathbb{R}$ s.t.: $\textcolor{blue}{\ka^{ST}=s\tilde{\ka}^{ST}} $
+We introduce a parameter $s\in \mathbb{R}$ s.t.: $\highlight{\ka^{ST}=s\tilde{\ka}^{ST}}$ 
 
 
 
@@ -434,9 +425,6 @@ We introduce a parameter $s\in \mathbb{R}$ s.t.: $\textcolor{blue}{\ka^{ST}=s\ti
 
 \end{frame}
 
-
-\newcommand{\highlight}[1]{%
-	\colorbox{yellow}{$\displaystyle#1$}}
 
 \begin{frame}
 \frametitle{Analysis of the macroscopic model}
@@ -474,7 +462,7 @@ $$
 \begin{frame}
 \frametitle{Logistic vs. no logistic}
 We compare critical values related to instability:
-
+\vspace{0.3cm}
 \Fontv
 \begin{columns}[T] % align columns
 	\begin{column}{.50\textwidth}
@@ -531,12 +519,12 @@ We compare critical values related to instability:
 %	\includegraphics[width=3.2cm]{sstar_caseI}
 \includegraphics[width=4cm]{sstar_caseII}
 \includegraphics[width=4cm]{sstar_caseIII}
-\includegraphics[width=3.9cm]{caseIVmodi}
+\includegraphics[width=3.6cm]{caseIVmodi}
 
 \end{figure}
 
 
-
+\textcolor{red}{$\rightarrow$ Depending on the parameters logistic growth can either support or repress aggregation}
 
 
 
