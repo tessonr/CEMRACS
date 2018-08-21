@@ -259,7 +259,7 @@ Using the definition \eqref{firstReducedFunction}, We can deduce the reduced equ
 	d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\l}, \quad \forall \l \in \{1, \dots, N_{B}\}
 	\end{cases}
 	\end{equation}
-	The main change on the model is to introduce a cell birth and death process. We base the modelisation of the birth and death process on the one proposed in \textbf{citation}. The idea is that at each time step, a cell of population $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die. The probability depend on the size of the population. Here we add also a spatial dependencie for the probability rate:
+		The main change in the model is to introduce a cell birth and death process. Our modeling is based on the birth and death process proposed in \textbf{citation}. The idea is that a cell of population of type $S$ has a probability $\beta_S$ to divide into two cells and a probability $\delta_S$ to die at each time step. This probability depends on the population size. Here we add also a spatial dependence to the probability rate:
 	\begin{equation}
 \beta_{S}(X_i^S)=b_{0}^{S}-(b_{0}^{S}-\theta_{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right), \quad\quad \delta_{S}(X_i^S)=d_{0}^{S}+(\theta_{S}-d_{0}^{S})\left(\frac{\mathcal{N}_{R_0}(X_i^S)}{N^{*}}\right)
 \end{equation}
