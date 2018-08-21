@@ -169,31 +169,31 @@ Several mathematical models and differents approaches have been proposed for cel
 \begin{columns}[T] % align columns
 	\begin{column}{.48\textwidth}
 		\color{blue}\rule{\linewidth}{4pt}
-	Microscopic model	
-	\begin{itemize}
-		\item Agent-based models: simplicity and flexibility
-		\item Precision of the modeling
-		\item Link with experimental data \\
-		\vspace{0.5cm}
-		BUT
-		\item Computational expensive
-		\item Theoretically harder
+			Macroscopic model	
+		\begin{itemize}
+			\item Continuous approach $\rightarrow$ analysis tools
+			\item Theoretical framework to link the solutions to the model parameters \\
+			\vspace{0.5cm}
+			BUT
+			\item Loss of info about cell-interactions
+			\item No info about number of clusters size and popolation size
+		\end{itemize}
 		
-	\end{itemize}
 		
 	\end{column}%
 	\hfill%
 	\begin{column}{.48\textwidth}
 		\color{blue}\rule{\linewidth}{4pt}
-	Macroscopic model	
-		\begin{itemize}
-		\item Continuous approach $\rightarrow$ analysis tools
-		\item Theoretical framework to link the solutions to the model parameters \\
-			\vspace{0.5cm}
-		BUT
-		\item Loss of info about cell-interactions
-		\item No info about number of clusters size and popolation size
-	\end{itemize}
+	Microscopic model	
+\begin{itemize}
+	\item Agent-based models: simplicity and flexibility
+	\item Precision of the modeling
+	\item Link with experimental data \\
+	\vspace{0.5cm}
+	BUT
+	\item Computational expensive
+	\item Theoretically harder
+\end{itemize}
 		
 	\end{column}%
 \end{columns}
@@ -214,7 +214,7 @@ d X_i^{B}=-\mu \nabla_{X_{\l}^{A}}W^{B}(X^{A},X^{B})dt + \sqrt{2D_{B}} d B_{\ell
 \end{cases}
 \end{equation}
 \begin{itemize}
-%\item $\mu>0$ is the constant mobility coefficient, 
+\item $\mu>0$ is the constant mobility coefficient, 
 \item  $B_i$ is a 2-dimensional Brownian motion $B_i=(B_i^1,B_i^2)$ of intensity $D_A,D_B>0$ respectively for species A and B,
 \item $W^S$ total energy of the S-type particle, $S \in \{ A,B \}$, defined as:  
 
@@ -265,28 +265,30 @@ We suppose that the homotypic (AA,BB) species links and heterotypic (AB,BA) act 
 
 
 \begin{frame}
-\frametitle{Additional logistic growth term}
+\frametitle{Logistic growth term}
+%\Fontvii
 We add a growth process to the microscopic model as follows:
 
 \begin{itemize}
-	\item  Cell of type $S$ divide into 2 cells with probability $\textcolor{blue}{\beta_S}$ and die with probability $\textcolor{remivert}{\delta_S}$ at each time step.
+	\item  Cell of type $S$ divide into 2 cells with probability $\textcolor{blue}{\beta_S}$ and die with probability $\textcolor{remivert}{\delta_S}$ at each time step. $S \in \{ A,B\}$
 	%Each individual can give birth to a new one with a probability $\beta$ or die, with a probability $\alpha$. 
-	\item  Birth and death processes depend on the local density of individuals.
+	\item  Birth and death processes depend on the local density of individuals
+	\item Birth occurs at distance $r$ 
 	\end{itemize}
 \begin{equation}
-\textcolor{blue}{\beta(X_i) = b_0 -(b_0 - \theta)\left(\frac{\mathcal{N}_{0}}{N^{*}}\right)},
+\textcolor{blue}{\beta_{S}(X_i) = b_0^{S} -(b_0^{S} - \theta)\left(\frac{\mathcal{N}_{0}}{N^{*}}\right)},
 \quad
-\textcolor{remivert}{\delta(X_i) = d_0 + (\theta - d_0) \left(\frac{\mathcal{N}_{0}}{N^{*}}\right)}
+\textcolor{remivert}{\delta_{S}(X_i) = d_0^{S} + (\theta - d_0^{S}) \left(\frac{\mathcal{N}_{0}}{N^{*}}\right)}
 \end{equation}
-
-
 
 
 \textbf{Parameters:}
 \begin{itemize}
-\item $N_{0}=\mathcal{N}_{R_0}(X_i^S)$: number of cell (of both population) at distance $R_0$ of the cell located in $X_i^S$ 
+\item $\mathcal{N}_{0}=\mathcal{N}_{R_0}(X_i^S)$: number of cells (of both population) at distance $R_0$ of the cell located in $X_i^S$ 
 \item $N^*$ is the maximal number of cell in a radius $R_0$ allowing cell division. 
-\item $\theta$, constant coefficient must be taken in the range $d_{0}^{S}<\theta<b_{0}^{S}$.
+\item $\theta$, constant coefficient that assures the randomness at the population $N^{*}$.
+%in the range $d_{0}^{S}<\theta<b_{0}^{S}$.
+
 \end{itemize}
 
 
@@ -310,13 +312,18 @@ We add a growth process to the microscopic model as follows:
 Macroscopic model should provide an approximation of the agent-based model:
 	\begin{equation}
 \begin{cases}
-\p_t f^{A}=  \nabla \cdot \underbrace{(f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B))}_{interaction \ potential} + \underbrace{ D_A \Delta_x f^A}_{diffusion} + \underbrace{ \textcolor{red}{\nu^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)}}_{logistic \ term} \\
+\p_t f^{A}=  \nabla \cdot \underbrace{(f^A\nabla_x(\Phi^{AA}* f^A) + f^A \nabla_x( \Phi^{AB}*f^B))}_{interaction \ potential} + \underbrace{ D_A \Delta_x f^A}_{diffusion} + \underbrace{ \textcolor{red}{\nu_{b}^{A}f^A\left( 1-\frac{f^A+f^B}{f^{*}} \right)}}_{logistic \ term} \\
 
-\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_A \Delta_x f^A + \textcolor{red}{\nu^{B}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)}
+\p_t f^{B}=  \nabla \cdot (f^B\nabla_x(\Phi^{BB}* f^B) + f^B \nabla_x (\Phi^{BA}*f^A)) + D_B \Delta_x f^B + \textcolor{red}{\nu_{b}^{B}f^B\left( 1-\frac{f^A+f^B}{f^{*}} \right)}
 \end{cases}
 \end{equation}
-with  $f^{S}(x,t)$ particle distributions of type S that give the probability to find a particle of type S at a point $x$ and time $t$, $S \in \{ A,B \}$. \\
- $f^*$: carrying capacity, it represents the maximum popolation size that can be present in the environment.
+%with  $f^{S}(x,t)$ particle distributions of type S that give the probability to find a particle of type S at a point $x$ and time $t$, $S \in \{ A,B \}$. \\
+\begin{itemize}
+	\item  $f^*$: carrying capacity of the environment
+	\item $\nu_{b}^{A},\nu_{b}^{B}$ growth rates
+	%it represents the maximum population size that can be present in the environment.
+\end{itemize}
+
 
 \end{frame}
 
@@ -455,13 +462,14 @@ plot?
 
 
 
-%\section{Any questions?}
-%\begin{frame}
+\section{Any questions?}
+\begin{frame}
+\frametitle{Thank you!}
 %%\begin{figure}[h]
 %%\centering
 %%\includegraphics[scale=.2,keepaspectratio]{}
 %%\end{figure}
-%\end{frame}
+\end{frame}
 
 
 
