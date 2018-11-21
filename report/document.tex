@@ -1,66 +1,64 @@
-\documentclass[a4paper,10pt]{article}
-%\documentclass[notitlepage]{report}
-%\usepackage[italian]{babel}
-\usepackage[USenglish,british,american,australian,english]{babel}
-\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm,footskip=.25in]{geometry}
-%\usepackage[latin1]{inputenc}
-\usepackage[utf8]{inputenc}
+\documentclass[proc]{edpsmath}
 \usepackage[T1]{fontenc}
-\usepackage{tikz}
-\usepackage{amsmath,amsthm,amsfonts}
-\usepackage{graphicx,subfigure}
-\usepackage{textcomp}
-\usepackage{graphicx}
 
-\usepackage{hyperref} % serve per i riferimenti
-\usepackage{tcolorbox} % box colorati da fare
+% A changer à la fin
+\usepackage{tikz} %nécessaire pour le graphicspath
 \graphicspath{{images/}}
-% more usepackage
+
+% More usepackage : les décommenter si besoin, on les supprimera à la fin sinon
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[USenglish,british,american,australian,english]{babel}
+%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm,footskip=.25in]{geometry}
+%\usepackage[latin1]{inputenc}
 %\usepackage[svgnames]{xcolor}
 %\usepackage{wrapfig}
 %\usepackage{caption}
-%----------------------
 %\usepackage{titling}
+%\usepackage{graphicx}
+%\usepackage{hyperref} % serve per i riferimenti
+%\usepackage{tcolorbox} % box colorati da fare
+%\usepackage{textcomp}
+%\usepackage{graphicx,subfigure}
+%\usepackage{amsmath,amsthm,amsfonts}
+
+
+% Macros
 \newtheorem{theo}{Theorem}[section]
 \newtheorem{cor}{Corollary}[section]
 \newtheorem{lem}{Lemma}[section]
 \newtheorem{prop}{Proposition}[section]
 \theoremstyle{definition}
 \newtheorem{defi}{Definition}[section]
-%\newtheorem{esercizio}{Esercizio}[section]
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
-%\newtheorem{ese}{Esempio}[section]
 
 % shortcuts for functions and greek letters
 \input{macro}
 
 
 
-\usepackage{authblk}
 \begin{document}
-	%\begin{titlething}
-	%\title{Convergence blablabla}
-	%\author{Marta Marulli}
-	%\end{titlething}
-	
-	
-	
-	
-	
-	\title{CEMRACS 2018: Mathematical modeling of cell aggregation and segregation}
-	\author[1]{Kevin Atsou,}
-	\author[2]{Marta Marulli}
-	\author[3]{Rémi Tesson}
-	%\author[1]{Static}
-	\affil[1]{Laboratoire J.A. Dieudonné, Université de Nice Sophia-Antipolis,}
-	\affil[2]{LAGA, Université Paris 13, Università di Bologna,}
-	\affil[3]{Institut Mathématiques de Marseille, Aix-Marseille Université}
-	
-	\date{}                     %% if you don't need date to appear
-	\setcounter{Maxaffil}{0}
-	\renewcommand\Affilfont{\itshape\small}
-	\maketitle 
+
+% Top matter
+
+\selectlanguage{english}
+\title{CEMRACS 2018: Mathematical modeling of cell aggregation and segregation}
+\author{L. Almeida}\address{}
+\author{K. Atsou}\address{Laboratoire J.A. Dieudonn\'e, Universit\'e de Nice Sophia-Antipolis,}
+\author{M. Marulli}\address{LAGA, Universit\'e Paris 13, Universit\`a di Bologna,}
+\author{B. Perthame}\address{}
+\author{D. Peurichard}\address{}
+\author{R. Tesson}\address{Institut Math\'ematiques de Marseille, Aix-Marseille Universit\'e}
+
+\begin{abstract} ... \end{abstract}
+%
+\begin{resume} ... \end{resume}
+
+\maketitle 
+
+
+% Body
 
 \input{introduction}
 \input{mathmodel}
@@ -68,24 +66,8 @@
 \input{stability}
 \input{numericalscheme}
 \input{results}
-%\section{Results}
 
-
-
-
-
-\clearpage{\pagestyle{empty}\cleardoublepage}
-%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries\rightmark}}
-\begin{thebibliography}{20} 
-	%	\pagenumbering{roman}
-	%	\addcontentsline{toc}{chapter}{Bibliography} 
-	\bibitem{}{J. Barré, P. Degond, E. Zatorska. Kinetic theory of particle interactions mediated by dynamical networks. SIAM MMS (2017) 15(3): 1294-1323.} 
-	
-	\bibitem{}{J. Barré, J.A. Carrillo, P. Degond, D.Peurichard, E. Zatorska. Particle interactions mediated by dynamical networks: assessment of macroscopic description. Nonlinear sci (2017). https://doi.org/10.1007/s00332-017-9408-z.} 
-	\bibitem{}{J. Barré, J.A. Carrillo, P. Degond, D.Peurichard, E. Zatorska. A two-species macroscopic model for cell segregation and border sharpening by Eph receptor ephrin-mediated repulsion. \textit{In preparation}}
-	\bibitem{}{J. A. Carrillo, A. Chertock, Y. Huang. A finite-volume method for Nonlinear Nonlocal Equations with a Gradient Flow Structure. Commun. Comput. Phys. (2015), 17(1):233-258.}
-	% https://doi.org/10.4208/cicp.160214.010814a.
-	
-\end{thebibliography} 
-	
+% Bibliography
+\input{biblio}
+ 
 \end{document}
