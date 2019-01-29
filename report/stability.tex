@@ -1,13 +1,13 @@
 \section{Stability analysis}
 
 The macroscopic model consists in an aggregation-diffusion equation with nonlocal terms which are related to interaction between neighbors \notok{of the same family and ones of the other family}.
-In this section we perform a linear stability analysis of macroscopic model with logistic term in order to explore the formation of aggregations. In the following, appearance of clusters in the model will be characterized by the stability of the homogeneous steady states.
+In this section we perform a linear stability analysis of macroscopic model with logistic term in order to explore the formation of aggregates. Subsequently, the stability of the homogeneous steady states will characterize the appearance or not of clusters in the model.
 
 \subsection{Stability of homogeneous steady states}
-\com{Plan : Obtention du critere sL permettant de savoir si un etat d'equilibre donne est stable ou non}
-
+%\com{Plan : Obtention du critere sL permettant de savoir si un etat d'equilibre donne est stable ou non}
+The purpose of this section is to obtain a criterion to decide if a given steady state is stable or not, through a critical value called $\sL$ after which the homogeneous state will be unstable.
 %in order to identify also phase transitions of the homogeneous steady-state. \\
-We linearize around the homogeneous states, i.e. we consider the constant steady states $\bfA$ and $\bfB$ which satisfy \eqref{MacroModel}. 
+We linearize around the homogeneous states, i.e. we consider the constant steady states $\bfA$ and $\bfB$ which satisfy system \eqref{MacroModel}. 
 %(forgetting the bars):
 % 	\begin{equation}
 % \begin{cases}
@@ -19,7 +19,7 @@ We linearize around the homogeneous states, i.e. we consider the constant steady
 Since $\bfA,\bfB$ do not depend on time and space, we can reduce the system to:%since we know that 
 %$\nabla \cdot (\bfA \nabla (\Phi^{AA} * \bfA)) =0 $, all derivative terms are zero.
 % It leads us to following equations:
-\begin{equation}
+\begin{equation}\label{reducedMacroModel}
 \begin{cases}
 	\nuA\bfA\left( 1-\frac{\bfA+\bfB}{\fstar} \right)=0 \\
 	\nuB\bfB\left( 1-\frac{\bfA+\bfB}{\fstar} \right)=0
@@ -30,43 +30,44 @@ We deduce that the non-trivial constant steady states are defined through the re
 \begin{equation}
  \bfA+\bfB=\fstar,
 \end{equation}
-which means that, at the homogeneous states, we have reached the maximum carrying capacity. \com{Mentionner difference avec le modele sans logistique : infinite de solutions; $f^A,f^B$ ne sont plus des densites de probas?}
-
-We perform a stability analysis, using perturbation terms and Fourier transform as in \cite{twoparticule}, \notok{in order to understand if a possible perturbation can have effects on our model and it corresponds to the appearance of some clusters}.\com{Detailler plus?} \\
-After computation, we obtain the following system:
+which means that, at the homogeneous states, we have reached the maximum carrying capacity. 
+%\com{Mentionner difference avec le modele sans logistique : infinite de solutions; $f^A,f^B$ ne sont plus des densites de probas?}
+The system \eqref{reducedMacroModel} is satisfied also either when $\bfA=0$ or $\bfB=0$ or $f^B$, but we are not considering this case. \\
+In order to perform our linear stability analysis, we use perturbation terms and Fourier transform as done in \cite{twoparticule}. In fact we are looking on a neighbourhood of the homogeneous state and for this reason the perturbations are supposed to be small. 
+After computation for system \eqref{MacroModel}, we obtain: 
+% \notok{in order to understand if a possible perturbation can have effects on our model and it corresponds to the appearance of some clusters}.\com{Detailler plus?} \\
+%After computation, we obtain the following system:
 \begin{align}
 \p_t \begin{pmatrix} \hfA \\ \hfB
 \end{pmatrix}(y,t)=M(y)\begin{pmatrix} \hfA \\ \hfB
 \end{pmatrix}(y,t)
+\label{System_Fourier}
 \end{align}
 with matrix $M$ defined as:
-
 \begin{align}
 M(y)=
  \begin{pmatrix} -|y|^2(2\pi\bfA\hPAA(y)+D_A)-\nuA\frac{\bfA}{\fstar} & -|y|^22\pi\bfA\hPAB(y)-\nuA\frac{\bfA}{\fstar} \\ 
 -|y|^2\bfB\hPBA(y)-\nuB\frac{\bfB}{\fstar} & -|y|^2(2\pi\bfB\hPBB(y)+D_B)-\nuB\frac{\bfB}{\fstar} 
 \end{pmatrix}.
 \end{align}
-
+We want to point out that in \eqref{System_Fourier} the non linear terms appearing because of perturbations have been neglected.
 %This is a linear ODE system, hence its solution is:
 %$$
 %\begin{pmatrix} \hat{f}^A \\ \hat{f}^B
 %\end{pmatrix}(y,t)=c_1(y)exp^{\la_1(y)t}u_1(y)+c_2(y)exp^{\la_2(y)t}u_2(y).
 %$$
 %where $\la_1(y), \la_2(y)$ are the eigenvalues of the matrix and $u_1(y),u_2(y)$ the corrisponding eigenvectors. 
-
-
-In general case, the constant steady state will be stable only if the eigenvalues of the matrix $M(y)$ are both negative, otherwise it will be unstable \com{ce n'est pas plutot la partie reelle des vp?}. Since we know that $det(M(y))=\la_1 \cdot \la_2$ and $tr(M(y))=\la_1+\la_2$, with $\la_1(y), \la_2(y)$ eigenvalues, the stability occurs only if:
-\[det(M(y))>0\quad \text{and} \quad tr(M(y))<0\]
+In general case, the constant steady state will be stable only if the real part of the eigenvalues of the matrix $M(y)$ are both negative, otherwise it will be unstable. Since we know that $det(M(y))=\la_1 \cdot \la_2$ and $tr(M(y))=\la_1+\la_2$, with $\la_1(y), \la_2(y)$ eigenvalues, the stability occurs only if:
+\[det(M(y))>0\quad \text{and} \quad tr(M(y))<0. \]
 At first we compute the trace of matrix $M(y)$:
 \begin{equation}
- tr(M(y))=-|y|^2(2\pi\bfA\hPAA(y)+D_A)-\nuA\frac{\bfA}{\fstar}-|y|^2(2\pi\bfB\hPBB(y)+D_B)-\nuB\frac{\bfB}{\fstar}
+ tr(M(y))=-|y|^2(2\pi\bfA\hPAA(y)+D_A)-\nuA\frac{\bfA}{\fstar}-|y|^2(2\pi\bfB\hPBB(y)+D_B)-\nuB\frac{\bfB}{\fstar}.
 \end{equation}
-As in \cite{twoparticule}, we consider the following assumption:
+We recall the fact that we consider the following assumption, as in \cite{twoparticule}:
 \begin{hypo}\label{hypo_rep}
- The intraspecies links generate repulsive interactions, i.e $\KAA>0$ and $\KBB>0$.
+ The intraspecies (or homotypic) links generate repulsive interactions, i.e $\KAA>0$ and $\KBB>0$.
 \end{hypo}
-We can easily note that under Hypothesis \ref{hypo_rep}, the trace is always negative.
+We can easily note that under the H\ref{hypo_rep}, the trace is always negative.
 Then we compute the determinant of matrix $M(y)$:
 %\begin{align}
 %det(M(y))=|y|^4 \left[ (\bfA 2\pi \hPAA +D_A)(\bfB 2\pi \hPBB +D_B) - \bfA \bfB 4 \pi^2 \hPAB \hPBA \right] + \\
@@ -79,35 +80,35 @@ det(M(y))&= |y|^4 \left[ (\bfA 2\pi \hPAA +D_A)(\bfB 2\pi \hPBB +D_B) - \bfA \bf
 \end{split}
 \end{equation}
 The first part with term in $|y|^4$ is exactly the determinant computed in \cite{twoparticule} without logistic term. The second one is due to the introduction of logistic growth. \\
- We introduce a parameter $s \in \mathbb{R}$ to scale the interspecies (heterotypic) link potential intensities such that $\KAB=s \KtAB $ and $\KBA=s \KtBA $ and we consider the following hypothesis on heterotypic interactions: \com{Detailler plus le s? Ecrire det(M) avec s?}
+In order to understand if a possible perturbation can have effects on our model and it corresponds to the appearance of some clusters,
+ we introduce a parameter $s \in \mathbb{R}$ to scale the interspecies (heterotypic) link potential intensities such that $\KAB=s \KtAB $ and $\KBA=s \KtBA $ and we consider the following hypothesis on heterotypic interactions:
+ % \com{Detailler plus le s? Ecrire det(M) avec s?}
 \begin{hypo}\label{hypo_rep2}
- The interspecies links interactions are both repulsive or both attractive, i.e $\KAB\KBA>0$. \com{A verifier}
+ The interspecies (or heterotypic) links interactions are both repulsive or both attractive, i.e $\KAB\KBA>0$. 
 \end{hypo}
-Following the same workflow  and approach of \cite{twoparticule}, we find the critical value $\sL$, such that, if $s> \sL$ and under Hypothesis \ref{hypo_rep2}, we should observe the formation of clusters:
+Following the same workflow  and approach of \cite{twoparticule}, we find the critical value $\sL$, such that, if $s> \sL$ and H\ref{hypo_rep2} holds, we should observe the formation of clusters:
 % \begin{equation}
 % \sL=\frac{(24 D_A+c'^{AA})\nu_{b}^{B}\bar{f}^{B}+(24 D_B+c'^{BB})\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}\bar{f}^B\tilde{c}'^{AB}+\nu_{b}^{A}\bar{f}^A\tilde{c}'^{BA}},
 % \end{equation}
 \begin{equation}
 \sL=\frac{(24 D_A+\cAA\bfA)\nuB\bfB+(24 D_B+\cBB\bfB)\nuA\bfA}{\nuB\bfB\cAB\bfA+\nuA\bfA\cBA\bfB},
 \end{equation}
-with $\cSS=\frac{2\pi \KSS \nucSS R^{4}}{\nudSS}$ and $\cST=\frac{2\pi \KtST \nucST R^{4}}{\nudST}$, $S\neq T \in \{ A,B \}$.
+with $\cSS=\frac{2\pi \KSS \nucSS R^{4}}{\nudSS}$ and $\cST=\frac{2\pi \KtST \nucST R^{4}}{\nudST}$, $S\neq T \in \{ A,B \}$ and recalling that now $\KAB=s \KtAB $ and $\KBA=s \KtBA $. \\
 %$c'^{ST}=\frac{2\pi k^{ST} \bfS \nu_c^{ST} R^{4}}{\nu_d^{ST}}$, $S,T \in \{ A,B \}$
 %As did in [cit], we introduce a parameter $s\in \mathbb{R}$ to scale the interspecies potential intensities such that $\ka^{ST}=s\tilde{\ka}^{ST} $.
-
-\com{Remarque sur les cas d'extinction de pop? Analyse de stab tjs valide? On obtient au moins une vp nulle dans la matice donc instabilité?}
+We want to draw attention to the fact that in our analysis we do not consider the case of population extinction, such as the case of $\bfA=0$ or $\bfB=0$. In practice, the addition of logistic term allows to state that a vanishing population is not attained. \com{Si $\bfA=0$ ou $\bfB=0$, on a $det>0$, donc stability?}
 
 \subsection{Study of aggregation formation}
-\com{Plan : Comportement globale de sL en fonction de fA : on a toujours des etats stables. Graphe de sL avec des valeurs raisonnables : on peut assurer que la plupart des etats stationnaires sont instables et donc aggregation si une population ne domine pas l'autre au temps initial.}
+We carry out the linear stability analysis of the system that leads to the aggregation condition which can be biologically interpreted. The system with logistic term and its linear analysis are interesting, not only because of aggregation process but also because in this case there is an infinite number of steady states.  It is necessary that all of them  are unstable, in order to ensure the formation and appearance of clusters and then that the states do not converge towards the state of equilibrium.
 
-The critical value $\sL$ define the stability of a given steady state. Because there is an infinity of steady states, in order to ensure the apparition of clusters, we have to ensure that all steady states are unstable.
+% in order to ensure the apparition of clusters, we have to ensure that all steady states are unstable.
+The critical value $\sL$ provides information about stability of a given steady state. 
 
 %We set $c'^{AA}=k_1 \bfA, \ c'^{BB}=k_2\bfB, \ c'^{AB}=k_3\bfA, \ c'^{BA}=k_4\bfB$.
 By $\bfB=\fstar-\bfA$ we rewrite the following $\sL$:
-
 % \begin{equation}
 % \sL=\frac{(24 D_A+k_1\bfA)\nu_{b}^{B}(f^*-\bfA)+(24 D_B+k_2(f^*-\bfA))\nu_{b}^{A}\bar{f}^A}{\nu_{b}^{B}(f^*-\bfA)k_3\bfA+\nu_{b}^{A}\bar{f}^Ak_4(f^*-\bfA)}.
 % \end{equation}
-
 \begin{equation}
 \sL=\frac{(\nuB\cAA+\nuA\cBB)\bfA(\fstar-\bfA)+(24 D_B\nuA-24 D_A\nuB)\bfA+24 D_A\nuB\fstar}{\bfA(\fstar-\bfA)(\nuB\cAB+\nuA\cBA)},
 \end{equation}
@@ -128,17 +129,32 @@ By $\bfB=\fstar-\bfA$ we rewrite the following $\sL$:
 % \begin{remark}
 % 	The condition $\d \bfA + \eps (\bfA)^2 \ne 0 $ in $F(\bfA)$ ensures the existence of function, in other words we get  $\bfA \ne 0 $ or $\bfA \ne -\frac{\d}{\eps}=f^*$. 
 % \end{remark}
+%
+%To study the stability of all steady states we study the variation of $\sL$ as a function of $\bfA\in[0,f^*]$.
 
-To study the stability of all steady states we study the variation of $\sL$ as a function of $\bfA\in[0,f^*]$.
+Moreover it is easy to check that under H\ref{hypo_rep}, H\ref{hypo_rep2}$, \displaystyle \lim_{\bfA \rightarrow f^{*}} \sL(\bfA)=+\infty $ and $ \displaystyle  \lim_{\bfA \rightarrow 0} \sL(\bfA)= +\infty$, meaning that the states corresponding to one domintaing population are always stable.
 
-\com{Limite en 0 et $\fstar$, sous H1 et H2, sL>0}
-
-We are looking for the minimum of function $\sL$, i.e the zero points of $\frac{\p \sL(\bfA)}{\p \bfA}$. After computation we can conclude: \com{Expression de la derivee? Distinguer le cas $D_A \nuB -\nuA D_B=0$}
-\begin{equation}
-\bfA_{min}=\frac{\fstar(D_A \nuB \pm \sqrt{D_A D_B \nuB \nuA})}{D_A \nuB -\nuA D_B}.
+We are looking then for the minimum of function $\sL$, i.e the zero points of $\frac{\p \sL(\bfA)}{\p \bfA}$. After computation we find only one minimum $\fAm$ in $[0,\fstar]$:
+\begin{itemize}
+ \item If $D_A \nuB -\nuA D_B=0$, the minimum is $\fAm=\frac{\fstar}{2}$
+ \item If $D_A \nuB -\nuA D_B\neq0$, the minimum is given by:
+ \begin{equation}
+\fAm=\frac{\fstar(D_A \nuB - \sqrt{D_A D_B \nuB \nuA})}{D_A \nuB -\nuA D_B}.
 \end{equation}
+\end{itemize}
 
-\com{Graphe de $\sL$. Conclusion : certains etats d'equilibre sont toujours stables mais avec des parametres raisonnables on a un plateau et donc on peut trouver un s si une population ne domine pas l'autre.}
+The minimum of function $\sL$ correspond to the less stable steady state. When the two population have the same ratio between diffusion and growth, the less stable configuration is the symmetric one. It is very logical because increasing parameter $s$ correspond to introduce asymmetry between the population, promoting an asymmetric steady state.
+
+%Graphe de sL. Conclusion : certains etats d’equilibre sont toujours stables mais avec des parametres raisonnables on a un plateau et donc on peut trouver un s si une population ne domine pas l’autre. 
+%Plan : Comportement globale de sL en fonction de fA : on a toujours des etats stables. Graphe de sL avec des valeurs raisonnables : on peut assurer que la plupart des etats stationnaires sont instables et donc aggregation si une population ne
+%domine pas l’autre au temps initial.
+\begin{figure}
+	\includegraphics[width=7cm]{Ex_sstar.png}
+	\caption{Coefficient $s$ and $\sL$ with biologically relevant parameters.}
+	\label{Ex_sstar}
+\end{figure}
+
+We report on Fig \ref{Ex_sstar} the plot of our function with its parameters, provided by numerical simulation. As mentioned before, we can see that for a given value of the parameters, there is still stable steady states corresponding to the case of a dominating population. But with relevant parameters we can observe a plateau meaning that a large part of the steady states are unstable in practice. Hence, we can hope, if one population does not dominate the other at the initial condition to observe apparition of aggregates.
 
 %If we look at those two values, we can find that:
 %
@@ -151,10 +167,11 @@ We are looking for the minimum of function $\sL$, i.e the zero points of $\frac{
 %\end{equation}
 
 \subsection{Impact of the logistic growth on aggregation}
-\com{Plan : Pas de comparaison simple : exemples}
-
-\com{Expliquer pourquoi la comparaison est difficile. Un etat stat contre une infinite. Impossibilite de prevoir la masse totale de A et B a l'equilibre. On fait une comparaison simple a etat fixe.}
-With regard to model without logistic term, we report the following critical value as in \textbf{citation}, in order to do a comparison between the two values:
+In this subsection we explore a comparison between two models, the one with the addition of growth term and the other one studied and analyzed in \cite{twoparticule}.
+Their comparison is not so simple since it is not expected to have the same initial condition. In the model without logistic term the evolution of the particle distributions $f^{A}$ and $f^{B}$ do not change, whereas in the case we studied the starting condition is clearly influenced by births and deaths.
+It is also not expected to provide and foresee the total mass of type $A$ and $B$ population because it is not always the same. Therefore, it is actually difficult to assert if we are comparing the same state of equilibrium in both models. \\
+%\com{Expliquer pourquoi la comparaison est difficile. Un etat stat contre une infinite.} %Impossibilite de prevoir la masse totale de A et B a l'equilibre. On fait une comparaison simple a etat fixe.}
+With regard to model without logistic term, we report the following critical value as in \cite{twoparticule}, in order to do this comparison between the two values:
 \begin{equation}
  \sC= \left[\frac{576}{\cAB \cBA \fA \fB} \left( D_A+\frac{\cAA\fA}{24} \right) \left(D_B+\frac{\cBB\fB}{24} \right) \right]^{\frac{1}{2}}. 
 \end{equation}
@@ -172,19 +189,20 @@ With regard to model without logistic term, we report the following critical val
 % \begin{remark}
 % 	In this case we also consider that $\bar{f}^B=f^*-\bar{f}^A$ and the following relation: $\frac{\d}{\eps}= f^{*}$.
 % \end{remark}
-Looking for critical points, we get:
-$\bfA= \frac{-2\eps \g \pm \sqrt{\Delta}}{2(\eps \a-\d\b)}=\frac{-2\eps \g \pm \sqrt{\Delta}}{2\eps (\a-\fstar\b)}.$
+Looking for critical points, we get as previously only one minimum:
+%$\bfA= \frac{-2\eps \g \pm \sqrt{\Delta}}{2(\eps \a-\d\b)}=\frac{-2\eps \g \pm \sqrt{\Delta}}{2\eps (\a-\fstar\b)}.$
 
- Using \eqref{notation} and simplifying, we arrive at: \com{Expression de la derivee. Distinguer cas $D_B\cAB-D_A\cBA=0$. Verifier expression}
+% Using  and simplifying, we arrive at: \com{Expression de la derivee. Distinguer cas $D_B\cAB-D_A\cBA=0$. Verifier expression}
+\begin{itemize}
+ \item If $D_A \nuB -\nuA D_B=0$, the minimum is $\fAm=\frac{\fstar}{2}$
+ \item If $D_A \nuB -\nuA D_B\neq0$, the minimum is given by:
 \begin{equation}
 \bfA=\frac{-(24 D_AD_B+D_A\cBB\fstar) \pm \sqrt{\widetilde{\Delta}}}{D_B\cAA-D_A\cBB}, 
 \end{equation}
-
+\end{itemize}
 with $\widetilde{\Delta}=(24D_AD_B+D_A\cBB \fstar)^2+24D_AD_B^{2}\cAA\fstar-24D_A^2D_B\cBB\fstar+D_A D_B \cAA \cBB(\fstar)^{2}-D_A^{2} \cBB^2 (\fstar)^2.  $
-
-\noindent Both critical values $s^{*}_C, s^{*}_L$ are markers of instability and we will discuss some simulations to compare them. As remarked in \textbf{citation}, the diffusion and intraspecie repulsion tend to homogeneize the system, then the interspecies forces must be large enough to compensate this aspect. Thanks to stability analysis, we can observe that logistic growth can either support or repress aggregation, depending also on the parameters choice.
+\noindent As it has been already said, both critical values $s^{*}_C, s^{*}_L$ are markers of instability and we will discuss some simulations to compare them. As remarked in \textbf{citation}, the diffusion and intraspecie repulsion tend to homogenize the system, then the interspecies forces must be large enough to compensate this aspect. Thanks to stability analysis, we can observe and conclude that logistic growth can either support or repress aggregation, depending also on the parameters choice. The aggregation is viewed as a breakdown of stability caused by changes in the parameters which characterize the system.
 We want to explore and discuss some different cases:
-(?should we insert table with different cases explored in simulations?)
 \begin{figure}
 	\includegraphics[width=4.5cm]{sstar_caseII}
 	\includegraphics[width=4.5cm]{sstar_caseIII}
@@ -205,22 +223,23 @@ In the next section we will discuss some numerical simulations on the individual
 
 
 %%---simulation values---
-%	\begin{center}
-%	\begin{tabular}{ l |c|c|c| r }
-%	\hline
-%		Test & $\nu_b^{A}$ & $\nu_b^{B}$ & $s^{*}_{L}$ & s \\ 
-%		\hline
-%		I &  $10^{-5}$ & $10^{-4} $ & 1.9 & $1.7$ \\ 
-%		% II & $5 \cdot 10^{-5}$  & $10^{-4}$ & $1.56$ & $1.51$   \\
-%		IIIa & $10^{-4}$  & $10^{-4}$ & $1.39$ & $1.43$ \\
-%		IIIb & $10^{-4}$  & $10^{-4}$ & $1.39$ & $1$ \\
-%		IIIc & $10^{-4}$  & $10^{-4}$ & $1.39$ & $2$ \\
-%		% IV  & $10^{-4}$ & $5\cdot 10^{-5}$ & $1.25$ & $1.35$ \\
-%		V & $10^{-4}$ & $10^{-5}$ & $1.09$ & $1.3$ \\
-%		
-%	\hline
-%	\end{tabular}
-%	\end{center}
+	\begin{table}[h]
+	\begin{tabular}{ l |c|c|c| r }
+	\hline
+		Test & $\nu_b^{A}$ & $\nu_b^{B}$ & $s^{*}_{L}$ & s \\ 
+		\hline
+		I &  $10^{-5}$ & $10^{-4} $ & 1.9 & $1.7$ \\ 
+		% II & $5 \cdot 10^{-5}$  & $10^{-4}$ & $1.56$ & $1.51$   \\
+		IIIa & $10^{-4}$  & $10^{-4}$ & $1.39$ & $1.43$ \\
+		IIIb & $10^{-4}$  & $10^{-4}$ & $1.39$ & $1$ \\
+		IIIc & $10^{-4}$  & $10^{-4}$ & $1.39$ & $2$ \\
+		% IV  & $10^{-4}$ & $5\cdot 10^{-5}$ & $1.25$ & $1.35$ \\
+		V & $10^{-4}$ & $10^{-5}$ & $1.09$ & $1.3$ \\
+			\hline
+	\end{tabular}
+
+	\caption{Placeholder values table}
+	\end{table}
 
 
 
