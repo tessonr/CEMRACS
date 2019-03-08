@@ -49,7 +49,7 @@ def potential_index(NS,NT,args1,args2,XS,XT,firstindexS,vectcellS,firstindexT,ve
     IndT=ind.locindex(XT,R,L)
     M=int(2*L/R)
     for i in range(NS):
-        # Cellule dans la même case
+        # Cellule dans la meme case
         j=IndS[i]
         k=firstindexS[j]
         if k!=i:

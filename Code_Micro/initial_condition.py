@@ -7,6 +7,7 @@ def ini_uniform(L,NA,NB):
 
 
 def ini_half(L,NA,NB):
+    np.random.seed(42)
     XA0=np.array([np.random.uniform(0,L,(NA)),np.random.uniform(-L,L,(NA))])
     XB0=np.array([np.random.uniform(-L,0,(NB)),np.random.uniform(-L,L,(NB))])
     return [XA0,XB0]

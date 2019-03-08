@@ -1,18 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import initial_condition as ic
-import brownian as bw
-import potential as pt
-import birthdeath as bd
+from Code_Micro import initial_condition as ic
+from Code_Micro import brownian as bw
+from Code_Micro import potential as pt
+from Code_Micro import birthdeath as bd
 import time
 import matplotlib.animation as animation
-import index as ind
+from Code_Micro import index as ind
 
 # Parameters for the model
-
+s = 2
 KAA = 2.
-KAB = 8.
-KBA = 8.
+KAB = s
+KBA = 2*s
 KBB = 2.
 
 nuAAc = 1.
@@ -34,17 +34,17 @@ DB = 1e-4
 
 NA = 250
 NB = 250
-mu = 1.
+mu = 2.
 
 # betaA = 1e-3
 # deltaA = 7e-4
 # betaB = 1e-3
 # deltaB = 7e-4
 #
-b0A = 1e-3
-d0A = 1e-5
-b0B = 1e-3
-d0B = 1e-5
+b0A = 0.011
+d0A = 0.001
+b0B = 0.022
+d0B = 0.002
 
 thA = 8e-4
 thB = 8e-4
@@ -106,6 +106,9 @@ for i in range(Nt):
     # WB = pt.potential(NB, NA, argsBB, argsBA, XB, XA, i, mu, R, L)
     WB = pt.potential_index(NB, NA, argsBB, argsBA, XB, XA, firstindexB, vectcellB, firstindexA, vectcellA, i, mu, R, L)
 
+    # XAnew = XA + dt * WA + BA
+    # XBnew = XB + dt * WB + BB
+
     XAnew = XA + dt * WA + np.sqrt(dt) * BA
     XBnew = XB + dt * WB + np.sqrt(dt) * BB
     
@@ -134,6 +137,16 @@ for i in range(Nt):
     XBnew[1, XBnew[1, :] > L] = XBnew[1, XBnew[1, :] > L] - 2 * L
     XBnew[1, XBnew[1, :] < -L] = XBnew[1, XBnew[1, :] < -L] + 2 * L
 
+    # XAnew[0, XAnew[0, :] > L] = 0.
+    # XAnew[0, XAnew[0, :] < -L] = 0.
+    # XAnew[1, XAnew[1, :] > L] = 0.
+    # XAnew[1, XAnew[1, :] < -L] = 0.
+    #
+    # XBnew[0, XBnew[0, :] > L] = 0.
+    # XBnew[0, XBnew[0, :] < -L] = 0.
+    # XBnew[1, XBnew[1, :] > L] = 0.
+    # XBnew[1, XBnew[1, :] < -L] = 0.
+
     # updating
     XA = XAnew
     XB = XBnew
@@ -157,20 +170,24 @@ for i in range(Nt):
 
 plt.figure(0)
 pp=plt.plot(XA0[0], XA0[1])
-plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
+plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0, alpha=0.8)
+# plt.scatter(XA0[0], XA0[1], s=500, marker='o', alpha=0.8)
 
 ppp=plt.plot(XB0[0], XB0[1])
-plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
+plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0, alpha=0.78)
+# plt.scatter(XB0[0], XB0[1], s=500, marker='o', alpha=0.8)
 
 plt.title('t= ' + str(0)+", NA="+str(50)+", NA="+str(50))
 plt.show()
 
 plt.figure(1)
 pp=plt.plot(XA[0], XA[1])
-plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
+plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0, alpha=0.8)
+# plt.scatter(XA[0], XA[1], s=500, marker='o', alpha=0.8, color="b")
 
 ppp=plt.plot(XB[0], XB[1])
-plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
+plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0, alpha=0.78)
+# plt.scatter(XB[0], XB[1], s=500, marker='o', alpha=0.78, color="r")
 
 plt.title('t= ' + str(T)+", NA="+str(NA)+", NA="+str(NA))
 plt.show()
@@ -185,16 +202,19 @@ plt.ylim(-L + 0.5, L - 0.5)
 
 tps = 0
 
+# plt.scatter(XAmem[:,0], XAmem[:,1])
+# plt.scatter(XBmem[:,0], XBmem[:,1])
 
 def update(iframe):
     global pp, ppp, tps
     # pp.set_data([XAmem[iframe][0],XBmem[iframe][0]],[XAmem[iframe][1],XBmem[iframe][1]])
     # plt.setp(pp,marker="o",linewidth=0)
     pp.set_data(XAmem[iframe][0], XAmem[iframe][1])
-    plt.setp(pp, marker="o", markersize=20., color="b", linewidth=0)
+    # plt.setp(pp, marker="o", markersize=25., color="b", linewidth=0)
+    plt.setp(pp, marker="o", markersize=25., color="b", linewidth=0, alpha=0.8)
 
     ppp.set_data(XBmem[iframe][0], XBmem[iframe][1])
-    plt.setp(ppp, marker="o", markersize=20., color="r", linewidth=0)
+    plt.setp(ppp, marker="o", markersize=25., color="r", linewidth=0, alpha=0.78)
 
     plt.title('t= ' + str(round(tps, 2)))
     if tps > Nt*dt:

@@ -4,90 +4,126 @@ import initial_condition as ic
 import brownian as bw
 import potential as pt
 import birthdeath as bd
+import Tools as tls
 import time
 import matplotlib.animation as animation
 from multiprocessing import Pool
 import os
 
 def test_process(index):
-    
+    nuAb = 0.
+    nuBb = 0.
+    nuAd = 0.
+    nuBd = 0.
+    # if index==0:
+    #     s=1.7
+    #     nuAb=1e-4
+    #     nuBb=1e-3
+    #     logi=1
+    # if index==1:
+    #     s=1.7
+    #     nuAb=1e-4
+    #     nuBb=1e-3
+    #     logi=0
+    # if index==2:
+    #     s=1.51
+    #     nuAb=5e-4
+    #     nuBb=1e-3
+    #     logi=1
+    # if index==3:
+    #     s=1.51
+    #     nuAb=5e-4
+    #     nuBb=1e-3
+    #     logi=0
+    # if index==4:
+    #     s=1.43
+    #     nuAb=1e-3
+    #     nuBb=1e-3
+    #     logi=1
+    # if index==5:
+    #     s=1.43
+    #     nuAb=1e-3
+    #     nuBb=1e-3
+    #     logi=0
+    # if index==6:
+    #     s=1.
+    #     nuAb=1e-3
+    #     nuBb=1e-3
+    #     logi=1
+    # if index==7:
+    #     s=1.
+    #     nuAb=1e-3
+    #     nuBb=1e-3
+    #     logi=0
     if index==0:
-        s=1.7
-        nuAb=1e-4
-        nuBb=1e-3
+        s=1.8
+        nuAb = 0.011
+        nuBb = 0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=1
     if index==1:
-        s=1.7
-        nuAb=1e-4
-        nuBb=1e-3
+        s=1.8
+        nuAb = 0.011
+        nuBb = 0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=0
     if index==2:
-        s=1.51
-        nuAb=5e-4
-        nuBb=1e-3
+        s=2.5
+        nuAb=0.011
+        nuBb=0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=1
     if index==3:
-        s=1.51
-        nuAb=5e-4
-        nuBb=1e-3
+        s=2.5
+        nuAb = 0.011
+        nuBb = 0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=0
     if index==4:
-        s=1.43
-        nuAb=1e-3
-        nuBb=1e-3
+        s=4.
+        nuAb=0.011
+        nuBb=0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=1
     if index==5:
-        s=1.43
-        nuAb=1e-3
-        nuBb=1e-3
+        s=4.
+        nuAb = 0.011
+        nuBb = 0.022
+        nuAd = 0.001
+        nuBd = 0.002
         logi=0
-    if index==6:
-        s=1.
-        nuAb=1e-3
-        nuBb=1e-3
-        logi=1
-    if index==7:
-        s=1.
-        nuAb=1e-3
-        nuBb=1e-3
-        logi=0
-    if index==8:
-        s=2.
-        nuAb=1e-3
-        nuBb=1e-3
-        logi=1
-    if index==9:
-        s=2.
-        nuAb=1e-3
-        nuBb=1e-3
-        logi=0
-    if index==10:
-        s=1.35
-        nuAb=1e-3
-        nuBb=5e-4
-        logi=1
-    if index==11:
-        s=1.35
-        nuAb=1e-3
-        nuBb=5e-4
-        logi=0
-    if index==12:
-        s=1.3
-        nuAb=1e-3
-        nuBb=1e-4
-        logi=1
-    if index==13:
-        s=1.3
-        nuAb=1e-3
-        nuBb=1e-4
-        logi=0
+    # if index==10:
+    #     s=1.35
+    #     nuAb=1e-3
+    #     nuBb=5e-4
+    #     logi=1
+    # if index==11:
+    #     s=1.35
+    #     nuAb=1e-3
+    #     nuBb=5e-4
+    #     logi=0
+    # if index==12:
+    #     s=1.3
+    #     nuAb=1e-3
+    #     nuBb=1e-4
+    #     logi=1
+    # if index==13:
+    #     s=1.3
+    #     nuAb=1e-3
+    #     nuBb=1e-4
+    #     logi=0
     
     # Parameters for the model
 
-    KAA = 2.
+    KAA = 4.
     KAB = s
-    KBA = 2*s
-    KBB = 2.
+    KBA = s
+    KBB = 1.
     
     nuAAc = 1.
     nuABc = 1.
@@ -100,23 +136,23 @@ def test_process(index):
     nuBBd = 1.
     
     R = 1.
-    R0 = 2.
+    R0 = 1.
     r = 0.5
     
     DA = 1e-4
     DB = 1e-4
     
-    NA = 250
-    NB = 250
+    NA = 500
+    NB = 500
     mu = 1.
     
     b0A = nuAb*logi
-    d0A = nuAb/10.*logi
+    d0A = nuAd*logi
     b0B = nuBb*logi
-    d0B = nuBb/10.*logi
+    d0B = nuBd*logi
     
-    thA = nuAb*0.75*logi
-    thB = nuBb*0.75*logi
+    thA = 0.005*logi
+    thB = 0.01*logi
     
     # b0A = 0.
     # d0A = 0.
@@ -126,11 +162,10 @@ def test_process(index):
     # thA = 0.
     # thB = 0.
     
-    Nstar = 20
-    
     # Parameters for the scheme
     
     L = 7.5
+    Nstar = (NA + NB)*np.pi*(R0**2)/(4*L**2)
     
     # [x,y]=np.meshgrid(np.arange(-L+dx/2.,L,dx),np.arange(-L+dy/2.,L,dy))
     # X=np.zeros((2,M))
@@ -138,7 +173,7 @@ def test_process(index):
     # X[1,:]=np.reshape(y,(M))
     
     dt = 0.1
-    T = 4000.
+    T = 10001
     Nt = int(T / dt)
     
     # Initial condition
@@ -205,17 +240,27 @@ def test_process(index):
         NB = XB.shape[1]
         print(NA)
         print(NB)
-    
-        XAmem.append(XA)
-        XBmem.append(XB)
-    
-    np.savez('results_A_case_'+str(index),*XAmem)
-    np.savez('results_B_case_'+str(index),*XBmem)
+
+        if i % 50000 == 0:
+            # XAmem.append(XA)
+            # XBmem.append(XB)
+            if not os.path.exists('../data'):
+                os.makedirs('../data')
+            np.savez('../data/results_A_case_'+str(index)+'_'+str(i), *XA)
+            np.savez('../data/results_B_case_'+str(index)+'_'+str(i), *XB)
+            # np.savez('../data/results_A_case_'+str(index)+'_'+str(i), *XAmem)
+            # np.savez('../data/results_B_case_'+str(index)+'_'+str(i), *XBmem)
+        # if i == Nt-1:
+        #     XAmem.append(XA)
+        #     XBmem.append(XB)
+        #     np.savez('../data/results_A_case_'+str(index)+'_'+str(int(Nt-1)), *XAmem)
+        #     np.savez('../data/results_B_case_'+str(index)+'_'+str(int(Nt-1)), *XBmem)
 
 
-
-if __name__=="__main__":
-    cpus=os.cpu_count()
+if __name__ == "__main__":
+    cpus = tls.available_cpu_count()
     p=Pool(cpus)
-    p.map(test_process,[0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+    # p.map(test_process,[0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+    p.map(test_process, [0, 1, 2, 3, 4, 5])
+    # p.map(test_process, [0])
 
